@@ -1,0 +1,11 @@
+framework module DexcareSDK {
+  umbrella header "DexcareSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module DexcareSDK.Swift {
+    header "DexcareSDK-Swift.h"
+    requires objc
+}
