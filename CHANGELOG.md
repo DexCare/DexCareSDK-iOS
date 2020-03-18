@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.0.7]
+### Added
+- Region busy and busy message for `regionAvailability` and `regions` in virtual service
+
 ## [1.0.6]
 ### Added
 - Optional custom strings configuration for waiting room copy
