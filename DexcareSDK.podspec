@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'DexcareSDK'
-  s.version      = '1.0.7'
+  s.version      = '1.0.8'
   s.platform = :ios, '11.0'
   s.swift_version = '5.0'
   s.summary      = 'DexcareSDK libary for express care services'
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license = 'private'
   s.authors = { 'Reuben Lee' => 'reuben.lee@robotsandpencils.com'}
   s.source = {
-    :git => 'git@github.com:Health-V2-Consortium/DexCareSDK-iOS.git', :tag => "1.0.7"
+    :git => 'git@github.com:Health-V2-Consortium/DexCareSDK-iOS.git', :tag => "1.0.8"
   }
   s.module_name = 'DexcareSDK'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }

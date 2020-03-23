@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+
+## [1.0.8]
+### Changed
+- bug fixes for open tok virtual visit
+
+### Added
+- Region busy is now a failed reason when scheduling virtual visit.
+
 ## [1.0.7]
 ### Added
 - Region busy and busy message for `regionAvailability` and `regions` in virtual service
