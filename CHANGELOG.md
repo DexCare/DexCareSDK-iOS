@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## [1.2.0]
+### Added
+- Offical support of virtual visit using OpenTok
+
 ## [1.0.8]
 ### Changed
 - bug fixes for open tok virtual visit
