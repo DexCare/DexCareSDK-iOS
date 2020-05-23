@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## [2.0.1]
+- Fix to ensure virtual visit requests fallback to a supplied email if the retrieved patient record does not include one. The startVirtualVisit call now has an added userEmail parameter to supply an email.	
 
 ## Unreleased
 ### Added
