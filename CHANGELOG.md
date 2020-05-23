@@ -2,10 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
-## [2.0.1]
-- Fix to ensure virtual visit requests fallback to a supplied email if the retrieved patient record does not include one. The startVirtualVisit call now has an added userEmail parameter to supply an email.	
 
 ## Unreleased
+
+## [2.0.3]
+### Fixed
+- Require user email for virtual visit requests as fallback in case patient data does not include email
+
+## GAP IN CHANGELOG through 2.0.2
 ### Added
 - Required preTriageTags parameter for virtual visit booking
 
@@ -14,7 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.2.0]
 ### Added
-- Offical support of virtual visit using OpenTok
+- Official support of virtual visit using OpenTok
 
 ## [1.0.8]
 ### Changed
