@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## [2.0.6]
+### Changed
+- Updated header key for fhirorch calls to `X-api-key` from `x-api-keys`
+
 ## [2.0.5]
 ### Changed
 - Coupon code verification endpoint updated to **/api/v2/coupon/{couponCode}/verify**
