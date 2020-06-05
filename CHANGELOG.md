@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+### Changed
+- Updated header key for fhirorch calls to `X-api-key` from `x-api-keys`
+
+## [2.1.0]
+### New
+- Added new AppointmentService.
+- Added AppointmentService.getPCPAppointments
+
+### Changed
+- Added PCP base url to dexcare configuration as optional. 
+
+### NOTE
+- In future versions RetailService will be deprecated with functions moved over to the new AppointmentService
+
 ## [2.0.6]
 ### Changed
 - Updated header key for fhirorch calls to `X-api-key` from `x-api-keys`
