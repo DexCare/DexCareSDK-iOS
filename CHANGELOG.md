@@ -5,6 +5,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## 2.2.0
+
+### New
+- Added `getRetailVisits` to `AppointmentService`
+- Added new `ScheduledVisit` model which is returned in `getRetailVisits`
+- Added new `Clinic` model as a replacement for `RetailClinic`
+- Note: `Clinic.departmentName` is the new property name for `RetailClinic.urlName`
+
+### Changed
+- Moved `scheduleRetailAppointment` from `RetailService` to `AppointmentService`
+- Deprecated `AppointmentService.scheduleRetailAppointment` with the old `RetailTimeslot` paramater in favor of using the new `TimeSlot` parameter
+- Deprecated `RetailService.appointments` which is now `AppointmentService.getRetailVisits`
+- Deprecated `RetailClinic` in favor of `Clinic`
+- Deprecated `RetailClinicAddress` in favor of `Address`
+- Deprecated `RetailService.clinics(brandName)` in favor of `RetailService.getRetailClinics(brand)`
+- Deprecated `RetailService.timeslots(clinicURLName)` in favor of `RetailService.getTimeSlots(departmentName: allowedVisitType)`
+- Deprecated `RetailBookingInfo` in favor of `ClinicTimeSlot`
+- Deprecated `RetailSchedulingDays` in favor of `ScheduleDay`
+- Deprecated `RetailTimeslot` in favor of `TimeSlot`
+- Deprecated `CancellationReason` in favor of `CancelReason`
+- Moved `cancellationReasons` from `RetailService` to `AppointmentService` and renamed it to `getCancelReasons`
+- Deprecated `RetailService.cancelRetailAppointment` in favor of `AppointmentService.cancelRetailAppointment` with the new `CancelReason` parameter
+
+### Breaking
+- `ScheduleDay.date` is now a `Date` type instead of a string
+
+## [2.1.1]
 ### Changed
 - Updated header key for fhirorch calls to `X-api-key` from `x-api-keys`
 
@@ -14,7 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added AppointmentService.getPCPAppointments
 
 ### Changed
-- Added PCP base url to dexcare configuration as optional. 
+- Added PCP base url to dexcare configuration as optional.
 
 ### NOTE
 - In future versions RetailService will be deprecated with functions moved over to the new AppointmentService
