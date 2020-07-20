@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## 2.3.0
+### Breaking
+- DexcareSDK now is built with Xcode 11.3
+
+### Changed
+- Removed header API key from calls to DIG fhirorch
+- Fixes crash in ChatViewController: DC-1813
+- Added VirtualService.cancelVirtualVisit
 ## 2.2.0
 
 ### New
