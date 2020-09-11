@@ -3,7 +3,53 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## 3.0.0
+
+### Breaking
+- Virtual Visits with Someone else now require `PatientDemographics.relationshipToPatient` to be set. This now matches what retail visits are requiring.
+- `VirtualVisitInformation` now has a required `userEmail` property.
+- `VirtualVisitInformation` now has a required `contactPhoneNumber` property.
+- `VirtualVisitInformation.declaration` is now `VirtualVisitInformation.patientDeclaration`
+- `RetailVisitInformation` now has a required `userEmail` property.
+- `RetailVisitInformation` now has a required `contactPhoneNumber` property.
+
+- `RetailService.uploadInsuranceCard` has been changed to return a string instead of a URL
+- `PaymentMethod.insuranceImageSelf` and `PaymentMethod.insuranceImageOther` have been changed to require a new cardId instead of a URL
+
+
+### New
+- A new `Environment` struct has been created to simplify initialization of DexCareSDK
+- `VirtualConfiguration` replaces `VirtualSDKConfiguration`
+- `DexcareConfiguration` replaces `DexcareSDKConfiguration` that takes in the new `Environment` property
+- `DexcareSDK.signIn(accessToken:String)` replaces `DexcareSDK.authentication.signIn`
+- `DexcareSDK.signOut()` replaces `DexcareSDK.authentication.signOut`
+- `VirtualService.startVirtualVisit` without email replaces the same call with email. Email property is now passed through `VirtualVisitInformation.userEmail`
+- `VirtualService.resumeVirtualVisit` without email replaces the same call with email, dislplayName. DisplayName is now gathered automatically by SDK.
+- `PatientService.createPatient` and `PatientService.createDependentPatient` now have extra validation checks for `Address.postalCode`, `homePhone`, `mobilePhone`, `workPhone`,
+- New `VirtualFeedback` enum that is used in new postFeedback call
+- `VirtualService.postFeedback([VirtualFeedback])` replaces `VirtualService.postFeedback(patientId...)` to simplify the postFeedback call. A `startVirtualVisit` or a `resumeVirtualVisit` must have been called before you can call this function.
+- `RetailService.uploadInsuranceCard` has been changed to use a new insurance card capture (ICC) endpoint.
+- `PaymentMethod.insuranceImageSelf` and `PaymentMethod.insuranceNewImageOther` have been added
+
+### Changed/Updated
+- OpenTok is now v 2.18.0
+- `Dexcare.retail` has been renamed to `Dexcare.retailService`
+- `Dexcare.virtual` has been renamed to `Dexcare.virtualService`
+- `Dexcare.appointment` has been renamed to `Dexcare.appointmentService`
+- `Dexcare.patient` has been renamed to `Dexcare.patientService`
+- `VirtualSDKConfiguration` has been deprecated in favor of `VirtualConfiguration`
+- `DexcareSDKBaseURL` has been deprecated in favor of `Environment`
+- `DexcareSDKConfiguration` has been deprecated in favor of `DexcareConfiguration`
+- `DexcareSDK.authentication` has been deprecated
+- `Region.Price` struct is now `Region.Prices`. Property on `Region` is still `prices`
+
+### Deleted
+- Old deprecated `func startVirtualVisit(request: VirtualVisitRequest, presentingViewController: UIViewController, displayName: String, givenName: String, familyName: String, onCompletion: @escaping VisitCompletion, success: @escaping (String) -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)` is now removed
+- Removed deprecated `VirtualVisitRequest`
+- Removed unused public `VirtualFeedbackRequest`struct
+
+### Fixes
+- When in the waiting room, and the provider declines the visit, the virtual visit now closes as it should. DC-2019
 
 ## 2.3.0
 ### Breaking
@@ -13,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Removed header API key from calls to DIG fhirorch
 - Fixes crash in ChatViewController: DC-1813
 - Added VirtualService.cancelVirtualVisit
+
 ## 2.2.0
 
 ### New
