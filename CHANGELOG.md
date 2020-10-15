@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 3.0.1
+
+### Fixes
+- Updated podspec to included updated 2.18 OpenTok pod
+- When in Virtual Chat the message from device should be on the right side and different color. (DC-2794)
+
 ## 3.0.0
 
 ### Breaking
