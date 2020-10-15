@@ -3,10 +3,10 @@ Pod::Spec.new do |s|
   s.version      = '3.0.0'
   s.platform = :ios, '11.0'
   s.swift_version = '5.0'
-  s.summary      = 'DexcareSDK libary for express care services'
-  s.homepage = 'http://www.providence.org/'
+  s.summary      = 'DexcareSDK Swift iOS libary for express care services'
+  s.homepage = 'https://developers.dexcarehealth.com'
   s.license = 'private'
-  s.authors = { 'Reuben Lee' => 'reuben.lee@robotsandpencils.com'}
+  s.authors = { 'DexCare' => 'support@dexcarehealth.com'}
   s.source = {
     :git => 'git@github.com:Health-V2-Consortium/DexCareSDK-iOS.git', :tag => "#{s.version}"
   }
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.dependency 'MBProgressHUD', '~> 1.2.0'
   s.dependency 'MessageKit', '~> 3.1.0'
   s.dependency 'PromiseKit/CorePromise', '~>6.13.1'
-  s.dependency 'OpenTok', '~> 2.16.6'
+  s.dependency 'OpenTok', '~> 2.18.0'
 
   ## ---------------------------------------------------------------------------
 
