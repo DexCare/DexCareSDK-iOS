@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## 3.0.2
+
+### Changed/Updated
+- Makes all public models inherit from `Codable`. Previously some public models were just set as `Decodable`. This should help in using the DexcareSDK with ReactNative.
+
+### Fixes
+- Chats inside a virtual visit (not in waiting room) did not successfully decode when a provider sent a message (DC-2947)
+
 ## 3.0.1
 
 ### Fixes
