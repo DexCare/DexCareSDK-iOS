@@ -1,7 +1,28 @@
-# Changelog
-All notable changes to this project will be documented in this file.
+# Release Notes
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+## 4.0.0
+
+### New
+- A new `AppointmentService.cancelRetailAppointment(visitId:)` method is now the method used to cancel retail visits. The old `AppointmentService.cancelRetailAppointment(appointmentId:)` is now deprecated. `VisitId` will be the id passed back in the `AppointmentService.getRetailVisits` call.
+- A new `DexcareSDK.refreshTokenDelegate` delegate is now available to better handle 401 UnAuthenticated errors. When a client adopts this protocol, they have the ability to try and send a valid token (say for example if it's expired) and the network call will retry.
+
+#### Create patient/Booking
+- Creating patients and booking have been overhauled to be simpler.
+- Removed the requirement to call `PatientService.createPatient(visit state or ehrSystem)` or `PatientService.createDependentPatient(visit state or ehrSystem)` and instead created new `PatientService.findOrCreatePatient` or `PatientService.findOrCreateDependentPatient`. These depend on a new `CatchmentArea` property that internally is what the SDK uses to figure out the visit state.
+- `PatientService.getCatchmentArea` is now available to figure out the EHRSystem based on a visit state. If you know the EHRSystem, there is no need to call this method
+- `VirtualService.startVirtualVisit` have new methods to use the new `CatchmentArea` property. You also must pass up the full `DexcarePatient` instead of the just the demographics.
+- `RetailService.scheduleRetailAppointment` is new to expect a `DexcarePatient` and an optional patient for dependent if you're booking an appointment for a dependent.This replaces the old `AppointmentService.scheduleRetailAppointment`
+
+### Breaking
+- Any old deprecated functions, methods, protocols, classes from `3.0` have now been removed. It is recommended if you are coming from `2.x` to first update to `3.0` then to `3.x`
+
+### Changed/Updated
+- `RetailService.getRetailClinics` is now `RetailService.getClinics`  (DC-2769)
+- Added some extra validation for empty strings on some methods. (DC-2885)
+- Updated an internal endpoint used by the sdk to resume virtual visits (DC-2836)
+- Adds the SDK Version to the `userAgent` header for all network calls (DC-3206)
+- `PatientDemographic.actorRelationshipToPatient` is deprecated. All `actorRelationshipToPatient` should now be passed in via the `RetailVisitInformation` or the `VirtualVisitInformation`
+- Removed `AllowedVisitType.reasonLabel` and `AllowedVisitType.description` as they are unused
 
 ## 3.0.2
 
@@ -16,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Fixes
 - Updated podspec to included updated 2.18 OpenTok pod
 - When in Virtual Chat the message from device should be on the right side and different color. (DC-2794)
+_____
 
 ## 3.0.0
 
@@ -114,50 +136,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### NOTE
 - In future versions RetailService will be deprecated with functions moved over to the new AppointmentService
-
-## [2.0.6]
-### Changed
-- Updated header key for fhirorch calls to `X-api-key` from `x-api-keys`
-
-## [2.0.5]
-### Changed
-- Coupon code verification endpoint updated to **/api/v2/coupon/{couponCode}/verify**
-
-## [2.0.4]
-### Changed
-- Removed build number from version included in User-Agent for DexCare service network requests. The version is now valid SemVer.
-
-## [2.0.3]
-### Fixed
-- Require user email for virtual visit requests as fallback in case patient data does not include email
-
-## GAP IN CHANGELOG through 2.0.2
-### Added
-- Required preTriageTags parameter for virtual visit booking
-
-### Changed
-- Compiled with Swift 5 & Xcode 11
-
-## [1.2.0]
-### Added
-- Official support of virtual visit using OpenTok
-
-## [1.0.8]
-### Changed
-- bug fixes for open tok virtual visit
-
-### Added
-- Region busy is now a failed reason when scheduling virtual visit.
-
-## [1.0.7]
-### Added
-- Region busy and busy message for `regionAvailability` and `regions` in virtual service
-
-## [1.0.6]
-### Added
-- Optional custom strings configuration for waiting room copy
-
-## [1.0.5]
-### Changed
-- Virtual visit: allow toggling of front and back camera
-- Virtual visit: Feedback service parameters updated
