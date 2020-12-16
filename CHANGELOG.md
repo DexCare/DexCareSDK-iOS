@@ -1,5 +1,10 @@
 # Release Notes
 
+## 4.0.1
+
+### Changed/Updated
+- `CatchmentArea.ehrSystem` and `CatchmentArea.departmentId` properties are now public
+
 ## 4.0.0
 
 ### New
