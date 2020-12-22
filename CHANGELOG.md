@@ -1,5 +1,14 @@
 # Release Notes
 
+## 4.0.2
+### Changed/Updated
+- `AppointmentService.getPCPAppointments` is marked as deprecated and will be removed in the next minor version
+- `PCPAppointment` and associated objects are marked as deprecated and will be removed in the next minor version.
+- `Environment.pcpURL` is marked as deprecated and the property will be removed in the next minor version
+
+### Fixes
+- Using the `RefreshTokenDelegate` now gets called properly (DC-3446)
+
 ## 4.0.1
 
 ### Changed/Updated
@@ -19,7 +28,7 @@
 - `RetailService.scheduleRetailAppointment` is new to expect a `DexcarePatient` and an optional patient for dependent if you're booking an appointment for a dependent.This replaces the old `AppointmentService.scheduleRetailAppointment`
 
 ### Breaking
-- Any old deprecated functions, methods, protocols, classes from `3.0` have now been removed. It is recommended if you are coming from `2.x` to first update to `3.0` then to `3.x`
+- Any old deprecated functions, methods, protocols, classes from `3.0` have now been removed. It is recommended if you are coming from `2.x` to first update to `3.X` then to `4.0`
 
 ### Changed/Updated
 - `RetailService.getRetailClinics` is now `RetailService.getClinics`  (DC-2769)
