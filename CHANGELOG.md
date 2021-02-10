@@ -1,4 +1,7 @@
 # Release Notes
+## 4.0.3
+### Fixes
+- Chats inside virtual waiting room and virtual visits, were not persisting if the virtual visit was resumed (DC-3773)
 
 ## 4.0.2
 ### Changed/Updated
