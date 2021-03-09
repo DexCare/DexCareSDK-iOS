@@ -1,4 +1,65 @@
 # Release Notes
+
+## 5.0.0 - March, 9, 2021
+
+#### Practices
+- Added a new `PracticeService` to the SDK to load `VirtualPractice` Information
+- `PracticeService.getVirtualPractice(practiceId)` to load information about a practice
+- `PracticeService.getVirtualPracticeRegionAvailability(practiceRegionId)` to load
+- Added a new `VirtualService.startVirtualVisit` which takes in the `practiceId` from the above call.
+- `VirtualVisitInformation.practiceRegionId` is now required when calling the above function
+- New models `VirtualPractice` ,`PracticeCareMode`, `PracticePaymentAvailability`, `VirtualPracticeRegion` have been made public
+
+### Providers
+- Added a new `ProviderService` to the SDK to load `Provider` Information.
+- Added `ProviderService.getProvider(providerNationalId)` to retrieve information about a provider.
+- Added `ProviderService.getProviderTimeslots(providerNationalId, visitTypeId, startDate, endDate)` to load timeslots for a given provider
+- Added `ProviderService.getMaxLookaheadDays(visitTypeShortName, ehrSystemName)` to get the max days the server will look ahead for timeslots
+- Added `ProviderService.scheduleProviderVisit(paymentMethod, providerVisitInformation, timeSlot, ehrSystemName, patientDexcarePatient, actorDexcarePatient?)` to book through a provider.
+- New models `Provider`, `ProviderDepartment`, `ProviderVisitType`, `ScheduledProviderVisit`
+
+### Other
+- New `PatientService.getSuffixes` has been added to load the list of approved suffixes that can be optional used to fill in the suffix field of a `PatientDemographic.HumanName` property
+- `ScheduleDay.date` is now formatted in the timezone of the Clinic/Provider. You can effectively ignore the timezone, as the property should be used for grouping of time slots.
+- Changed internally the endpoint for `RetailService.getTimeSlots`
+- A Virtual Visit must succeed in order to submit any feedback through `VirtualService.postFeedback`
+
+### Deprecated
+- `VirtualService.getRegions` has been deprecated in favour of the newer `PracticeService.getPractice`
+- `VirtualService.getRegionAvailability` has been deprecated in favour of the newer `PracticeService.getPracticeRegionAvailability`
+- `VirtualService.startVirtualVisit(with catchmentArea)` has been deprecated. Going forward use the `startVirtualVisit` method that has the practiceId.
+- `VirtualVisitInformation.currentState` has been marked as deprecated and now optional. This can be set to nil when booking through Practices.
+
+### Breaking
+- Removed `PatientDemographics.actorRelationshipToPatient` property. Going forward, this property should be set from `RetailVisitInformation` or `VirtualVisitInformation` instead
+- Removed deprecated `VirtualService.updatePushNotificationDeviceToken(String)` - switch to `updatePushNotificationDeviceToken(Data)` instead
+- Removed deprecated `VirtualService.startVirtualVisit` that does not use catchmentArea or practiceId
+- Removed deprecated `VirtualService.resumeVirtualVisit` that does not use a dexcarePatient
+- Removed deprecated `PatientService.createPatient(usingVisitState)` - switch to `findOrCreatePatient(inEhrSystem)` method instead
+- Removed deprecated `PatientService.createDependentPatient(usingVisitState)` - switch to `findOrCreateDependentPatient(inEhrSystem)` method instead
+- Removed deprecated `PatientService.createPatient(inEhrSystem)` - switch to `findOrCreatePatient(inEhrSystem)` method instead
+- Removed deprecated `PatientService.createDependentPatient(inEhrSystem)` - switch to `findOrCreateDependentPatient(inEhrSystem)` method instead
+- Removed `AppointmentService.cancelRetailAppointment(appointmentId)` - switch to `.cancelRetailAppointment(visitId)` method instead
+- Removed `AppointmentService.scheduleRetailAppointment()` - switch to `RetailService.scheduleRetailAppointment()` method instead
+- `Environment.pcpURL` has been removed from the DexcareSDK initializer
+- Removed `AppointmentService.getPCPAppointments`
+- Removed `PCPAppointment` and `PrimaryCareAppointmentFailedReason`
+- Made `ScheduledVisitFailedReason` enum unavailable and updated `AppointmentService.getRetailVisits` to return a `FailedReason` instead
+- Removed an unused `RetailScheduledFailedReason` enum.
+- Removed some unused cases in `VirtualVisitFailedReason`, `ScheduleProviderAppointmentFailedReason`, `ScheduleRetailAppointmentFailedReason`
+
+- **`DexcarePatient.demographicLinks` has been renamed to `DexcarePatient.demographicsLinks`**
+- **`PatientDemographics.ssn` has been renamed to `PatientDemographics.last4SSN`**
+- **`AllowedVisitType.shortName` is now a `VisitType` enum**
+
+
+### Fixed
+- When passing in a nil `VirtualVisitInformation.preTriageTags` the function would return an error. This adds internally a default empty array if nil is passed in. Workaround for client in the interim is to pass in an empty array.  (DC-3502)
+- If a user disallows push notifications, the SDK now allows them to start a Virtual Visit. Only Microphone and Camera are required. (DC-3885)
+
+### Dependencies
+- Updated `MessageKit` to 3.3
+
 ## 4.0.3
 ### Fixes
 - Chats inside virtual waiting room and virtual visits, were not persisting if the virtual visit was resumed (DC-3773)
