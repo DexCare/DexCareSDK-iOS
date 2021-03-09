@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.license = 'private'
   s.authors = { 'Dexcare' => 'support@dexcarehealth.com'}
   s.source = {
-    :git => 'git@github.com:Health-V2-Consortium/DexCareSDK-iOS.git', :tag => "#{s.version}"
+    :git => 'git@github.com:Dexcare/DexCareSDK-iOS.git', :tag => "#{s.version}"
   }
   s.module_name = 'DexcareSDK'
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
 
   # DexcareSDK dependency
   s.dependency 'MBProgressHUD', '~> 1.2.0'
-  s.dependency 'MessageKit', '~> 3.1.0'
+  s.dependency 'MessageKit', '~> 3.3.0'
   s.dependency 'PromiseKit/CorePromise', '~>6.13.1'
   s.dependency 'OpenTok', '~> 2.18.0'
 
