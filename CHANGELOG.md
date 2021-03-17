@@ -1,6 +1,24 @@
 # Release Notes
 
-## 5.0.0 - March, 9, 2021
+### 6.0.0
+
+### Xcode 12
+- iOS SDK is now using an `.xcframework` to distribute the SDK. Xcode 11 is no longer supported. You must upgrade to Xcode 12.0+ in order to use v6.0
+
+### Breaking
+- The framework has been renamed to `DexcareiOSSDK` from `DexcareSDK`. Anywhere in your app where you `import DexcareSDK` will need be changed to `import DexcareiOSSDK`
+
+### PaymentService
+- `VirtualService.getInsurancePayers` has been deprecated and moved to `PaymentService.getInsurancePayers`
+- `VirtualService.verifyCouponCode` has been deprecated and moved to  `PaymentService.verifyCouponCode`,
+- `RetailService.uploadInsuranceCard` has been deprecated and moved to `PaymentService.uploadInsuranceCard`
+- Added a property on`DexcareSDK` instance called `paymentService`
+
+### Other
+- Dependency OpenTok updated to v2.19
+- Note: You may get a LOT of warnings with v2.19. They are aware of the issue, but the warnings does not stop Virtual Visits from working.
+
+## 5.0.0
 
 #### Practices
 - Added a new `PracticeService` to the SDK to load `VirtualPractice` Information

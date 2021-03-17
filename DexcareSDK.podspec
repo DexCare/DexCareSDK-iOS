@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'DexcareSDK'
-  s.version      = '5.0.0'
+  s.version      = '6.0.0'
   s.platform = :ios, '11.0'
   s.swift_version = '5.0'
   s.summary      = 'DexcareSDK libary for express care services'
@@ -16,15 +16,13 @@ Pod::Spec.new do |s|
   ## ---------------------------------------------------------------------------
   # Production Framework Source
   ## ---------------------------------------------------------------------------
-  s.source_files = "Framework/DexcareSDK.framework/Headers/*.h"
-  s.public_header_files = "Framework/DexcareSDK.framework/Headers/*.h"
-  s.vendored_frameworks = ["Framework/DexcareSDK.framework"]
+  s.vendored_frameworks = ["Framework/DexcareiOSSDK.xcframework"]
 
   # DexcareSDK dependency
   s.dependency 'MBProgressHUD', '~> 1.2.0'
   s.dependency 'MessageKit', '~> 3.3.0'
   s.dependency 'PromiseKit/CorePromise', '~>6.13.1'
-  s.dependency 'OpenTok', '~> 2.18.0'
+  s.dependency 'OpenTok', '~> 2.19.0'
 
   ## ---------------------------------------------------------------------------
 
