@@ -1,15 +1,21 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
-// swift-module-flags: -target x86_64-apple-ios12.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DexcareiOSSDK
+// swift-module-flags: -target x86_64-apple-ios14.1-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DexcareiOSSDK
 import AVFoundation
 import AVKit
+import SystemConfiguration.CaptiveNetwork
+import CoreGraphics
+import CoreLocation
 import Foundation
 import InputBarAccessoryView
 import MBProgressHUD
 import MessageKit
+import NetworkExtension
 import OpenTok
 import PromiseKit
 import Swift
+import SystemConfiguration
+import UIKit.UIGestureRecognizerSubclass
 import UIKit
 import UserNotifications
 public struct RetailVisitInformation {
@@ -59,7 +65,7 @@ public protocol RetailService {
   func uploadInsuranceCard(frontImage: UIKit.UIImage, backImage: UIKit.UIImage, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.InsuranceCardFailedReason) -> Swift.Void)
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
 }
-public enum VirtualFeedback {
+@frozen public enum VirtualFeedback {
   case rating(question: Swift.String?, rating: Swift.Int)
   case feedback(question: Swift.String?, answer: Swift.String)
   case followUp(question: Swift.String?, answer: Swift.Bool)
@@ -132,6 +138,11 @@ public struct Address : Swift.Codable, Swift.Equatable {
   public func encode(to encoder: Swift.Encoder) throws
   public static func == (a: DexcareiOSSDK.Address, b: DexcareiOSSDK.Address) -> Swift.Bool
 }
+public struct TytoCareConfig : Swift.Equatable {
+  public let helpURL: Foundation.URL?
+  public init(helpURL: Foundation.URL?)
+  public static func == (a: DexcareiOSSDK.TytoCareConfig, b: DexcareiOSSDK.TytoCareConfig) -> Swift.Bool
+}
 public enum VirtualVisitFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonType {
   case incompleteRequestData
   case missingInformation(message: Swift.String)
@@ -154,7 +165,7 @@ public enum VirtualVisitFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonTy
   }
   public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
-public enum PaymentHolderDeclaration : Swift.String {
+@frozen public enum PaymentHolderDeclaration : Swift.String {
   case `self`
   case other
   public typealias RawValue = Swift.String
@@ -214,6 +225,21 @@ public struct ProviderDepartment : Swift.Codable {
   public init(departmentId: Swift.String, ehrSystemName: Swift.String, name: Swift.String, center: Swift.String?, phone: Swift.String?, address: DexcareiOSSDK.Address?)
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
+}
+public struct CustomizationOptions : Swift.Equatable {
+  public var customStrings: DexcareiOSSDK.CustomStrings?
+  public var tytoCareConfig: DexcareiOSSDK.TytoCareConfig
+  public init(customStrings: DexcareiOSSDK.CustomStrings?, tytoCareConfig: DexcareiOSSDK.TytoCareConfig)
+  public static func == (a: DexcareiOSSDK.CustomizationOptions, b: DexcareiOSSDK.CustomizationOptions) -> Swift.Bool
+}
+public struct CustomStrings : Swift.Equatable {
+  public let waitingRoomTitle: Swift.String?
+  public let waitingRoomCancelButtonTitle: Swift.String?
+  public let cancelThisVisitActionTitle: Swift.String?
+  public let abortAppointmentAlertTitle: Swift.String?
+  public let permissionDeniedAlertTitle: Swift.String?
+  public init(waitingRoomTitle: Swift.String? = nil, waitingRoomCancelButtonTitle: Swift.String? = nil, cancelThisVisitActionTitle: Swift.String? = nil, abortAppointmentAlertTitle: Swift.String? = nil, permissionDeniedAlertTitle: Swift.String? = nil)
+  public static func == (a: DexcareiOSSDK.CustomStrings, b: DexcareiOSSDK.CustomStrings) -> Swift.Bool
 }
 public typealias VisitCompletion = (DexcareiOSSDK.VisitCompletionReason) -> Swift.Void
 public protocol VirtualService {
@@ -360,6 +386,57 @@ public enum CouponCodeFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonType
   case failed(reason: DexcareiOSSDK.FailedReason)
   public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class SkyFloatingLabelTextFieldWithIcon : DexcareiOSSDK.SkyFloatingLabelTextField {
+  open var iconImageView: UIKit.UIImageView!
+  @objc @IBInspectable dynamic open var iconImage: UIKit.UIImage? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var templateImage: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  open var iconLabel: UIKit.UILabel!
+  @objc dynamic open var iconFont: UIKit.UIFont? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var iconText: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var iconColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var selectedIconColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var iconWidth: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var iconMarginLeft: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var iconMarginBottom: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var iconRotationDegrees: Swift.Double {
+    @objc get
+    @objc set
+  }
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  override open func updateColors()
+  @objc override dynamic open func textRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  @objc override dynamic open func editingRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  @objc override dynamic open func placeholderRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  @objc override dynamic open func layoutSubviews()
+  @objc deinit
+}
 public protocol PatientService {
   func getPatient(success: @escaping (DexcareiOSSDK.DexcarePatient) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getCatchmentArea(visitState: Swift.String, residenceState: Swift.String, residenceZipCode: Swift.String, brand: Swift.String, success: @escaping (DexcareiOSSDK.CatchmentArea) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
@@ -409,7 +486,7 @@ public struct PracticePaymentAvailability : Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
-public enum PatientDeclaration : Swift.String, Swift.Codable, Swift.Equatable {
+@frozen public enum PatientDeclaration : Swift.String, Swift.Codable, Swift.Equatable {
   case `self`
   case other
   public typealias RawValue = Swift.String
@@ -440,18 +517,11 @@ public struct VirtualVisitConfiguration {
   public let virtualVisitUrl: Foundation.URL
   public init(pushNotificationAppId: Swift.String, pushNotificationPlatform: Swift.String, virtualVisitUrl: Foundation.URL)
 }
-public struct CustomStrings {
-  public let waitingRoomTitle: Swift.String?
-  public let waitingRoomCancelButtonTitle: Swift.String?
-  public let cancelThisVisitActionTitle: Swift.String?
-  public let abortAppointmentAlertTitle: Swift.String?
-  public let permissionDeniedAlertTitle: Swift.String?
-  public init(waitingRoomTitle: Swift.String? = nil, waitingRoomCancelButtonTitle: Swift.String? = nil, cancelThisVisitActionTitle: Swift.String? = nil, abortAppointmentAlertTitle: Swift.String? = nil, permissionDeniedAlertTitle: Swift.String? = nil)
-}
 public struct DexcareConfiguration {
   public let environment: DexcareiOSSDK.Environment
   public let userAgent: Swift.String
   public let domain: Swift.String
+  @available(*, deprecated, message: "Deprecated: Please use `DexcareSDK.customizationOptions` instead.")
   public let customStrings: DexcareiOSSDK.CustomStrings?
   public let logger: DexcareiOSSDK.DexcareSDKLogger?
   public init(environment: DexcareiOSSDK.Environment, userAgent: Swift.String, domain: Swift.String, customStrings: DexcareiOSSDK.CustomStrings? = nil, logger: DexcareiOSSDK.DexcareSDKLogger? = nil)
@@ -479,6 +549,10 @@ public class DexcareSDK {
     get
   }
   weak public var refreshTokenDelegate: DexcareiOSSDK.RefreshTokenDelegate? {
+    get
+    set
+  }
+  public var customizationOptions: DexcareiOSSDK.CustomizationOptions? {
     get
     set
   }
@@ -581,7 +655,7 @@ public enum ScheduleProviderAppointmentFailedReason : Swift.Error, DexcareiOSSDK
   case failed(reason: DexcareiOSSDK.FailedReason)
   public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
-public enum DexcareSDKLogLevel : Swift.Int {
+@frozen public enum DexcareSDKLogLevel : Swift.Int {
   case verbose, debug, info, warning, error
   public typealias RawValue = Swift.Int
   public init?(rawValue: Swift.Int)
@@ -604,7 +678,7 @@ public struct DexcarePatient : Swift.Codable, Swift.Equatable {
   public func encode(to encoder: Swift.Encoder) throws
   public static func == (a: DexcareiOSSDK.DexcarePatient, b: DexcareiOSSDK.DexcarePatient) -> Swift.Bool
 }
-public enum Gender : Swift.String {
+@frozen public enum Gender : Swift.String {
   case male
   case female
   case other
@@ -653,6 +727,93 @@ public struct InsurancePayer : Swift.Equatable, Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.InsurancePayer, b: DexcareiOSSDK.InsurancePayer) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
+}
+extension KeyedDecodingContainer {
+  public func decodeAny<T>(_ type: T.Type, forKey key: K) throws -> T
+  public func decodeAnyIfPresent<T>(_ type: T.Type, forKey key: K) throws -> T?
+  public func toDictionary() throws -> [Swift.String : Any]
+  public func decode<T>(_ key: Swift.KeyedDecodingContainer<K>.Key) throws -> T where T : Swift.Decodable
+  public func decodeIfPresent<T>(_ key: Swift.KeyedDecodingContainer<K>.Key) throws -> T? where T : Swift.Decodable
+  public func decodeAny<T>(_ key: K) throws -> T
+  public func decodeAnyIfPresent<T>(_ key: K) throws -> T?
+  public func decodeArray<T>(_ key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [T] where T : Swift.Decodable
+  public func decodeArrayIfPresent<T>(_ key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [T]? where T : Swift.Decodable
+  public func decodeDictionary<T>(_ key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [Swift.String : T] where T : Swift.Decodable
+  public func decodeDictionaryIfPresent<T>(_ key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [Swift.String : T]? where T : Swift.Decodable
+}
+public enum InvalidElementStrategy<T> : Swift.CustomStringConvertible {
+  case remove
+  case fail
+  case fallback(T)
+  case custom((Swift.DecodingError) -> DexcareiOSSDK.InvalidElementStrategy<T>)
+  public var description: Swift.String {
+    get
+  }
+}
+extension KeyedDecodingContainer {
+  public func decodeArray<T>(_ type: [T].Type, forKey key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [T] where T : Swift.Decodable
+  public func decodeArrayIfPresent<T>(_ type: [T].Type, forKey key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [T]? where T : Swift.Decodable
+  public func decodeDictionary<T>(_ type: [Swift.String : T].Type, forKey key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [Swift.String : T] where T : Swift.Decodable
+  public func decodeDictionaryIfPresent<T>(_ type: [Swift.String : T].Type, forKey key: K, invalidElementStrategy: DexcareiOSSDK.InvalidElementStrategy<T>? = nil) throws -> [Swift.String : T]? where T : Swift.Decodable
+}
+public struct AnyCodable {
+  public let value: Any
+  public init<T>(_ value: T?)
+}
+extension AnyCodable : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension AnyCodable : Swift.Equatable {
+  public static func == (lhs: DexcareiOSSDK.AnyCodable, rhs: DexcareiOSSDK.AnyCodable) -> Swift.Bool
+}
+extension AnyCodable : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension AnyCodable : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension AnyCodable : Swift.ExpressibleByNilLiteral, Swift.ExpressibleByBooleanLiteral, Swift.ExpressibleByIntegerLiteral, Swift.ExpressibleByFloatLiteral, Swift.ExpressibleByStringLiteral, Swift.ExpressibleByArrayLiteral, Swift.ExpressibleByDictionaryLiteral {
+  public init(nilLiteral: ())
+  public init(booleanLiteral value: Swift.Bool)
+  public init(integerLiteral value: Swift.Int)
+  public init(floatLiteral value: Swift.Double)
+  public init(extendedGraphemeClusterLiteral value: Swift.String)
+  public init(stringLiteral value: Swift.String)
+  public init(arrayLiteral elements: Any...)
+  public init(dictionaryLiteral elements: (Swift.AnyHashable, Any)...)
+  public typealias BooleanLiteralType = Swift.Bool
+  public typealias IntegerLiteralType = Swift.Int
+  public typealias FloatLiteralType = Swift.Double
+  public typealias StringLiteralType = Swift.String
+  public typealias ArrayLiteralElement = Any
+  public typealias Key = Swift.AnyHashable
+  public typealias Value = Any
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+}
+public struct RawCodingKey : Swift.CodingKey {
+  public var stringValue: Swift.String {
+    get
+  }
+  public init(string: Swift.String)
+  public init?(stringValue: Swift.String)
+  public var intValue: Swift.Int? {
+    get
+  }
+  public init?(intValue: Swift.Int)
+}
+extension RawCodingKey : Swift.ExpressibleByStringLiteral, Swift.ExpressibleByIntegerLiteral {
+  public init(stringLiteral value: Swift.String)
+  public init(integerLiteral value: Swift.Int)
+  public typealias StringLiteralType = Swift.String
+  public typealias IntegerLiteralType = Swift.Int
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
 }
 public struct ScheduledVisit : Swift.Equatable, Swift.Codable {
   public let id: Swift.String
@@ -827,6 +988,149 @@ public struct ProviderVisitInformation : Swift.Equatable, Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.ProviderVisitInformation, b: DexcareiOSSDK.ProviderVisitInformation) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @IBDesignable open class SkyFloatingLabelTextField : UIKit.UITextField {
+  @objc open var isLTRLanguage: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc dynamic open var titleFadeInDuration: Swift.Double
+  @objc dynamic open var titleFadeOutDuration: Swift.Double
+  @IBInspectable @objc override dynamic open var textColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var placeholderColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc dynamic open var placeholderFont: UIKit.UIFont? {
+    @objc get
+    @objc set
+  }
+  open var errorLabelAlignment: UIKit.NSTextAlignment? {
+    get
+    set
+  }
+  @objc dynamic open var titleFont: UIKit.UIFont {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var titleColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var lineColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var errorColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var lineErrorColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var textErrorColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var titleErrorColor: UIKit.UIColor? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var disabledColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var selectedTitleColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var selectedLineColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var lineHeight: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable dynamic open var selectedLineHeight: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  open var lineView: UIKit.UIView!
+  open var titleLabel: UIKit.UILabel!
+  open var errorLabel: UIKit.UILabel!
+  open var titleFormatter: (Swift.String) -> Swift.String
+  @objc override dynamic open var isSecureTextEntry: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var errorMessage: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic open var isHighlighted: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  open var editingOrSelected: Swift.Bool {
+    get
+  }
+  open var hasErrorMessage: Swift.Bool {
+    get
+  }
+  @IBInspectable @objc override dynamic open var text: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @IBInspectable @objc override dynamic open var placeholder: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var selectedTitle: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable open var title: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc override dynamic open var isSelected: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc open func editingChanged()
+  @discardableResult
+  @objc override dynamic open func becomeFirstResponder() -> Swift.Bool
+  @discardableResult
+  @objc override dynamic open func resignFirstResponder() -> Swift.Bool
+  @objc override dynamic open var isEnabled: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  open func updateColors()
+  open func setTitleVisible(_ titleVisible: Swift.Bool, animated: Swift.Bool = false, animationCompletion: ((Swift.Bool) -> Swift.Void)? = nil)
+  open func isTitleVisible() -> Swift.Bool
+  open func isErrorVisible() -> Swift.Bool
+  @objc override dynamic open func textRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  @objc override dynamic open func editingRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  @objc override dynamic open func placeholderRect(forBounds bounds: CoreGraphics.CGRect) -> CoreGraphics.CGRect
+  open func titleLabelRectForBounds(_ bounds: CoreGraphics.CGRect, editing: Swift.Bool) -> CoreGraphics.CGRect
+  open func errorLabelRectForBounds(_ bounds: CoreGraphics.CGRect, editing: Swift.Bool) -> CoreGraphics.CGRect
+  open func lineViewRectForBounds(_ bounds: CoreGraphics.CGRect, editing: Swift.Bool) -> CoreGraphics.CGRect
+  open func titleHeight() -> CoreGraphics.CGFloat
+  open func errorHeight() -> CoreGraphics.CGFloat
+  open func textHeight() -> CoreGraphics.CGFloat
+  @objc override dynamic open func prepareForInterfaceBuilder()
+  @objc override dynamic open func layoutSubviews()
+  @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @objc get
+  }
+  @objc deinit
 }
 public struct ScheduleDay : Swift.Equatable, Swift.Codable {
   public let date: Foundation.Date

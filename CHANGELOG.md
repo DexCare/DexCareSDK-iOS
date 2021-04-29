@@ -1,4 +1,31 @@
 # Release Notes
+### 6.1.0
+### New
+- Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device.  For more information about TytoCare, visit https://www.tytocare.com/.
+- New permissions are also required in order for the TytoCare integration to work:
+  - The [Wifi entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_wifi-info) will need to be enabled on your build.
+  - Location with percise accuracy.
+- If any of the new permissions are not available, the integration will still work, but the SDK will not be able to get the current Wifi network information
+- `DexCareSDK.customizationOptions` now has a `tytoCareConfig` option for any TytoCare configuration that is allowed in the SDK. Please update these before starting a virtual visit.
+- More information and details are available on https://developers.dexcarehealth.com/virtualvisit/tytocare
+
+### Deprecations
+- Deprecated `DexcareConfiguration.customStrings` in favour of `DexcareSDK.customizationOptions`, which can be set after initialization of the SDK and anytime before a start of a Virtual Visit.
+
+### Changes
+- When starting a virtual visit, the `VirtualVisitInformation.userEmail` will **ALWAYS** be used in the request irregardless of what is in the DexcarePatient object. This now matches retail appointments is doing. DC-4213
+
+### Other
+- Dropped support for iOS 11. Minimum iOS version is now iOS 12
+- Update MessageKit to 3.5.1. InputBarAccessoryView to 5.3.0
+- Updated OpenTok to 2.19.1
+- Updated an internal endpoint for cancelling a virtual visit.
+- Updated some public enums with the `@frozen` attribute.
+  - `DexcareSDKLogLevel`
+  - `Gender`
+  - `PatientDeclaration`
+  - `VirtualFeedback`
+  - `PaymentHolderDeclaration`
 
 ### 6.0.0
 
