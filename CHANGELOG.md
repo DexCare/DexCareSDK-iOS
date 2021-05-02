@@ -1,4 +1,8 @@
 # Release Notes
+### 6.1.1
+
+- Fixes crash when going into waiting room
+
 ### 6.1.0
 ### New
 - Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device.  For more information about TytoCare, visit https://www.tytocare.com/.
