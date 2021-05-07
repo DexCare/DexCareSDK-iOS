@@ -1,4 +1,20 @@
 # Release Notes
+### 6.1.2
+
+### New
+- Added a new optional parameter to the `CustomizationOptions` model, `VirtualConfig`.  This new model contains various customization options related the the virtual visit experience.
+`VirtualConfig` currently has two optional parameters:
+   - `showWaitingRoomVideo` - Whether or not to display the video on the waiting room.  Defaults to `true`.
+   - `waitingRoomVideoURL` - A bundle url that can be optionally specified to change the video that displays inside the virtual waiting room.  When not specified, the default video is used (the same video that has always played in the waiting room, no changes). See documentation for more detail and example.
+ When these properties or `VirtualConfig` are not explicitly overridden, the default values are used.
+
+### Deprecated
+- Deprecated `DexcareConfiguration.init` where you pass in the deprecated `CustomStrings`. A new init is available to use without `CustomStrings`. Any custom strings should now be passed through `DexcareSDK.customizationOption`
+
+### Other
+- Removed some public classes and functions that should be internal only
+- Updated MessageKit to 3.6.0
+
 ### 6.1.1
 
 - Fixes crash when going into waiting room
