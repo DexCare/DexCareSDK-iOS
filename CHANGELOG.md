@@ -1,15 +1,8 @@
 # Release Notes
-### 6.1.4
+### 6.1.5
 
-### Fixed
-- New functionality was not available publicly. 
-
-### 6.1.3
-
-### Fixed
-- Fixed a crash on launch by downgrading MessageKit back to 3.5.0
-
-### 6.1.2
+- New functionality was not available publicly.
+- Fixed a crash on launch
 
 ### New
 - Added a new optional parameter to the `CustomizationOptions` model, `VirtualConfig`.  This new model contains various customization options related the the virtual visit experience.
