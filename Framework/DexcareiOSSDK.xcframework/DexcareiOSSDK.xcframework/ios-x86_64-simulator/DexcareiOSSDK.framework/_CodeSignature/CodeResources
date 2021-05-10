@@ -6,15 +6,15 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		a9ylm5B2zv63sNqA92MIb2wT2a8=
+		ASfUwH3CSUPSoIhYG/hle0HqQmo=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
-		WvXfTfPqBDINYwODk2dpvQnXW2U=
+		Hkqt1OKmzJOOaYSA4Qy0xtZE7hY=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/GIL-eq-BzS-view-ldn-Db-Gqf.nib</key>
 		<data>
-		2XAHAPo616Ih065KjyclDetaTrc=
+		f6+QVReXbuN3Gib1fT53DJdWiGU=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
 		<data>
@@ -22,19 +22,19 @@
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/VisitViewController.nib</key>
 		<data>
-		4CzboHtUtVF9TkJN9w09MlezI0I=
+		7p0QpeEIx5wlmn3JrSYEC134s3Y=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/WaitingRoomViewController.nib</key>
 		<data>
-		mD1ydryBCq2dXs/uSWhgpZTQXe4=
+		8uotUVzFScQyIdm5IvZMCUV+edk=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/bkY-Bk-jEC-view-FeP-YF-R2K.nib</key>
 		<data>
-		dNEcCxd/t7GrLd6I/lOAWaYglJY=
+		8vorMMK4/by9zAKxpqk5AhWQC/o=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
 		<data>
-		tjF1W9QiKF/qAOkQfeymoqAYW8E=
+		w8ubCTSyVUfe06K885fsC5yCw9I=
 		</data>
 		<key>Headers/DexcareSDK.h</key>
 		<data>
@@ -46,7 +46,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		wnUxgT8L5DOlR6r/IfS3kqsk7BA=
+		UX8VozrHVs96DBRUGlhFuZbISJM=
 		</data>
 		<key>Localizable.strings</key>
 		<data>
@@ -82,51 +82,51 @@
 		</data>
 		<key>TytoCare.storyboardc/1b6-iZ-Qtn-view-Mqh-Pt-x7N.nib</key>
 		<data>
-		kkjkMWmGovcVwOwUws/AU6aozgQ=
+		Igiovx32mwF2P6gLrnUKxjRr/ls=
 		</data>
 		<key>TytoCare.storyboardc/Enc-w8-e5o-view-GKY-9J-HJh.nib</key>
 		<data>
-		lOyMDq6HC+8sj2lFNqH1BwDbHs4=
+		nQOGMZgKYE6K7hba/GQN/wldr1E=
 		</data>
 		<key>TytoCare.storyboardc/F4k-f1-Afq-view-HNg-77-cvX.nib</key>
 		<data>
-		fJ77ZfIon8glWgWiGU1nFzQY8Po=
+		+MQ2EtDUaWFcspKpFfdwaje6OFk=
 		</data>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
 		<data>
-		1H/vruPuJpL2RA61lj0verJP1lU=
+		zLpLqGkdO2y8hGvgSxIiziLzmpk=
 		</data>
 		<key>TytoCare.storyboardc/Info.plist</key>
 		<data>
-		JhdIisfRvNay48zcOc809m6zTFw=
+		DFa2FQBM3pLIJM8V/+bAZKM8ZYw=
 		</data>
 		<key>TytoCare.storyboardc/Lcv-pu-2Fv-view-1xW-MX-BAq.nib</key>
 		<data>
-		w47mMB66c1PTCBVdgrS93BNUOP4=
+		0N6tHJGGcMsQ1CjB/vKcbdk/QNE=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareMissingPrivacyViewController.nib</key>
 		<data>
-		1JAG9n0/cpXkvvH0M7CbFlvk/ys=
+		GED56oQQqBSQdZXR9uz8tYo+MjY=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareQRCodeViewController.nib</key>
 		<data>
-		Tk7TxQuAAG0vvwT36K8CkhY6kL8=
+		S27cE3s9W7XR7AoJ+7GDvMii6wU=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareSetupViewController.nib</key>
 		<data>
-		21LoEifVpVCO/XkhAaJMuwrjcDE=
+		Q+4qRTmhRhtlfPNJDFV0eWvRG4o=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareWifiNameViewController.nib</key>
 		<data>
-		kzGZzVt9YuJ5T/kmR0Wt+86TMSQ=
+		LHqLY4tUp3xmFHIOUpQDnMz44XU=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareWifiPasswordViewController.nib</key>
 		<data>
-		/1coeDAP9EvnP1JCpkVOFBE82P4=
+		Egjid7vZeW1kXaRHA/8INRVWFdY=
 		</data>
 		<key>VisitReconnectionHudView.nib</key>
 		<data>
-		5M6xO/i57xFy9Y/ueTwcYFVy9Zo=
+		e+GYUt4YNEjbAloGeohAl+Ccx+M=
 		</data>
 		<key>waitingRoom.mp4</key>
 		<data>
@@ -139,21 +139,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			potm1DrsBVhm6lVSPXsd+DmDDNpREJMkGx/MCMSWquY=
+			Y66sz3gK780bLR07XjLhzkbPa9uBvf2RCVmUPwtGNK4=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ym2bMw8GN2Xlvths76c88tOHLVs2tsCxOq3C7OSAszU=
+			VnZKBGY18mIxnnHnA4RDsrI9n67UPFc2nNBNwCFIHZY=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/GIL-eq-BzS-view-ldn-Db-Gqf.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0lL+c2NJBIR9lDFTya6EK3BHNH88uZvxvyH4qNM0VBI=
+			fOuhc4SnDdVA3SplCLEwrP7k5YBulVjCeiyERzJkkpg=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
@@ -167,28 +167,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			1vVeEBu47ycLZhrvXQIwxj6wURu1T6HbPwmI4LuMy9o=
+			cpxrOfg/sukKm0EjmTn8c6ODjBv/Ws8zumkew9oHttU=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/WaitingRoomViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gVoH7eQnoyfTUy1EfqCvbXNEwvKVRCzH7eI6E5C9en4=
+			rAq0/1sTpLYqjHsDc/XX0rTFDd5QmvQXRIEH5BRtL3Q=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/bkY-Bk-jEC-view-FeP-YF-R2K.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3JKA7uJbRcGMpjQ/dTTADLUtbDUHoSMkmF/0EfscEY8=
+			+/13KDfy3VYtr+PxEwgX9LWA2DEoiefgF6NQxClaX5Q=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			meqwKshOFFKzRrlOSxh9XuhqBdnzGu+Swr/1UH5QquI=
+			pMtzJgOiP5lVM/jRdrwF6SJabPy20Gc/ooQnaLNwg/c=
 			</data>
 		</dict>
 		<key>Headers/DexcareSDK.h</key>
@@ -265,84 +265,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			WCuEIBNRZlkuA1FScbM2V4L/GO2dkKx4IqvYmAfLMH8=
+			gJaBoz3EP29OnFVDKRkL9h8f3gEAwUhBcmNNXuQ/I4Q=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Enc-w8-e5o-view-GKY-9J-HJh.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			87JVVWOUGJ9SYxVOegz1ZTVpbZH120+ULRvQ1NnsFss=
+			fr+/T9STrGWuQj7sD1KDQotaoA9NpVvQkE+H46suJpY=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/F4k-f1-Afq-view-HNg-77-cvX.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0NA1bo2lIB+ema2Nl2eO+gyF7St4fDDxwKge7PwKigY=
+			a/UBJN/L92/TWNGAUlcav4JQ74EUDEqKlUIkkK/Wqos=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			CJhx2bDrcJBEMD7IF4HHLw865DTBangs76sngiH6fwk=
+			N5xmecety9pgUGPffhD/FDuYk8J9NTN4sBURUlwz2jQ=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Tv8wBidSBBmBA3UDYVk5QxkA+RbhsliFklbuScCSikA=
+			sCuniXKAaPOvEoHKgkFYPwfFusCpuF9xG+1nU77EJto=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Lcv-pu-2Fv-view-1xW-MX-BAq.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			x7Kl+wgMeOH6U9XVRiErF41Pw6aNXbUBbgGxv9p23EA=
+			E+h1GPO/RVJCdgJ+oyAbkwYKqBk06zX2AQjuIfaKOSw=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareMissingPrivacyViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2QF0k2F994Kwn5MkyyuE/vVqp1MCu3M5bcR+dkSYiq4=
+			1QaDvVBNWfl0bMagHScFDUoeIfE150cqRjYCRhDh2WE=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareQRCodeViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Kf27RGbWxSTjrjge9Jq8Ga6wRItkfiHTExcz0BZiq3I=
+			Q3+eaRoW22pKeTQo8QqIGZqV8Dw4fIENfblG9HZgd18=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareSetupViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xFGrTmQzZXB6Y9ynV/cZKhlHdxlICiR+1qtnqZ0Fnjg=
+			yVl7OTr7S77U95v3DVvH1zJG5T8SArGh24t7dlGM1ms=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareWifiNameViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			UMPbSrmalP1k2YKWlYXs8gFRKWpfyLv6JpXV/43moB0=
+			1uIufE8nvKWUGjouyFbGYG03IB5qJU8DDbfcijkKS5c=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareWifiPasswordViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			kSPVzsHvouJp1i7F5Dp7RaezLs7pXClvxk0+NnG8W+k=
+			h9Fox4D/m45AbGOHzf6ft6YsDy7WYw2Bs4BSVlkxvcY=
 			</data>
 		</dict>
 		<key>VisitReconnectionHudView.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Bpf3KygR30Vl0xBRHVQaKeZMASdEwsGFjXRB9F6xxT4=
+			89E4KUUBJslxU5owGL1e10FRaEP4NzWEi7fcXgvZTtE=
 			</data>
 		</dict>
 		<key>waitingRoom.mp4</key>
