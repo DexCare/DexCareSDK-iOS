@@ -1,4 +1,14 @@
 # Release Notes
+### 6.1.4
+
+### Fixed
+- New functionality was not available publicly. 
+
+### 6.1.3
+
+### Fixed
+- Fixed a crash on launch by downgrading MessageKit back to 3.5.0
+
 ### 6.1.2
 
 ### New

@@ -1,4 +1,0 @@
-framework module DexcareiOSSDK {
-  header "DexcareiOSSDK-Swift.h"
-  requires objc
-}
