@@ -1,4 +1,9 @@
 # Release Notes
+### 6.1.6
+
+- Adjusts TytoCare setup views for smaller devices
+- When opening Chat, the keyboard no longer automatically opens.
+
 ### 6.1.5
 
 - New functionality was not available publicly.
