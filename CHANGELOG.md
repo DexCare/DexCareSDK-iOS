@@ -1,4 +1,9 @@
 # Release Notes
+### 6.1.7
+### New
+- ZipCodeValidator (and the SDK as a result) now accepts 9-digit zip codes in addition to 5-digit zip codes. A hyphen is required for 9-digit zip codes.
+- ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX has been added. This is the Regex string used in the ZipCodeValidator.isValid class function.
+
 ### 6.1.6
 
 - Adjusts TytoCare setup views for smaller devices
@@ -22,6 +27,7 @@
 ### Other
 - Removed some public classes and functions that should be internal only
 - Updated MessageKit to 3.6.0
+- Updated internal endpoint for wait time.
 
 ### 6.1.1
 

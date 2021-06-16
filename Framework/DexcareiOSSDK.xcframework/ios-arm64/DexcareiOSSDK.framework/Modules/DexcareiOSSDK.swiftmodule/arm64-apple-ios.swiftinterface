@@ -673,6 +673,7 @@ public struct TimeSlot : Swift.Equatable, Swift.Codable {
   public func encode(to encoder: Swift.Encoder) throws
 }
 @_hasMissingDesignatedInitializers public class ZipCodeValidator {
+  public static let ZIP_CODE_VALIDATION_REGEX: Swift.String
   public static func isValid(zipCode: Swift.String) -> Swift.Bool
   @objc deinit
 }
