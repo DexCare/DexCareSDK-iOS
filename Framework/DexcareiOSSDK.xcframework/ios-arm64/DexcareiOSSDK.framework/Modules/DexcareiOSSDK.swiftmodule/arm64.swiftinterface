@@ -57,12 +57,8 @@ public enum RelationshipToPatient : Swift.String, Swift.Codable {
 }
 public typealias ScheduleRetailAppointmentFailure = (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void
 public protocol RetailService {
-  @available(*, deprecated, message: "getRetailClinics(brandName:success:failure:) is replaced by getClinics(brandName:success:failure:)")
-  func getRetailClinics(brand: Swift.String, success: @escaping ([DexcareiOSSDK.Clinic]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getClinics(brand: Swift.String, success: @escaping ([DexcareiOSSDK.Clinic]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  func getTimeSlots(departmentName: Swift.String, allowedVisitType: DexcareiOSSDK.AllowedVisitType?, success: @escaping (DexcareiOSSDK.ClinicTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "`RetailService.uploadInsurance` has moved to `PaymentService.uploadInsuranceCard`")
-  func uploadInsuranceCard(frontImage: UIKit.UIImage, backImage: UIKit.UIImage, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.InsuranceCardFailedReason) -> Swift.Void)
+  func getTimeSlots(departmentName: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName?, success: @escaping (DexcareiOSSDK.ClinicTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
 }
 @frozen public enum VirtualFeedback {
@@ -85,6 +81,14 @@ public enum ScheduleRetailAppointmentFailedReason : Swift.Error, DexcareiOSSDK.F
   case failed(reason: DexcareiOSSDK.FailedReason)
   public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
+public struct WaitTime : Swift.Decodable, Swift.Equatable {
+  public var generatedAt: Foundation.Date
+  public var estimatedWaitTimeSeconds: Swift.Int
+  public var estimatedWaitTimeMessage: Swift.String?
+  public init(generatedAt: Foundation.Date, estimatedWaitTimeSeconds: Swift.Int, estimatedWaitTimeMessage: Swift.String?)
+  public init(from decoder: Swift.Decoder) throws
+  public static func == (a: DexcareiOSSDK.WaitTime, b: DexcareiOSSDK.WaitTime) -> Swift.Bool
+}
 public enum FailedReason : Swift.Error {
   case missingInformation(message: Swift.String)
   case badRequest
@@ -100,14 +104,6 @@ extension FailedReason : Foundation.LocalizedError {
 }
 public protocol FailedReasonType {
   func failedReason() -> DexcareiOSSDK.FailedReason?
-}
-@available(*, unavailable, message: "ScheduledVisitFailedReason will be removed in a future version. Please use `FailedReason`")
-public enum ScheduledVisitFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonType {
-  case unauthorized
-  case patientLinkNotFound
-  case unavailable
-  case failed(reason: DexcareiOSSDK.FailedReason)
-  public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
 public struct PatientDemographics : Swift.Codable, Swift.Equatable {
   public var name: DexcareiOSSDK.HumanName
@@ -179,15 +175,13 @@ extension PaymentHolderDeclaration : Swift.Codable {
 public struct VirtualVisitInformation {
   public var visitReason: Swift.String
   public var patientDeclaration: DexcareiOSSDK.PatientDeclaration
-  @available(*, deprecated, message: "currentState is no longer required when `practiceRegionId` is set. It has been marked as optional and will be removed in a future version.")
-  public var currentState: Swift.String?
   public var acceptedTerms: Swift.Bool
   public var userEmail: Swift.String
   public var contactPhoneNumber: Swift.String
   public var preTriageTags: [Swift.String]?
   public var actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?
   public var practiceRegionId: Swift.String?
-  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, currentState: Swift.String? = nil, acceptedTerms: Swift.Bool, userEmail: Swift.String, contactPhoneNumber: Swift.String, preTriageTags: [Swift.String]?, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?, practiceRegionId: Swift.String?)
+  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, acceptedTerms: Swift.Bool, userEmail: Swift.String, contactPhoneNumber: Swift.String, preTriageTags: [Swift.String]?, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?, practiceRegionId: Swift.String?)
 }
 extension VirtualVisitInformation : Swift.Equatable {
   public static func == (a: DexcareiOSSDK.VirtualVisitInformation, b: DexcareiOSSDK.VirtualVisitInformation) -> Swift.Bool
@@ -209,9 +203,9 @@ public struct Provider : Swift.Codable {
 public struct ProviderVisitType : Swift.Codable {
   public let visitTypeId: Swift.String
   public let name: Swift.String
-  public let shortName: Swift.String?
+  public let shortName: DexcareiOSSDK.VisitTypeShortName?
   public let description: Swift.String?
-  public init(visitTypeId: Swift.String, name: Swift.String, shortName: Swift.String?, description: Swift.String?)
+  public init(visitTypeId: Swift.String, name: Swift.String, shortName: DexcareiOSSDK.VisitTypeShortName?, description: Swift.String?)
   public init(from decoder: Swift.Decoder) throws
   public func encode(to encoder: Swift.Encoder) throws
 }
@@ -230,7 +224,8 @@ public struct CustomizationOptions : Swift.Equatable {
   public var customStrings: DexcareiOSSDK.CustomStrings?
   public var tytoCareConfig: DexcareiOSSDK.TytoCareConfig?
   public var virtualConfig: DexcareiOSSDK.VirtualConfig?
-  public init(customStrings: DexcareiOSSDK.CustomStrings?, tytoCareConfig: DexcareiOSSDK.TytoCareConfig? = nil, virtualConfig: DexcareiOSSDK.VirtualConfig? = nil)
+  public var validateEmails: Swift.Bool
+  public init(customStrings: DexcareiOSSDK.CustomStrings?, tytoCareConfig: DexcareiOSSDK.TytoCareConfig? = nil, virtualConfig: DexcareiOSSDK.VirtualConfig? = nil, validateEmails: Swift.Bool = true)
   public static func == (a: DexcareiOSSDK.CustomizationOptions, b: DexcareiOSSDK.CustomizationOptions) -> Swift.Bool
 }
 public struct CustomStrings : Swift.Equatable {
@@ -244,21 +239,13 @@ public struct CustomStrings : Swift.Equatable {
 }
 public typealias VisitCompletion = (DexcareiOSSDK.VisitCompletionReason) -> Swift.Void
 public protocol VirtualService {
-  @available(*, deprecated, message: "getRegions is deprecated. Use PracticeService.getVirtualPractice instead.")
-  func getRegions(brandName: Swift.String, success: @escaping ([DexcareiOSSDK.Region]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "getRegionAvailability is deprecated. Use PracticeService.getVirtualPracticeRegionAvailability instead.")
-  func getRegionAvailability(regionId: Swift.String, success: @escaping (DexcareiOSSDK.RegionAvailability) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "`VirtualService.getInsurancePayers` has moved to `PaymentService.getInsurancePayers`")
-  func getInsurancePayers(tenant: Swift.String, success: @escaping ([DexcareiOSSDK.InsurancePayer]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "`VirtualService.verifyCouponCode` has moved to `PaymentService.verifyCouponCode`")
-  func verifyCouponCode(couponCode: Swift.String, success: @escaping (Foundation.Decimal) -> Swift.Void, failure: @escaping (DexcareiOSSDK.CouponCodeFailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "Use startVirtualVisit by passing in an additional practiceId")
-  func startVirtualVisit(presentingViewController: UIKit.UIViewController, paymentMethod: DexcareiOSSDK.PaymentMethod, virtualVisitInformation: DexcareiOSSDK.VirtualVisitInformation, catchmentArea: DexcareiOSSDK.CatchmentArea, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
   func resumeVirtualVisit(visitId: Swift.String, presentingViewController: UIKit.UIViewController, dexCarePatient: DexcareiOSSDK.DexcarePatient, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping () -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
   func updatePushNotificationDeviceToken(token: Foundation.Data)
   func postFeedback(feedbacks: [DexcareiOSSDK.VirtualFeedback], success: @escaping () -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func cancelVirtualVisit(visitId: Swift.String, success: @escaping () -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
   func startVirtualVisit(presentingViewController: UIKit.UIViewController, paymentMethod: DexcareiOSSDK.PaymentMethod, virtualVisitInformation: DexcareiOSSDK.VirtualVisitInformation, catchmentArea: DexcareiOSSDK.CatchmentArea, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, practiceId: Swift.String, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
+  func setVirtualEventDelegate(delegate: DexcareiOSSDK.VirtualEventDelegate?)
+  func getEstimatedWaitTime(visitId: Swift.String, success: @escaping (DexcareiOSSDK.WaitTime) -> Swift.Void, failure: @escaping (DexcareiOSSDK.WaitTimeFailedReason) -> Swift.Void)
 }
 public enum VisitCompletionReason : Swift.String {
   case completed
@@ -278,45 +265,6 @@ public enum VisitCompletionReason : Swift.String {
   public var rawValue: Swift.String {
     get
   }
-}
-@available(*, deprecated, message: "Region is deprecated. You should use `VirtualPracticeRegion` with Practices instead")
-public struct Region : Swift.Codable, Swift.Equatable {
-  public let name: Swift.String
-  public let regionId: Swift.String
-  public let active: Swift.Bool
-  public let prices: DexcareiOSSDK.Region.Prices
-  public let availability: DexcareiOSSDK.Region.Availability
-  public init(name: Swift.String, regionId: Swift.String, active: Swift.Bool, prices: DexcareiOSSDK.Region.Prices, availability: DexcareiOSSDK.Region.Availability)
-  @available(*, deprecated, message: "Prices is deprecated. All future virtual properties should go through Practices.")
-  public struct Prices : Swift.Codable, Swift.Equatable {
-    public let visit: Foundation.Decimal
-    public init(visit: Foundation.Decimal)
-    public init(from decoder: Swift.Decoder) throws
-    public func encode(to encoder: Swift.Encoder) throws
-    public static func == (a: DexcareiOSSDK.Region.Prices, b: DexcareiOSSDK.Region.Prices) -> Swift.Bool
-  }
-  @available(*, deprecated, message: "Availability is deprecated. All future virtual properties should go through Practices.")
-  public struct Availability : Swift.Codable, Swift.Equatable {
-    public let busy: Swift.Bool?
-    public let busyMessage: Swift.String?
-    public let operatingHours: [DexcareiOSSDK.Region.Availability.OperatingHours]
-    public init(busy: Swift.Bool?, busyMessage: Swift.String?, operatingHours: [DexcareiOSSDK.Region.Availability.OperatingHours])
-    @available(*, deprecated, message: "OperatingHours is deprecated. All future virtual properties should go through Practices.")
-    public struct OperatingHours : Swift.Codable, Swift.Equatable {
-      public let start: Foundation.Date
-      public let end: Foundation.Date
-      public init(start: Foundation.Date, end: Foundation.Date)
-      public init(from decoder: Swift.Decoder) throws
-      public func encode(to encoder: Swift.Encoder) throws
-      public static func == (a: DexcareiOSSDK.Region.Availability.OperatingHours, b: DexcareiOSSDK.Region.Availability.OperatingHours) -> Swift.Bool
-    }
-    public init(from decoder: Swift.Decoder) throws
-    public func encode(to encoder: Swift.Encoder) throws
-    public static func == (a: DexcareiOSSDK.Region.Availability, b: DexcareiOSSDK.Region.Availability) -> Swift.Bool
-  }
-  public init(from decoder: Swift.Decoder) throws
-  public func encode(to encoder: Swift.Encoder) throws
-  public static func == (a: DexcareiOSSDK.Region, b: DexcareiOSSDK.Region) -> Swift.Bool
 }
 public struct RegionAvailability : Swift.Codable {
   public let available: Swift.Bool
@@ -340,7 +288,7 @@ public struct RegionAvailability : Swift.Codable {
 public protocol ProviderService {
   func getProvider(providerNationalId: Swift.String, success: @escaping (DexcareiOSSDK.Provider) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getProviderTimeslots(providerNationalId: Swift.String, visitTypeId: Swift.String, startDate: Foundation.Date?, endDate: Foundation.Date?, success: @escaping (DexcareiOSSDK.ProviderTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  func getMaxLookaheadDays(visitTypeShortName: Swift.String, ehrSystemName: Swift.String, success: @escaping (Swift.Int) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  func getMaxLookaheadDays(visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, ehrSystemName: Swift.String, success: @escaping (Swift.Int) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func scheduleProviderVisit(paymentMethod: DexcareiOSSDK.PaymentMethod, providerVisitInformation: DexcareiOSSDK.ProviderVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (DexcareiOSSDK.ScheduledProviderVisit) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleProviderAppointmentFailedReason) -> Swift.Void)
 }
 public struct HumanName : Swift.Codable, Swift.Equatable {
@@ -477,11 +425,7 @@ public struct DexcareConfiguration {
   public let environment: DexcareiOSSDK.Environment
   public let userAgent: Swift.String
   public let domain: Swift.String
-  @available(*, deprecated, message: "Deprecated: Please use `DexcareSDK.customizationOptions` instead.")
-  public let customStrings: DexcareiOSSDK.CustomStrings?
   public let logger: DexcareiOSSDK.DexcareSDKLogger?
-  @available(*, deprecated, message: "Init with custom strings is deprecated. Remove and add any customization through `DexcareSDK.customizationOptions` instead.")
-  public init(environment: DexcareiOSSDK.Environment, userAgent: Swift.String, domain: Swift.String, customStrings: DexcareiOSSDK.CustomStrings? = nil, logger: DexcareiOSSDK.DexcareSDKLogger? = nil)
   public init(environment: DexcareiOSSDK.Environment, userAgent: Swift.String, domain: Swift.String, logger: DexcareiOSSDK.DexcareSDKLogger? = nil)
 }
 public class DexcareSDK {
@@ -528,6 +472,41 @@ public enum InsuranceCardFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonT
   case failed(reason: DexcareiOSSDK.FailedReason)
   public func failedReason() -> DexcareiOSSDK.FailedReason?
 }
+public enum WaitTimeFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonType, Swift.Equatable {
+  case regionNotFound
+  case noOnCallProviders
+  case regionUnavailable
+  case internalServerError
+  case missingInformation(message: Swift.String)
+  case failed(reason: DexcareiOSSDK.FailedReason)
+  public func failedReason() -> DexcareiOSSDK.FailedReason?
+  public static func == (lhs: DexcareiOSSDK.WaitTimeFailedReason, rhs: DexcareiOSSDK.WaitTimeFailedReason) -> Swift.Bool
+}
+public protocol VirtualEventDelegate : AnyObject {
+  func onWaitingRoomLaunched()
+  func onWaitingRoomDisconnected()
+  func onWaitingRoomReconnecting()
+  func onWaitingRoomReconnected()
+  func onVirtualVisitDisconnected()
+  func onVirtualVisitReconnecting()
+  func onVirtualVisitReconnected()
+  func onVirtualVisitStarted()
+  func onVirtualVisitCompleted(reason: DexcareiOSSDK.VisitCompletionReason)
+  func onVirtualVisitCancelledByUser()
+  func onVirtualVisitDeclinedByProvider()
+  func onVirtualVisitError(error: DexcareiOSSDK.VirtualVisitEventError)
+  func onDevicePairInitiated()
+}
+public enum VirtualVisitEventError : Swift.Error, Swift.Equatable {
+  public static func == (lhs: DexcareiOSSDK.VirtualVisitEventError, rhs: DexcareiOSSDK.VirtualVisitEventError) -> Swift.Bool
+  case waitingRoomOpenTokError(Swift.Error)
+  case virtualVisitOpenTokError(Swift.Error)
+  case devicePairError(DexcareiOSSDK.DevicePairError)
+}
+public enum DevicePairError : Swift.Error, Swift.Equatable {
+  public static func == (lhs: DexcareiOSSDK.DevicePairError, rhs: DexcareiOSSDK.DevicePairError) -> Swift.Bool
+  case tytoCarePairFailed(DexcareiOSSDK.TytoCareFailedReason)
+}
 @_hasMissingDesignatedInitializers public class EmailValidator {
   public static let EMAIL_VALIDATION_REGEX: Swift.String
   public static func isValid(email: Swift.String) -> Swift.Bool
@@ -558,29 +537,25 @@ public struct Clinic : Swift.Equatable, Swift.Codable {
   public static func == (a: DexcareiOSSDK.Clinic, b: DexcareiOSSDK.Clinic) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
 }
-public enum VisitType : Swift.String, Swift.Codable, Swift.Equatable {
-  case illness
-  case wellness
-  case virtual
-  case followUp
-  case newPatient
-  case wellChild
-  case adultPhysical
-  case childPhysical
-  case newSymptoms
-  case unknown
-  public init(from decoder: Swift.Decoder) throws
+public struct VisitTypeShortName : Swift.RawRepresentable, Swift.Codable, Swift.Equatable {
   public typealias RawValue = Swift.String
-  public var rawValue: Swift.String {
-    get
-  }
-  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String
+  public static let illness: DexcareiOSSDK.VisitTypeShortName
+  public static let wellness: DexcareiOSSDK.VisitTypeShortName
+  public static let virtual: DexcareiOSSDK.VisitTypeShortName
+  public static let followUp: DexcareiOSSDK.VisitTypeShortName
+  public static let newPatient: DexcareiOSSDK.VisitTypeShortName
+  public static let wellChild: DexcareiOSSDK.VisitTypeShortName
+  public static let adultPhysical: DexcareiOSSDK.VisitTypeShortName
+  public static let childPhysical: DexcareiOSSDK.VisitTypeShortName
+  public static let newSymptoms: DexcareiOSSDK.VisitTypeShortName
+  public init(rawValue: DexcareiOSSDK.VisitTypeShortName.RawValue)
 }
 public struct AllowedVisitType : Swift.Equatable, Swift.Codable {
   public let visitTypeId: Swift.String
   public let name: Swift.String
-  public let shortName: DexcareiOSSDK.VisitType
-  public init(visitTypeId: Swift.String, name: Swift.String, shortName: DexcareiOSSDK.VisitType)
+  public let shortName: DexcareiOSSDK.VisitTypeShortName
+  public init(visitTypeId: Swift.String, name: Swift.String, shortName: DexcareiOSSDK.VisitTypeShortName)
   public init(from decoder: Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.AllowedVisitType, b: DexcareiOSSDK.AllowedVisitType) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
@@ -659,7 +634,6 @@ extension Gender : Swift.Codable {
 public struct TimeSlot : Swift.Equatable, Swift.Codable {
   public let slotId: Swift.String
   public let providerNationalId: Swift.String
-  @available(*, deprecated, message: "providerId is deprecated and will be removed in a future version. Please do not use this property")
   public let providerId: Swift.String
   public let departmentId: Swift.String
   public let departmentIdentifier: Swift.String
@@ -686,6 +660,20 @@ public struct InsurancePayer : Swift.Equatable, Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.InsurancePayer, b: DexcareiOSSDK.InsurancePayer) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
+}
+public enum TytoCareFailedReason : Swift.Error {
+  case permissionDenied(type: DexcareiOSSDK.TytoCareFailedReason.TytoCarePermissionType)
+  case underAge
+  case failed(error: Swift.Error)
+  public struct TytoCarePermissionType : Swift.OptionSet {
+    public let rawValue: Swift.UInt8
+    public init(rawValue: Swift.UInt8)
+    public static let location: DexcareiOSSDK.TytoCareFailedReason.TytoCarePermissionType
+    public static let wifi: DexcareiOSSDK.TytoCareFailedReason.TytoCarePermissionType
+    public typealias Element = DexcareiOSSDK.TytoCareFailedReason.TytoCarePermissionType
+    public typealias ArrayLiteralElement = DexcareiOSSDK.TytoCareFailedReason.TytoCarePermissionType
+    public typealias RawValue = Swift.UInt8
+  }
 }
 public struct ScheduledVisit : Swift.Equatable, Swift.Codable {
   public let id: Swift.String
@@ -806,6 +794,7 @@ extension Data {
 public protocol PracticeService {
   func getVirtualPractice(practiceId: Swift.String, success: @escaping (DexcareiOSSDK.VirtualPractice) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getVirtualPracticeRegionAvailability(practiceRegionId: Swift.String, success: @escaping (DexcareiOSSDK.RegionAvailability) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  func getEstimatedWaitTime(practiceRegionId: Swift.String, success: @escaping (DexcareiOSSDK.WaitTime) -> Swift.Void, failure: @escaping (DexcareiOSSDK.WaitTimeFailedReason) -> Swift.Void)
 }
 public struct Identifier : Swift.Equatable, Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
@@ -886,8 +875,6 @@ extension DexcareiOSSDK.PracticeCareMode : Swift.Hashable {}
 extension DexcareiOSSDK.PracticeCareMode : Swift.RawRepresentable {}
 extension DexcareiOSSDK.PatientDeclaration : Swift.Hashable {}
 extension DexcareiOSSDK.PatientDeclaration : Swift.RawRepresentable {}
-extension DexcareiOSSDK.VisitType : Swift.Hashable {}
-extension DexcareiOSSDK.VisitType : Swift.RawRepresentable {}
 extension DexcareiOSSDK.DexcareSDKLogLevel : Swift.Equatable {}
 extension DexcareiOSSDK.DexcareSDKLogLevel : Swift.Hashable {}
 extension DexcareiOSSDK.DexcareSDKLogLevel : Swift.RawRepresentable {}

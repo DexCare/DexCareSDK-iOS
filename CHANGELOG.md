@@ -1,15 +1,52 @@
 # Release Notes
-### 6.1.7
+## 7.0.0
 ### New
-- ZipCodeValidator (and the SDK as a result) now accepts 9-digit zip codes in addition to 5-digit zip codes. A hyphen is required for 9-digit zip codes.
-- ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX has been added. This is the Regex string used in the ZipCodeValidator.isValid class function.
+- Introduced a new `VirtualEventDelegate` protocol that can optionally be set on `VirtualService.setVirtualEventDelegate(delegate?)` to listen for various events while the patient is inside the waiting room/video conference.  Note that the delegate should primarily be used for logging purposes.
+- Added `PracticeService.getEstimatedWaitTime(practiceRegionId)` function to retrieve the estimated wait time of a practice region.
+- Added `VirtualService.getEstimatedWaitTime` function to retrieve the estimated wait time when you're in a visit waiting room. This was previously internal and was called and displayed on the waiting room view
+- Added `CustomizationOptions.validateEmails` that if set to **false** will skip any email validation the SDK uses. You can set the customization through the `DexcareSDK.customizationOption` property after initialization. **Defaults to TRUE** for backwards compatibility. Epic is still the final validation for emails and you should use this property in sync in how your Epic server validates email. This will skip **ALL** email validation (not including empty fields) - so it is up to you to validate any emails if this property is set to false. The email validation SDK uses can be found at `EmailValidator.EMAIL_VALIDATION_REGEX`.
+- `ZipCodeValidator` (and the SDK as a result) now accepts 9-digit zip codes in addition to 5-digit zip codes. A hyphen is **required** for 9-digit zips.
+- `ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX` has been added. This is the Regex string used in the `ZipCodeValidator.isValid` class function.
+- When booking for retail, virtual, or provider, the SDK now checks for valid zip codes and returns error if it does not pass validation
 
-### 6.1.6
+### Breaking
+- `VisitType`
+  - `VisitType` has been renamed to `VisitTypeShortName` and switched from an **enum** to a **struct** that inherits from `RawRepresentable`.
+  - This is to allow future `VisitType`s to be created, without the need of new SDK's.
+  - Old enum values have been switched to static variables: ex: `public static let illness = VisitTypeShortName(rawValue: "Illness")`
+  - `ProviderService.getMaxLookaheadDays` now accepts a `VisitTypeShortName` instead of an `AllowedVisitType`, (no functional change)
+  - `RetailService.getTimeSlots` method's `allowedVisitType` parameter changed to `visitTypeShortName: VisitTypeShortName`.  This means that you can retrieve time slots for any visit type you want to support, and the SDK no longer restricts to the few that were defined in the old `VisitType` enum.
+  - `ProviderVisitType.shortName` type changed to `VisitTypeShortName` from String (no functional change).
+
+- Removed the following deprecated models/methods/properties:
+  - Region
+  - Region.Prices
+  - Region.Availability
+  - VirtualService.getRegions
+  - RetailService.getRetailClinics
+  - RetailService.uploadInsurance
+  - VirtualSerivce.getRegionAvailability
+  - VirtualService.getInsurancePayers
+  - VirtualService.verifyCouponCode
+  - VirtualService.startVirtualVisit methods without practiceId argument
+  - VirtualVisitInformation.currentState
+  - DexcareConfiguration.customStrings
+  - ScheduledVisitFailedReason
+
+### Fixed
+- When posting feedback, VirtualFeedback.rating case now validates the rating option to be between 0-10.
+
+### Other
+- Updated internal endpoint for wait time.
+- Updated OpenTok dependency to 2.20.0 - this update should clean up the hundreds of project warnings
+- All non-network-related errors returned by the SDK are now logged for debugging purposes.
+
+## 6.1.6
 
 - Adjusts TytoCare setup views for smaller devices
 - When opening Chat, the keyboard no longer automatically opens.
 
-### 6.1.5
+## 6.1.5
 
 - New functionality was not available publicly.
 - Fixed a crash on launch
@@ -27,13 +64,12 @@
 ### Other
 - Removed some public classes and functions that should be internal only
 - Updated MessageKit to 3.6.0
-- Updated internal endpoint for wait time.
 
-### 6.1.1
+## 6.1.1
 
 - Fixes crash when going into waiting room
 
-### 6.1.0
+## 6.1.0
 ### New
 - Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device.  For more information about TytoCare, visit https://www.tytocare.com/.
 - New permissions are also required in order for the TytoCare integration to work:
@@ -61,7 +97,7 @@
   - `VirtualFeedback`
   - `PaymentHolderDeclaration`
 
-### 6.0.0
+## 6.0.0
 
 ### Xcode 12
 - iOS SDK is now using an `.xcframework` to distribute the SDK. Xcode 11 is no longer supported. You must upgrade to Xcode 12.0+ in order to use v6.0
