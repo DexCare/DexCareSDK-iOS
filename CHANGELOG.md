@@ -1,4 +1,24 @@
 # Release Notes
+## 7.1.0
+### New
+- Introduced a new `VideoCallStatistics` structure that can return network statistics about a video visit. Statistics are automatically gathered during a visit by the SDK, and can be queried by you after a visit is complete.
+-  `VideoCallStatistics` includes information about packet loss, bandwidth speeds, and bytes send/received. This should be used for your debugging or logging purposes.
+- These statistics can be retrieve by calling `VirtualService.getVideoCallStatistics()` after a video visit has started.
+- Added a new `VirtualService.getVirtualVisitStatus(visitId:)` that will return a `VisitStatus` enum. A helper function `isActive` is also added to `VisitStatus` to indicate whether or not you can resume with that visitId or not.
+- Added a `[PatientQuestion]` array to the `RetailVisitInformation` and `ProviderVisitInformation` object. This can be used during retail and provider visits to pass up information to be saved.
+
+**Important**
+- When booking for retail, virtual, or provider, the visitDetails.`contactPhoneNumber` **will be the only** valid phone number needed. In previous versions, on someone else visits, the demographic.homePhone was required to be valid. Going forward, the SDK will only use `contactPhoneNumber`. If the phone number is different between the demographic.homePhone and the contactPhoneNumber then in Virtual Visits, the PRR will see the difference and can adjust the EPIC record if needed.
+
+It is recommended that on intake, you provide a Phone Number field that can be prepopulated with whichever phone you wish. That phone number should be saved to the visitDetails.contactPhoneNumber on booking.
+
+### Fixed
+- When a network issue occurs during a video visit or in the waiting room, the SDK now extends it's retry time to 2 minutes. During this time a reconnecting spinner is shown to the user, which includes a cancel option. Tapping cancel can allow the user to leave the video visit, but does not mark the visit as cancelled and is still active. Users can rejoin the video visit.
+
+### Other
+- Updated internal endpoint for `ProviderService.getProviderTimeslots`
+- When starting a virtual visit, internally the SDK will send a notification to the server to indicate that the device has enabled their video and microphone.
+
 ## 7.0.0
 ### New
 - Introduced a new `VirtualEventDelegate` protocol that can optionally be set on `VirtualService.setVirtualEventDelegate(delegate?)` to listen for various events while the patient is inside the waiting room/video conference.  Note that the delegate should primarily be used for logging purposes.

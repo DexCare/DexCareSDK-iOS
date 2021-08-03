@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'DexcareSDK'
-  s.version      = '7.0.0'
+  s.version      = '7.1.0'
   s.platform = :ios, '12.0'
   s.swift_version = '5.0'
   s.summary      = 'DexcareSDK libary for express care services'
