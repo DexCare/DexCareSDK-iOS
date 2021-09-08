@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
-// swift-module-flags: -target arm64-apple-ios14.1 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DexcareiOSSDK
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DexcareiOSSDK
 import AVFoundation
 import AVKit
 import SystemConfiguration.CaptiveNetwork
@@ -24,8 +24,7 @@ public struct RetailVisitInformation {
   public let userEmail: Swift.String
   public let contactPhoneNumber: Swift.String
   public var actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?
-  public var patientQuestions: [DexcareiOSSDK.PatientQuestion]?
-  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, userEmail: Swift.String, contactPhoneNumber: Swift.String, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?, patientQuestions: [DexcareiOSSDK.PatientQuestion]? = nil)
+  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, userEmail: Swift.String, contactPhoneNumber: Swift.String, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?)
 }
 public enum RelationshipToPatient : Swift.String, Swift.Codable {
   case mother
@@ -105,19 +104,6 @@ extension FailedReason : Foundation.LocalizedError {
 }
 public protocol FailedReasonType {
   func failedReason() -> DexcareiOSSDK.FailedReason?
-}
-public enum VisitStatus : Swift.String, Swift.Decodable {
-  case requested
-  case waitingroom
-  case invisit
-  case done
-  case cancelled
-  case staffdeclined
-  public typealias RawValue = Swift.String
-  public init?(rawValue: Swift.String)
-  public var rawValue: Swift.String {
-    get
-  }
 }
 public struct PatientDemographics : Swift.Codable, Swift.Equatable {
   public var name: DexcareiOSSDK.HumanName
@@ -248,8 +234,7 @@ public struct CustomStrings : Swift.Equatable {
   public let cancelThisVisitActionTitle: Swift.String?
   public let abortAppointmentAlertTitle: Swift.String?
   public let permissionDeniedAlertTitle: Swift.String?
-  public let cancelReconnectAlertMessage: Swift.String?
-  public init(waitingRoomTitle: Swift.String? = nil, waitingRoomCancelButtonTitle: Swift.String? = nil, cancelThisVisitActionTitle: Swift.String? = nil, abortAppointmentAlertTitle: Swift.String? = nil, permissionDeniedAlertTitle: Swift.String? = nil, cancelReconnectAlertMessage: Swift.String? = nil)
+  public init(waitingRoomTitle: Swift.String? = nil, waitingRoomCancelButtonTitle: Swift.String? = nil, cancelThisVisitActionTitle: Swift.String? = nil, abortAppointmentAlertTitle: Swift.String? = nil, permissionDeniedAlertTitle: Swift.String? = nil)
   public static func == (a: DexcareiOSSDK.CustomStrings, b: DexcareiOSSDK.CustomStrings) -> Swift.Bool
 }
 public typealias VisitCompletion = (DexcareiOSSDK.VisitCompletionReason) -> Swift.Void
@@ -261,8 +246,6 @@ public protocol VirtualService {
   func startVirtualVisit(presentingViewController: UIKit.UIViewController, paymentMethod: DexcareiOSSDK.PaymentMethod, virtualVisitInformation: DexcareiOSSDK.VirtualVisitInformation, catchmentArea: DexcareiOSSDK.CatchmentArea, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, practiceId: Swift.String, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
   func setVirtualEventDelegate(delegate: DexcareiOSSDK.VirtualEventDelegate?)
   func getEstimatedWaitTime(visitId: Swift.String, success: @escaping (DexcareiOSSDK.WaitTime) -> Swift.Void, failure: @escaping (DexcareiOSSDK.WaitTimeFailedReason) -> Swift.Void)
-  func getVideoCallStatistics() -> DexcareiOSSDK.VideoCallStatistics?
-  func getVirtualVisitStatus(visitId: Swift.String, success: @escaping (DexcareiOSSDK.VisitStatus) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
 }
 public enum VisitCompletionReason : Swift.String {
   case completed
@@ -628,13 +611,6 @@ public struct DexcarePatient : Swift.Codable, Swift.Equatable {
   public func encode(to encoder: Swift.Encoder) throws
   public static func == (a: DexcareiOSSDK.DexcarePatient, b: DexcareiOSSDK.DexcarePatient) -> Swift.Bool
 }
-public struct PatientQuestion : Swift.Codable, Swift.Equatable {
-  public var question: Swift.String
-  public var answer: Swift.String
-  public init(from decoder: Swift.Decoder) throws
-  public func encode(to encoder: Swift.Encoder) throws
-  public static func == (a: DexcareiOSSDK.PatientQuestion, b: DexcareiOSSDK.PatientQuestion) -> Swift.Bool
-}
 @frozen public enum Gender : Swift.String {
   case male
   case female
@@ -869,8 +845,7 @@ public struct ProviderVisitInformation : Swift.Equatable, Swift.Codable {
   public var visitTypeId: Swift.String
   public var ehrSystemName: Swift.String
   public let actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?
-  public var patientQuestions: [DexcareiOSSDK.PatientQuestion]?
-  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, userEmail: Swift.String, contactPhoneNumber: Swift.String, nationalProviderId: Swift.String, visitTypeId: Swift.String, ehrSystemName: Swift.String, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?, patientQuestions: [DexcareiOSSDK.PatientQuestion]? = nil)
+  public init(visitReason: Swift.String, patientDeclaration: DexcareiOSSDK.PatientDeclaration, userEmail: Swift.String, contactPhoneNumber: Swift.String, nationalProviderId: Swift.String, visitTypeId: Swift.String, ehrSystemName: Swift.String, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?)
   public init(from decoder: Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.ProviderVisitInformation, b: DexcareiOSSDK.ProviderVisitInformation) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
@@ -883,58 +858,9 @@ public struct ScheduleDay : Swift.Equatable, Swift.Codable {
   public static func == (a: DexcareiOSSDK.ScheduleDay, b: DexcareiOSSDK.ScheduleDay) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
 }
-public struct VideoCallStatistics : Swift.Encodable {
-  public var subscriberVideoStats: DexcareiOSSDK.SubscriberNetworkStats
-  public var subscriberAudioStats: DexcareiOSSDK.SubscriberNetworkStats
-  public var publisherVideoStats: [DexcareiOSSDK.PublisherNetworkStats]
-  public var publisherAudioStats: [DexcareiOSSDK.PublisherNetworkStats]
-  public var publisherRTCStats: [DexcareiOSSDK.PublisherRtcStats]
-  public var subscriberRTCStats: Swift.String
-  public init()
-  public func encode(to encoder: Swift.Encoder) throws
-}
-public struct PublisherRtcStats : Swift.Encodable {
-  public var connectionId: Swift.String
-  public var jsonArrayOfReports: Swift.String
-  public init()
-  public init(connectionId: Swift.String, jsonArrayOfReports: Swift.String)
-  public func encode(to encoder: Swift.Encoder) throws
-}
-public struct SubscriberNetworkStats : Swift.Encodable {
-  public var packetsReceived: Swift.UInt64
-  public var packetsLost: Swift.UInt64
-  public var bytesReceived: Swift.UInt64
-  public var bandwidthBitsPerSecond: Swift.UInt64
-  public var packetLossRatio: Swift.Double
-  public var lastUpdated: Foundation.Date {
-    get
-  }
-  public init()
-  public func encode(to encoder: Swift.Encoder) throws
-}
-public struct PublisherNetworkStats : Swift.Encodable {
-  public var subscriberId: Swift.String
-  public var connectionId: Swift.String
-  public var packetsSent: Swift.Int64
-  public var packetsLost: Swift.Int64
-  public var bytesSent: Swift.Int64
-  public var bandwidthBitsPerSecond: Swift.Int64
-  public var packetLossRatio: Swift.Double
-  public var lastUpdated: Foundation.Date {
-    get
-  }
-  public var startDateTime: Foundation.Date {
-    get
-  }
-  public init()
-  public func encode(to encoder: Swift.Encoder) throws
-}
 extension DexcareiOSSDK.RelationshipToPatient : Swift.Equatable {}
 extension DexcareiOSSDK.RelationshipToPatient : Swift.Hashable {}
 extension DexcareiOSSDK.RelationshipToPatient : Swift.RawRepresentable {}
-extension DexcareiOSSDK.VisitStatus : Swift.Equatable {}
-extension DexcareiOSSDK.VisitStatus : Swift.Hashable {}
-extension DexcareiOSSDK.VisitStatus : Swift.RawRepresentable {}
 extension DexcareiOSSDK.PaymentHolderDeclaration : Swift.Equatable {}
 extension DexcareiOSSDK.PaymentHolderDeclaration : Swift.Hashable {}
 extension DexcareiOSSDK.PaymentHolderDeclaration : Swift.RawRepresentable {}
