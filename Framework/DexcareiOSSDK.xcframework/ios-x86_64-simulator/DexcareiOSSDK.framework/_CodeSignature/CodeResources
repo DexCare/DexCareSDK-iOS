@@ -6,15 +6,15 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		sw51DaPfKFP07XCrJ9tzWqMKesU=
+		dnw5XFQnYxC0bMrLavr83iJP124=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
-		AovJgWTzcsmvl97ePHZThBmCfj0=
+		B2RaT6E1zeueOPwrMEbi9hjo1g8=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/GIL-eq-BzS-view-ldn-Db-Gqf.nib</key>
 		<data>
-		6ooxuapW9g3G1N0TPrYSUmjRVTg=
+		Ra4xixDhSNpnPa9uv/vwjWbXeYQ=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
 		<data>
@@ -22,19 +22,19 @@
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/VisitViewController.nib</key>
 		<data>
-		kBKtgRu9wz75KxBKDLvh5VpSBsk=
+		fBfGwoG/ymaVyvKMmMl5cDYgqK4=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/WaitingRoomViewController.nib</key>
 		<data>
-		JnajiL4F0Rx7w+l0ju/2g68Lohk=
+		oC0o+Pk6/fOEUH6oOyQNud6LEkY=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/bkY-Bk-jEC-view-FeP-YF-R2K.nib</key>
 		<data>
-		t1uhx15JvVvJ4b69ay2YXpBwWQw=
+		4v6oUtUQEBajS5wSWMbis06ipJk=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
 		<data>
-		k2O7aiLzkGq0LZZ4iGjo9Fm3sv8=
+		UPXZOO0zfd/90lDbGii/ecnUPrE=
 		</data>
 		<key>Headers/DexcareSDK.h</key>
 		<data>
@@ -42,11 +42,11 @@
 		</data>
 		<key>Headers/DexcareiOSSDK-Swift.h</key>
 		<data>
-		DXg9rr66tK43c3B29WkVharYTOs=
+		ZSelaJP5zpgGdwVjdmNZCn0wNMg=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		tl7o828FMzU7vnTEu7bHl1Oi5dw=
+		laVCSnBdZHjCP9neAOFxrnqmbJw=
 		</data>
 		<key>Localizable.strings</key>
 		<data>
@@ -54,27 +54,27 @@
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		DWllyrtG/cLXdsUBawMfmeicGZ0=
+		g9it6v6ceE1aaeRJVF5mR8pKKhE=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		AI/Nuha5s6N95fQ0wndfbWmRxzY=
+		Bz5G68zUtQqZasP1h0WMAN1gGa4=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Oj9lhxhchX+qNIlFA9SfGu4LcMw=
+		L8auAa6q4NpDqmW5VB9qk/uUCc4=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftdoc</key>
 		<data>
-		DWllyrtG/cLXdsUBawMfmeicGZ0=
+		g9it6v6ceE1aaeRJVF5mR8pKKhE=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftinterface</key>
 		<data>
-		AI/Nuha5s6N95fQ0wndfbWmRxzY=
+		Bz5G68zUtQqZasP1h0WMAN1gGa4=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		Oj9lhxhchX+qNIlFA9SfGu4LcMw=
+		L8auAa6q4NpDqmW5VB9qk/uUCc4=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -82,51 +82,51 @@
 		</data>
 		<key>TytoCare.storyboardc/1b6-iZ-Qtn-view-Mqh-Pt-x7N.nib</key>
 		<data>
-		2aty8wfO0uGVpqaygFujZ2wRrfM=
+		PQwFYott8AB92cuZWNbw4UaOPSc=
 		</data>
 		<key>TytoCare.storyboardc/Enc-w8-e5o-view-GKY-9J-HJh.nib</key>
 		<data>
-		SJYFePJR9us/M+W2KlKIe8Bmd6M=
+		Kj/ptE/ol95PD1juqbWXPPVNtMg=
 		</data>
 		<key>TytoCare.storyboardc/F4k-f1-Afq-view-HNg-77-cvX.nib</key>
 		<data>
-		7XN6QKtR2Eo36fkxY7vMj/VbZhk=
+		PWH3ytjAUa6RJUQFhYQeOZQAmd0=
 		</data>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
 		<data>
-		LWLTgixFqsTzDLsiUB1OHbtvt6E=
+		U3fm7VhI1seF2GkqQphNROS0QQ0=
 		</data>
 		<key>TytoCare.storyboardc/Info.plist</key>
 		<data>
-		LYpo7SDe8S+qXro2AhLrtywsx7c=
+		JhdIisfRvNay48zcOc809m6zTFw=
 		</data>
 		<key>TytoCare.storyboardc/Lcv-pu-2Fv-view-1xW-MX-BAq.nib</key>
 		<data>
-		bZaYrukEdU+AJhSknCNCWU2AtNc=
+		L2wPbSdmz72eDqYisKpmUx4MxSE=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareMissingPrivacyViewController.nib</key>
 		<data>
-		RUe+3Fgobih7rbwWe7TRglbSTFA=
+		lCTA/A/V8rL7z+CK646GiRblqhM=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareQRCodeViewController.nib</key>
 		<data>
-		lHdZUt3uqpUzNgqySPUN69iyTmk=
+		8fkbHAvlAcXWiK4SmDnzYhnPQRU=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareSetupViewController.nib</key>
 		<data>
-		eoD1fsv7+XwCbZ1LgQJ923RcxX8=
+		ltsFxECttM7s3kIUfb0bb7BHtY8=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareWifiNameViewController.nib</key>
 		<data>
-		3cp9FzA/+RP/KpsWYIULCiGupqk=
+		G0Nivy8uIw8D8gipP0I2ondcn+k=
 		</data>
 		<key>TytoCare.storyboardc/TytoCareWifiPasswordViewController.nib</key>
 		<data>
-		d1ClsVhELzm9u8xDRLSPSDnZ3P4=
+		dQuspdzsTIZa2B4Q6h+6+ARf5Z0=
 		</data>
 		<key>VisitReconnectionHudView.nib</key>
 		<data>
-		svdj64cKo1BixUelk9lDubNNFgM=
+		bm9f9S8aOTQPEF4yQfQD2z3pl7Y=
 		</data>
 		<key>waitingRoom.mp4</key>
 		<data>
@@ -139,21 +139,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			UfmOyNwoxmfFv3i0L4r+vu3ceZ9EDarMPcV2770JwlU=
+			AyWbLE/aaIa2rqzy6TQCi7e6isvtq1dj6in7TYvTCHk=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			uEKR7UqMqRPoPd2XP/dp/4+BWVmlPxHdHCO++Vlm8J8=
+			OlPctr1bmSBtp9wuoQtgFWqY2LVG3UmbY4Mgt9c0Wqc=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/GIL-eq-BzS-view-ldn-Db-Gqf.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GW3Kb+oy7LJ7y5l/HNor0JNmKtGfVqPM4a8YsLNMG2M=
+			eEnInIVhvoIWXy/g8f9y9vf7fE044iCKgnUD3wQ8uUc=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
@@ -167,28 +167,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			2c2o5pdJkOzaYOJOSbMArb0Ed2E1Ny97q3S6GxL2moA=
+			WrKdvXgr2bqSpwkDVPk05J5mjEc9dhIbrfGB7ikzuVY=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/WaitingRoomViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ch2UOo7JpONLrs0f+6eFq6tFIymOR+nVTYCByHAZDxQ=
+			LgEo7Zv/7x8YizxLxWagiVi5DjbLSoV0DqytpBlJcIY=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/bkY-Bk-jEC-view-FeP-YF-R2K.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vHWusmMsXbqWP2SVEllSfyg100mjLYAN2mgbsyxyUbY=
+			o8xjv7P4Q9AwBA5p46WvCHKyGULZkl5uOAXWPdFI/kM=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hfUC8VzItq7px3GQe0AeQ2cpXjK31bfywZLtokWF1oU=
+			fblopUtBqSY0a/ccMt0TWkXqnLlUtuuBXTUqDJcqm+Q=
 			</data>
 		</dict>
 		<key>Headers/DexcareSDK.h</key>
@@ -202,7 +202,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			rRyUZ6mdWF9cpzajiqpyJuMjqiESlMY4XGrJR3r6Fig=
+			k8eTuGq9JjoOX1OQuadq2tSUvYsPFhE9fhwLbmWA5+A=
 			</data>
 		</dict>
 		<key>Localizable.strings</key>
@@ -216,42 +216,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			XQkiIu5Q8YmgbJ7oetTfmiBFh3oh9I7+zcQBQyE263A=
+			iTevqZzC3t2AateYSOnQN3jYXKAre17AfNuhsGDnR54=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WIgrbVpjhZHN+2C7vcVM0rCfWxCyC3ILYxbgDyfUcNU=
+			SiFSxDvYEWQpQ0aGzepveLkUmvefOwtChjd+1X4sDBo=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Bj5F3bCxXke4uZ+VYeJmN52Nb4YTNrRDzUL4LcC2IUA=
+			DvowlJqnDXkR9GquCeeu7JMLFZ8KMt3e515IDmNMp9s=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XQkiIu5Q8YmgbJ7oetTfmiBFh3oh9I7+zcQBQyE263A=
+			iTevqZzC3t2AateYSOnQN3jYXKAre17AfNuhsGDnR54=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			WIgrbVpjhZHN+2C7vcVM0rCfWxCyC3ILYxbgDyfUcNU=
+			SiFSxDvYEWQpQ0aGzepveLkUmvefOwtChjd+1X4sDBo=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Bj5F3bCxXke4uZ+VYeJmN52Nb4YTNrRDzUL4LcC2IUA=
+			DvowlJqnDXkR9GquCeeu7JMLFZ8KMt3e515IDmNMp9s=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -265,84 +265,84 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			iAl5ZNedpwXd1Takij12//D0Vxz6/5j9/RMbUwhTc7g=
+			wiur65XNxietcJ3wwF8QH0tBKelci4tPKHDATnBk0Yo=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Enc-w8-e5o-view-GKY-9J-HJh.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gTEvZpaF2snZ0mpvhitUI4iD5K9HrQzRU7hkeFoCMQI=
+			hHyf6ZhBBfeRN5EeJdZl+PWgTblPn8+F55uIZVK53IM=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/F4k-f1-Afq-view-HNg-77-cvX.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			onDlrj8A/MSyosFvfFovV8knYr6qdKf3anuKnxEYIdI=
+			n7WcDn1DTq3hK3XF9yEKwJ7u/vHInBsreoyrKNnQ2Qk=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			4bxM6YDudSXfcpbtt7T1JqlgnlVeLzSSnTpUxxmU3Q4=
+			PT2ztS0E4kpp1E4jT2kByRvHsZVzgs9UbL1tpC3ch+E=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			TdvOEP+XmW3SIRxBgJJGBRyHVYHrInaHeRm+kaGWNBQ=
+			Tv8wBidSBBmBA3UDYVk5QxkA+RbhsliFklbuScCSikA=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/Lcv-pu-2Fv-view-1xW-MX-BAq.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			gTOiMlngyzi7Gx5mfU1OrqdM9kmaBFP9DNcnyLAZhVQ=
+			tm8nmvgEVvP12b0GkVjgl6etII+QETUjF434LyYsCsM=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareMissingPrivacyViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yy15JVTG8h1MqA8pphKAQ7NAVo0YxFA6unQAwnjDjy8=
+			4oYAdR9AZDsGRaV3cCrIh4QIEvseoyXzO1teZcodwZA=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareQRCodeViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3cO3+tVkmKjhFghGEwmOs2/cvb6mEH1OWnEjVddd33Q=
+			8VqeI3diEuGqj0vNOB8FppVFNVlEq4Egj18C3WOQE1c=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareSetupViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			oBszO/eZk7SYktnoLAJjWw/i9Cy2B6MJTrmPmtFAGPM=
+			0Q7cSny8oNrjrfS/YHESwgaMH7j+KbAJeEzpH2zGrRc=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareWifiNameViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			frK1m/0oLNLTffZd9v3+ybZu5UrLdvgHtdVyh/diJZo=
+			PZkuJz4bLxtIfPDwJVs6IGOUGCKRsVpaS9AyfLCks2A=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/TytoCareWifiPasswordViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nGNpRb4hQ6GFgovTJZ8WmXNo+hDBj7PgEVtL5PgzLDA=
+			mSJ1EeBNIlmYIuM4x4zzXDhA9gaHRiHE1M6EuH5P4AE=
 			</data>
 		</dict>
 		<key>VisitReconnectionHudView.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			nYAGD5T3WI1lUdHH9WAOV41ncCto8DElbwDJQbWp4U0=
+			TYzWAcd9nw4eAyyGeB5PpHtRxbajLoJjJYLInLtCTMM=
 			</data>
 		</dict>
 		<key>waitingRoom.mp4</key>

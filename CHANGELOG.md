@@ -1,4 +1,16 @@
 # Release Notes
+## 7.2.0
+### New
+- Adds a `PatientService.deletePatientAccount` to start the process of deleting a DexCare Patient Account.
+
+- Upon signing in to the SDK, some validation configs are pulled down from the server.  This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment.  This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
+- A new `EmailValidator.EMAIL_REGEX_FROM_CONFIG` is available to get the latest email regex the SDK will use. This will default to `EmailValidator.EMAIL_VALIDATION_REGEX`.
+
+### Fixed
+- Adjusts the QR Code that is displayed for TytoCare setup when it sometimes gets cut off - DC-6766
+### Other
+- Updated OpenTok dependency to 2.21.2
+
 ## 7.1.1
 ### Fixed
 - Fixes a crash that happens on iOS version < 14.0. Minimum iOS version is now iOS 13+

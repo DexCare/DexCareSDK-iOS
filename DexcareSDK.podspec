@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'DexcareSDK'
-  s.version      = '7.1.1'
+  s.version      = '7.2.0'
   s.platform = :ios, '13.0'
   s.swift_version = '5.0'
   s.summary      = 'DexcareSDK libary for express care services'
@@ -22,7 +22,7 @@ Pod::Spec.new do |s|
   s.dependency 'MBProgressHUD', '~> 1.2.0'
   s.dependency 'MessageKit', '3.6.1'
   s.dependency 'PromiseKit/CorePromise', '~>6.13.1'
-  s.dependency 'OpenTok', '2.20.0'
+  s.dependency 'OpenTok', '2.21.2'
 
   ## ---------------------------------------------------------------------------
 
