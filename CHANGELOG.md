@@ -1,4 +1,12 @@
 # Release Notes
+## 7.2.1
+### Other
+- Updated OpenTok dependency to 2.22.0
+- Updated MessageKit dependency to 3.7.0
+
+## Notes
+The next major version will support Swift Concurrency. 
+
 ## 7.2.0
 ### New
 - Adds a `PatientService.deletePatientAccount` to start the process of deleting a DexCare Patient Account.
