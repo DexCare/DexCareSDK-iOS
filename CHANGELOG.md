@@ -1,21 +1,70 @@
 # Release Notes
-## 7.2.1
-### Other
-- Updated OpenTok dependency to 2.22.0
-- Updated MessageKit dependency to 3.7.0
+## 8.0.0
+### New
+- 2 new `VirtualService.createVirtualVisit` methods have been added.
+  - Both take in the new `VirtualVisitDetails`
+  - One will use the existing `DexcarePatient`
+  - One will use the new `EhrPatient`
+- `VirtualVisitDetails` replaces the deprecated `VirtualVisitInformation`. Please see documentation for more information on the properties.
+- Added `VirtualService.getWaitTimeAvailability` to fetch the new `WaitTimeAvailability` array. See documentation for more ways to filter the results.
+- Added `VirtualService.getAssignmentQualifiers` to fetch the array of `VirtualVisitAssignmentQualifier` to use in `getWaitTimeAvailability` or create Visit
+- Added `VirtualService.getModalities` to fetch the array of `VirtualVisitModality` to use in `getWaitTimeAvailability` or create Visit
+- Added `VirtualVisitFailedReason.visitTypeNotSupported` - returned when you try and call `VirtualService.resumeVirtualVisit` with a non-virtual visit type.
+- Added `VirtualPracticeRegion.pedatricsAgeRange` to indicate the age of patients that pediatric providers can see. 
 
-## Notes
-The next major version will support Swift Concurrency. 
+- Upon signing in to the SDK, some validation configs are pulled down from the server.  This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment.  This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
+- A new `EmailValidator.EMAIL_REGEX_FROM_CONFIG` is available to get the latest email regex the SDK will use. This will default to `EmailValidator.EMAIL_VALIDATION_REGEX`.
+- A new `DexcareSDK.getStatusPage` is available to asynchronously grab the current status of the DexCare Platform. You can use this method to check for any incidents or scheduled maintenances on our infrastructure.
+- `VisitStatus` has been switched from an **enum** to a **struct** that inherits from `RawRepresentable`. 
+- An optional `VirtualVisitDetails.initialStatus` property has been added to support setting an initial Visit Status on a virtual visit. 
+
+### Phone Visits
+- 8.0 supports the ability to schedule a phone visit. Similar to virtual visits, except the provider will end up phoning instead of using the virtual video platform
+- On `VirtualService.createVirtualVisit` simply set the `VirtualVisitDetails.visitTypeName = "phone"`
+- **IMPORTANT The SDK will return in the completion event with `VisitCompletionReason.phoneVisit` after a successful creation or a resume** It is up to you to check for that result and handle appropriately.
+
+### Swift Concurrency
+Included in 8.0 is support for [Swift Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html) on all public functions. Both concurrency and closure-based functions will be supported. Internally, the SDK has moved to Concurrency for all internal calls and therefore **we have removed PromiseKit as a required Dependency**. 
+
+For more examples of how you can call the new functions, please look at the v8 migration guide.
+
+### Fixes
+- `VisitStatus.isActive` function is now a proper public function (DC-6006)
+- `PatientDemographics.birthDate` is now validated for future dates (DC-5904)
+- NavigationBar on Waiting Room sometimes would not show and be transparent on iOS15 (DC-8901)
+
+### Deprecations
+- `ProviderService.getProviderTimeslots` passing in `visitTypeId` is deprecated in favour of `ProviderService.getProviderTimeslots` and passing in a `VisitTypeShortName` instead
+
+### Removals
+- `VirtualSerivce.startVirtualVisit` - use the new `VirtualSerivce.createVirtualVisit` passing in the new `VirtualVisitDetails`
+- `VirtualVisitInformation` - use `VirtualVisitDetails` with the new `VirtualSerivce.createVirtualVisit`
+- `PracticeService.getVirtualPracticeRegionAvailability` - use the new `VirtualService.getWaitTimeAvailability`
+- `PracticeService.getEstimatedWaitTime` - use the new `VirtualService.getWaitTimeAvailability`
+- `RegionAvailability` - use the new `WaitTimeAvailability` returning from `VirtualService.getWaitTimeAvailability`
+- `PatientService.createPatientWithMyChart` has been removed and can no longer be called.
+- Removed `VirtualVisitFailedReason.deprecated`
+- `RetailService.getClinics` has been renamed to `RetailService.getRetailDepartments` which in turn return `RetailDepartments` from the previous `Clinics`
+- `ClinicTimeslots` have been renamed to `RetailAppointmentTimeslots` 
+- `ScheduleVisit.clinic` has been renamed to `ScheduleVisit.retailDepartment`
+
+### Other
+- Updated internal endpoint for `VirtualService.getEstimatedWaitTime`
+- Updated internal endpoint for `VirtualService.getVirtualVisitStatus`
+- Updated internal endpoint for `VirtualService.cancelVirtualVisit`
+- Updated internal endpoint for `PracticeService.getVirtualPractice`
+- Updated OpenTok dependency to 2.22.3
+- Updated MessageKit dependency to 3.8.0
 
 ## 7.2.0
 ### New
 - Adds a `PatientService.deletePatientAccount` to start the process of deleting a DexCare Patient Account.
-
 - Upon signing in to the SDK, some validation configs are pulled down from the server.  This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment.  This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
 - A new `EmailValidator.EMAIL_REGEX_FROM_CONFIG` is available to get the latest email regex the SDK will use. This will default to `EmailValidator.EMAIL_VALIDATION_REGEX`.
 
 ### Fixed
 - Adjusts the QR Code that is displayed for TytoCare setup when it sometimes gets cut off - DC-6766
+
 ### Other
 - Updated OpenTok dependency to 2.21.2
 
