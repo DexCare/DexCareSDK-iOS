@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		jx34GzuMcEHZe8640AcHSw8BS5c=
+		rTTuS/k+PjRYzLQkodqCZrPknMI=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
@@ -54,19 +54,19 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		5v2S8pCuloOG6kSKUptnmr7CJjU=
+		NL4Mwajv0Ci8TzzGVZHXE7uRWOo=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		jCyT6y6rf67eIEYWtaivFDb/a7c=
+		ra53sLpaICzPFKWG7pUulvKnbZ4=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		bERnNWzdj8wLctbpPoApdick/ww=
+		sCdinJ7AMjYmEp1KC973v6UTAmc=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		oK/dvdEeaQacpgAuFFu/uAalzc0=
+		Dkx5aeNxCXnP5K1sMCFlBg5dhNw=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -140,7 +140,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			QDHrpUK/f2Ad05ceRXuPZcMW9SzL0U4nf/6zE/vmygA=
+			u8FIL1zyYguUB5ju4zXbI8fYl3S+r2toDyuVgVjlNLk=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
@@ -224,21 +224,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			aba74/s8JY62fuFL60iftgo+ClILxhbnIMnooE0UE24=
+			/JUfQnk6T5F9caj48NkqFaOhhwdkDRwwcIPMr8c46ss=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ALaqYj92SGFkwsup3giWbs9WwlImRZ9R080z9LFsIZ4=
+			0FEw7cIekPvM8+Z7emS9Lo0H8ajM4lyFUBzwlYDOIEc=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3u4znJBcNHqaDnGHw3Da6dm0ZnyHIlKCpZmR5DRUaOA=
+			hF87wEL8w+JEPqoafKlIny/VAZfU5+zISDdkSqsNKc4=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

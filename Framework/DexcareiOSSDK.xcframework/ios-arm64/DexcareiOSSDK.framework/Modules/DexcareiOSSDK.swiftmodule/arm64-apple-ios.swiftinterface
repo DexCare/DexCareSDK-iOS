@@ -63,7 +63,7 @@ public protocol RetailService {
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
   
   #if compiler(>=5.3) && $AsyncAwait
-  func getClinics(brand: Swift.String) async throws -> [DexcareiOSSDK.RetailDepartment]
+  func getRetailDepartments(brand: Swift.String) async throws -> [DexcareiOSSDK.RetailDepartment]
   #endif
 
   
@@ -177,6 +177,7 @@ public enum VirtualVisitFailedReason : Swift.Error, DexcareiOSSDK.FailedReasonTy
   case failed(reason: DexcareiOSSDK.FailedReason)
   case virtualVisitNotFound
   case visitTypeNotSupported
+  case invalidRequest(message: Swift.String)
   public struct PermissionType : Swift.OptionSet {
     public let rawValue: Swift.UInt8
     public init(rawValue: Swift.UInt8)
@@ -896,8 +897,6 @@ public struct WaitTimeAvailability : Swift.Decodable, Swift.Equatable {
 public struct VirtualVisitAssignmentQualifier : Swift.RawRepresentable, Swift.Codable, Swift.Equatable {
   public typealias RawValue = Swift.String
   public var rawValue: Swift.String
-  public static let adult: DexcareiOSSDK.VirtualVisitAssignmentQualifier
-  public static let pediatric: DexcareiOSSDK.VirtualVisitAssignmentQualifier
   public init(from decoder: Swift.Decoder) throws
   public init(rawValue: DexcareiOSSDK.VirtualVisitAssignmentQualifier.RawValue)
 }

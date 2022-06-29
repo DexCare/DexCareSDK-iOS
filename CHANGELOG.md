@@ -1,4 +1,13 @@
 # Release Notes
+## 8.0.1
+### New
+- New `VirtualVisitFailedReason.invalidRequest(message:)` added to better show the error returned by the server if 400 returned. See message returned for specific error.
+
+### Fixes
+- Fixes MessageKit dependency version misalignment
+- Removes hardcoded `VirtualVisitAssignmentQualifer.adult` and  `VirtualVisitAssignmentQualifer.pediatric` options. Regular virtual visits without special qualifications, should set the `VirtualVisitDetails.assignmentQualifers` to `nil`
+- Removes missed async version of `RetailService.getClinics` this was renamed to `RetailService.getRetailDepartments`
+
 ## 8.0.0
 ### New
 - 2 new `VirtualService.createVirtualVisit` methods have been added.
