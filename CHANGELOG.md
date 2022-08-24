@@ -1,4 +1,19 @@
 # Release Notes
+
+### New
+- Support for localization. To override the SDK keys, simply create a `Localizable.strings` file, match the keys used by the SDK, and the SDK will look there first for any overrides. 
+- Added `VirtualVisitDetails.traveling` boolean property.
+
+### Fixes
+- On Visit creation, when using DexCarePatient, check mobile and work phone, not just homePhone (DC-9929)
+- On a reconnection scenario, the SDK may crash when the provider leaves and returns. (DC-10218)
+
+### Deprecations
+- `CustomStrings` has been deprecated. Any previous use of customStrings will be used first over `Localizable.strings` file, but will be removed in a future version.
+
+### Other
+- Updated OpenTok to 2.23.0.
+
 ## 8.0.1
 ### New
 - New `VirtualVisitFailedReason.invalidRequest(message:)` added to better show the error returned by the server if 400 returned. See message returned for specific error.

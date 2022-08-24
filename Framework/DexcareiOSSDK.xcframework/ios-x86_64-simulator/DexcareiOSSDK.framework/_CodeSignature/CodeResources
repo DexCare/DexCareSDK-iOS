@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		rTTuS/k+PjRYzLQkodqCZrPknMI=
+		+oZCTyhVkBtHOZA18QWOzyGp7ww=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
@@ -54,19 +54,19 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		NL4Mwajv0Ci8TzzGVZHXE7uRWOo=
+		xVs7zqHaouRh9dVrpD7euTmFmyY=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		ra53sLpaICzPFKWG7pUulvKnbZ4=
+		gbastYgDe+ppfetxxlQjQerKZ8I=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		sCdinJ7AMjYmEp1KC973v6UTAmc=
+		LGKG2VVWUgREZzZygvTYHNfVUro=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		Dkx5aeNxCXnP5K1sMCFlBg5dhNw=
+		GvmpPlrVbrylNsMC5hRRfGIdcGk=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -82,7 +82,7 @@
 		</data>
 		<key>TytoCare.storyboardc/F4k-f1-Afq-view-HNg-77-cvX.nib</key>
 		<data>
-		mnNu0JAt6qyR8UNWfs6ADBAJZQc=
+		jdVYZw+5gkVwxmW4IPjb8JY6x8U=
 		</data>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
 		<data>
@@ -118,13 +118,22 @@
 		</data>
 		<key>VisitReconnectionHudView.nib</key>
 		<data>
-		NIqNnFTOZu80k6VazEwx9NWB9UQ=
+		frW+V3huWsS7YM+RDG9IizSmw7A=
 		</data>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/ocLqgj570sjs4ClJ30FI+JdGmI=
+			ZsBdfieavuY7tdQxDwAuAl6XO9Q=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>es.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uSWT88eUphJFG6xCkz9sPlhxlG0=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -140,7 +149,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			u8FIL1zyYguUB5ju4zXbI8fYl3S+r2toDyuVgVjlNLk=
+			tWIwxLbpM7N/npp0272Xq0YSdFOskRyKcACEvm+kqYw=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
@@ -224,21 +233,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/JUfQnk6T5F9caj48NkqFaOhhwdkDRwwcIPMr8c46ss=
+			lgHOf9Z23sMM/zVNht+8VBiQ8YvtDy2JRDUAKWKhhr4=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0FEw7cIekPvM8+Z7emS9Lo0H8ajM4lyFUBzwlYDOIEc=
+			hbZtxblLYEoBwLMrxQFSK+n+L2GxlcUrZSv9QmdNObI=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hF87wEL8w+JEPqoafKlIny/VAZfU5+zISDdkSqsNKc4=
+			cpbP95iDeDqN44KoZ6i1FCmXdqbmSclwFE6OqRmr8xA=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -266,7 +275,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			HMs7r5QvwdIUeh0boqkm4Py2ZoVtMK4DtO1Vb0AGVA8=
+			OZC3K1PjK8kNiVDaf9rPXfNEGwPpQKhd8UfTdTQ2U4A=
 			</data>
 		</dict>
 		<key>TytoCare.storyboardc/FyZ-xh-P8p-view-Qaj-6F-ghD.nib</key>
@@ -329,14 +338,23 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			VGivfJ2CUUv1t6BYUADvzRHSPu15LGzAvUqeyYCY0M4=
+			bMQV/F+5ozrU0r2Bst/1qtMjVF6wUDD4QWxlQdtysFE=
 			</data>
 		</dict>
 		<key>en.lproj/Localizable.strings</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JK0bVP2V29ZQFOl1y9xIKfvkDl0iEEzyxM8nEy335nQ=
+			AqJIE/s+EKri0Fc6O9X+mwl+O6tkLKvQN/FmPtqVzNk=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>es.lproj/Localizable.strings</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			dsBQVCMBh8RxoHIgoXQsoyE950JLVFjmhgjZ99P5LJA=
 			</data>
 			<key>optional</key>
 			<true/>

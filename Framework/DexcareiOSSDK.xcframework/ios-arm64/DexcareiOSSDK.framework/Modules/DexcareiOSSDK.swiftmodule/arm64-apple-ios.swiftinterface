@@ -236,13 +236,17 @@ public struct ProviderDepartment : Swift.Codable {
   public init(from decoder: Swift.Decoder) throws
 }
 public struct CustomizationOptions : Swift.Equatable {
+  @available(*, deprecated, message: "Custom strings are deprecated in favor of passing in a Strings dictionary")
   public var customStrings: DexcareiOSSDK.CustomStrings?
   public var tytoCareConfig: DexcareiOSSDK.TytoCareConfig?
   public var virtualConfig: DexcareiOSSDK.VirtualConfig?
   public var validateEmails: Swift.Bool
+  @available(*, deprecated, message: "customStrings has been deprecated. You can override strings by setting the key in a Localizable.strings file")
   public init(customStrings: DexcareiOSSDK.CustomStrings?, tytoCareConfig: DexcareiOSSDK.TytoCareConfig? = nil, virtualConfig: DexcareiOSSDK.VirtualConfig? = nil, validateEmails: Swift.Bool = true)
+  public init(tytoCareConfig: DexcareiOSSDK.TytoCareConfig? = nil, virtualConfig: DexcareiOSSDK.VirtualConfig? = nil, validateEmails: Swift.Bool = true)
   public static func == (a: DexcareiOSSDK.CustomizationOptions, b: DexcareiOSSDK.CustomizationOptions) -> Swift.Bool
 }
+@available(*, deprecated, message: "CustomStrings are deprecated. Please override strings via a Localizable.strings file, using the same keys.")
 public struct CustomStrings : Swift.Equatable {
   public let waitingRoomTitle: Swift.String?
   public let waitingRoomCancelButtonTitle: Swift.String?
@@ -1161,7 +1165,8 @@ public struct VirtualVisitDetails : Swift.Encodable, Swift.Equatable {
   public var actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient?
   public var homeMarket: Swift.String?
   public var initialStatus: DexcareiOSSDK.VisitStatus?
-  public init(acceptedTerms: Swift.Bool, assignmentQualifiers: [DexcareiOSSDK.VirtualVisitAssignmentQualifier]?, patientDeclaration: DexcareiOSSDK.PatientDeclaration, stateLicensure: Swift.String, visitReason: Swift.String, visitTypeName: DexcareiOSSDK.VirtualVisitTypeName, userEmail: Swift.String, contactPhoneNumber: Swift.String, practiceId: Swift.String? = nil, assessmentToolUsed: Swift.String? = nil, brand: Swift.String? = nil, interpreterLanguage: Swift.String? = nil, preTriageTags: [Swift.String]? = nil, urgency: Swift.Int? = nil, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient? = nil, homeMarket: Swift.String? = nil, initialStatus: DexcareiOSSDK.VisitStatus? = nil)
+  public var traveling: Swift.Bool?
+  public init(acceptedTerms: Swift.Bool, assignmentQualifiers: [DexcareiOSSDK.VirtualVisitAssignmentQualifier]?, patientDeclaration: DexcareiOSSDK.PatientDeclaration, stateLicensure: Swift.String, visitReason: Swift.String, visitTypeName: DexcareiOSSDK.VirtualVisitTypeName, userEmail: Swift.String, contactPhoneNumber: Swift.String, practiceId: Swift.String? = nil, assessmentToolUsed: Swift.String? = nil, brand: Swift.String? = nil, interpreterLanguage: Swift.String? = nil, preTriageTags: [Swift.String]? = nil, urgency: Swift.Int? = nil, actorRelationshipToPatient: DexcareiOSSDK.RelationshipToPatient? = nil, homeMarket: Swift.String? = nil, initialStatus: DexcareiOSSDK.VisitStatus? = nil, traveling: Swift.Bool? = nil)
   public func validate(validateEmail: Swift.Bool) throws
   public static func == (a: DexcareiOSSDK.VirtualVisitDetails, b: DexcareiOSSDK.VirtualVisitDetails) -> Swift.Bool
   public func encode(to encoder: Swift.Encoder) throws
