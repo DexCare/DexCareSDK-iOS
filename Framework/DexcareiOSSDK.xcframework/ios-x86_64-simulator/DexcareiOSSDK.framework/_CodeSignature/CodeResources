@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		+oZCTyhVkBtHOZA18QWOzyGp7ww=
+		o5dNGEr3BHdc9vaH7GDbWJNon+0=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
@@ -54,19 +54,19 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		xVs7zqHaouRh9dVrpD7euTmFmyY=
+		AZaPzza8p5MqiO/x4+Go/S2nUSE=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		gbastYgDe+ppfetxxlQjQerKZ8I=
+		tIRMR90qZvQ3UgAEpi/dNLReo6Q=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		LGKG2VVWUgREZzZygvTYHNfVUro=
+		SnFQhOaWcOuWde5fd3HQBWbWEyU=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		GvmpPlrVbrylNsMC5hRRfGIdcGk=
+		LTOLlBjtCxK9X040mSJGsYK5FYg=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -124,7 +124,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ZsBdfieavuY7tdQxDwAuAl6XO9Q=
+			MwqUPP22BtpEIdESngor+63+T5Y=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -133,7 +133,7 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			uSWT88eUphJFG6xCkz9sPlhxlG0=
+			DL+txw5CA8OLsNnVKjM9e6pTdrs=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -149,7 +149,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			tWIwxLbpM7N/npp0272Xq0YSdFOskRyKcACEvm+kqYw=
+			PH+/rnR44Rw0eNX7C1dNp/ko1Iq9pTBE0Dfq2QOM84c=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
@@ -233,21 +233,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lgHOf9Z23sMM/zVNht+8VBiQ8YvtDy2JRDUAKWKhhr4=
+			z+wjrwkYc9kJe17IegPyzDJBqAdINkcsEeuX7eDn8m4=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hbZtxblLYEoBwLMrxQFSK+n+L2GxlcUrZSv9QmdNObI=
+			QrDiuzt1ABWAGlBCh6F0EsjrWMItwCxXV+FC6FiFgJM=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			cpbP95iDeDqN44KoZ6i1FCmXdqbmSclwFE6OqRmr8xA=
+			v4/LWD53iqPmU7MtG2mUFtuF0oJKNq/JrFQxiLmCc/o=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -345,7 +345,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			AqJIE/s+EKri0Fc6O9X+mwl+O6tkLKvQN/FmPtqVzNk=
+			rxYAeOqggxpGOpU289Y6DpBKfESjqZ6P/Atr7FsjhXI=
 			</data>
 			<key>optional</key>
 			<true/>
@@ -354,7 +354,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dsBQVCMBh8RxoHIgoXQsoyE950JLVFjmhgjZ99P5LJA=
+			/s1OuRU4P+3gSCDKtbys4w+s/kJ6HZ1kmMSG5+y14Gs=
 			</data>
 			<key>optional</key>
 			<true/>

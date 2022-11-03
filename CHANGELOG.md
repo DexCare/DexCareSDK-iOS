@@ -1,5 +1,25 @@
 # Release Notes
+## 8.2.0
+### New
+- `PaymentMethod.insuranceManualSelf` and `PaymentMethod.insuranceManualOther` now take in an optional `insuranceGroupNumber` property.
+- Added new `ScheduleProviderAppointmentFailedReason.patientNotOnPhysicialPanel`. Will return if on `ProviderService.scheduleProviderVisit` provider requires that the patient be on their panel.
+- Added `VirtualVisitDetails.additionalDetails` property to allow saving of meta/extra information on a visit.
 
+### AvailabilityService
+- Included is a new `AvailabilityService` which allows you to search for an available provider, by location, or department. Options include sorting by most available, giving the ability to give timeslots to lesser booked providers
+- Timeslots can also be searched with similar functionality. 
+
+### Fixes
+- Update internal endpoint for provider bookings with insurance to save the appointment notes properly (ENG-1040) 
+
+### Other
+- Updated OpenTok to 2.23.1
+
+### Deprecations
+- `PaymentService.uploadInsuranceCard` has been deprecated as it's no longer supported
+- `PaymentMethod.insuranceImageSelf` and `PaymentMethod.insuranceImageOther` has been depecrated as it's no longer supported.
+
+## 8.1.0
 ### New
 - Support for localization. To override the SDK keys, simply create a `Localizable.strings` file, match the keys used by the SDK, and the SDK will look there first for any overrides. 
 - Added `VirtualVisitDetails.traveling` boolean property.
