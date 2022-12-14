@@ -22,7 +22,6 @@ Cocoapods will install the following dependencies
 ```
   'MBProgressHUD' - Used to show a spinner when starting virtual visits
   'MessageKit' - Used in the chat view
-  'PromiseKit/CorePromise' - Used internally for ease of use
   'OpenTok' - The library used when having 1:1 video conferences with your provider.
   
 ```
