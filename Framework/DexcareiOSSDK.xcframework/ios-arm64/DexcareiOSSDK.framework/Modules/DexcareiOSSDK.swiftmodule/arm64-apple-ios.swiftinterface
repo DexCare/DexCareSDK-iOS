@@ -1,6 +1,7 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.6.1 (swiftlang-5.6.0.323.66 clang-1316.0.20.12)
+// swift-compiler-version: Apple Swift version 5.7.1 (swiftlang-5.7.1.135.3 clang-1400.0.29.51)
 // swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name DexcareiOSSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
 import AVFoundation
 import AVKit
 import SystemConfiguration.CaptiveNetwork
@@ -18,6 +19,7 @@ import UIKit.UIGestureRecognizerSubclass
 import UIKit
 import UserNotifications
 import _Concurrency
+import _StringProcessing
 public struct RetailVisitInformation {
   public let visitReason: Swift.String
   public let patientDeclaration: DexcareiOSSDK.PatientDeclaration
@@ -59,23 +61,21 @@ public enum RelationshipToPatient : Swift.String, Swift.Codable, Swift.Equatable
 public typealias ScheduleRetailAppointmentFailure = (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void
 public protocol RetailService {
   func getRetailDepartments(brand: Swift.String, success: @escaping ([DexcareiOSSDK.RetailDepartment]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  func getRetailDepartment(departmentName: Swift.String, success: @escaping (DexcareiOSSDK.RetailDepartment) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getTimeSlots(departmentName: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName?, success: @escaping (DexcareiOSSDK.RetailAppointmentTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getRetailDepartments(brand: Swift.String) async throws -> [DexcareiOSSDK.RetailDepartment]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getTimeSlots(departmentName: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName?) async throws -> DexcareiOSSDK.RetailAppointmentTimeSlot
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?) async throws -> Swift.String
   #endif
-
+  #if compiler(>=5.3) && $AsyncAwait
+  func getRetailDepartment(departmentName: Swift.String) async throws -> DexcareiOSSDK.RetailDepartment
+  #endif
 }
 @frozen public enum VirtualFeedback {
   case rating(question: Swift.String?, rating: Swift.Int)
@@ -146,40 +146,28 @@ public struct VisitStatus : Swift.RawRepresentable, Swift.Codable, Swift.Equatab
 }
 public protocol AvailabilityService {
   func getProviderAvailability(departmentIds: [Swift.String], options: DexcareiOSSDK.ProviderAvailabilityOptions?, success: @escaping (DexcareiOSSDK.ProviderAvailabilityResult) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailability(departmentIds: [Swift.String], options: DexcareiOSSDK.ProviderAvailabilityOptions?) async throws -> DexcareiOSSDK.ProviderAvailabilityResult
   #endif
-
   func getProviderAvailability(latitude: Swift.Double, longitude: Swift.Double, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions?, success: @escaping (DexcareiOSSDK.ProviderAvailabilityResult) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailability(latitude: Swift.Double, longitude: Swift.Double, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions?) async throws -> DexcareiOSSDK.ProviderAvailabilityResult
   #endif
-
   func getProviderAvailability(zipCode: Swift.String, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions?, success: @escaping (DexcareiOSSDK.ProviderAvailabilityResult) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailability(zipCode: Swift.String, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions?) async throws -> DexcareiOSSDK.ProviderAvailabilityResult
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailabilitySlots(departmentIds: [Swift.String], options: DexcareiOSSDK.ProviderAvailabilityOptions) async throws -> DexcareiOSSDK.ProviderSlotAvailability
   #endif
-
   func getProviderAvailabilitySlots(departmentIds: [Swift.String], options: DexcareiOSSDK.ProviderAvailabilityOptions, success: @escaping (DexcareiOSSDK.ProviderSlotAvailability) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailabilitySlots(zipCode: Swift.String, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions) async throws -> DexcareiOSSDK.ProviderSlotAvailability
   #endif
-
   func getProviderAvailabilitySlots(zipCode: Swift.String, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions, success: @escaping (DexcareiOSSDK.ProviderSlotAvailability) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderAvailabilitySlots(latitude: Swift.Double, longitude: Swift.Double, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions) async throws -> DexcareiOSSDK.ProviderSlotAvailability
   #endif
-
   func getProviderAvailabilitySlots(latitude: Swift.Double, longitude: Swift.Double, radius: Swift.Int?, options: DexcareiOSSDK.ProviderAvailabilityOptions, success: @escaping (DexcareiOSSDK.ProviderSlotAvailability) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
 }
 public struct PatientDemographics : Swift.Codable, Swift.Equatable {
@@ -427,51 +415,33 @@ public protocol VirtualService {
   func getModalities(success: @escaping ([DexcareiOSSDK.VirtualVisitModality]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func createVirtualVisit(presentingViewController: UIKit.UIViewController, dexcarePatient: DexcareiOSSDK.DexcarePatient, virtualVisitDetails: DexcareiOSSDK.VirtualVisitDetails, paymentMethod: DexcareiOSSDK.PaymentMethod, actor: DexcareiOSSDK.DexcarePatient?, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
   func createVirtualVisit(presentingViewController: UIKit.UIViewController, ehrPatient: DexcareiOSSDK.EhrPatient, virtualVisitDetails: DexcareiOSSDK.VirtualVisitDetails, paymentMethod: DexcareiOSSDK.PaymentMethod, actor: DexcareiOSSDK.EhrPatient?, onCompletion: @escaping DexcareiOSSDK.VisitCompletion, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.VirtualVisitFailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func postFeedback(feedbacks: [DexcareiOSSDK.VirtualFeedback]) async throws
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func cancelVirtualVisit(visitId: Swift.String) async throws
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getEstimatedWaitTime(visitId: Swift.String) async throws -> DexcareiOSSDK.WaitTime
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getAssignmentQualifiers() async throws -> [DexcareiOSSDK.VirtualVisitAssignmentQualifier]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getModalities() async throws -> [DexcareiOSSDK.VirtualVisitModality]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func resumeVirtualVisit(visitId: Swift.String, presentingViewController: UIKit.UIViewController, dexCarePatient: DexcareiOSSDK.DexcarePatient, onCompletion: @escaping DexcareiOSSDK.VisitCompletion) async throws
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func resumeVirtualVisit(visitId: Swift.String, presentingViewController: UIKit.UIViewController, ehrPatient: DexcareiOSSDK.EhrPatient, onCompletion: @escaping DexcareiOSSDK.VisitCompletion) async throws
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getWaitTimeAvailability(regionCodes: [Swift.String]?, assignmentQualifiers: [DexcareiOSSDK.VirtualVisitAssignmentQualifier]?, visitTypeNames: [DexcareiOSSDK.VirtualVisitTypeName]?, practiceId: Swift.String?, homeMarket: Swift.String?) async throws -> [DexcareiOSSDK.WaitTimeAvailability]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getVirtualVisitStatus(visitId: Swift.String) async throws -> DexcareiOSSDK.VisitStatus
   #endif
-
 }
 public enum VisitCompletionReason : Swift.String {
   case completed
@@ -500,26 +470,18 @@ public protocol ProviderService {
   func getProviderTimeslots(providerNationalId: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, startDate: Foundation.Date?, endDate: Foundation.Date?, success: @escaping (DexcareiOSSDK.ProviderTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getMaxLookaheadDays(visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, ehrSystemName: Swift.String, success: @escaping (Swift.Int) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func scheduleProviderVisit(paymentMethod: DexcareiOSSDK.PaymentMethod, providerVisitInformation: DexcareiOSSDK.ProviderVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (DexcareiOSSDK.ScheduledProviderVisit) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleProviderAppointmentFailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProvider(providerNationalId: Swift.String) async throws -> DexcareiOSSDK.Provider
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getProviderTimeslots(providerNationalId: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, startDate: Foundation.Date?, endDate: Foundation.Date?) async throws -> DexcareiOSSDK.ProviderTimeSlot
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getMaxLookaheadDays(visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, ehrSystemName: Swift.String) async throws -> Swift.Int
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func scheduleProviderVisit(paymentMethod: DexcareiOSSDK.PaymentMethod, providerVisitInformation: DexcareiOSSDK.ProviderVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?) async throws -> DexcareiOSSDK.ScheduledProviderVisit
   #endif
-
 }
 public struct HumanName : Swift.Codable, Swift.Equatable {
   public var family: Swift.String
@@ -587,36 +549,24 @@ public protocol PatientService {
   func findOrCreateDependentPatient(inEhrSystem: Swift.String, dependentPatientDemographics: DexcareiOSSDK.PatientDemographics, success: @escaping (DexcareiOSSDK.DexcarePatient) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getSuffixes(success: @escaping (([Swift.String]) -> Swift.Void), failure: @escaping ((DexcareiOSSDK.FailedReason) -> Swift.Void))
   func deletePatientAccount(success: @escaping (() -> Swift.Void), failure: @escaping ((DexcareiOSSDK.FailedReason) -> Swift.Void))
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getPatient() async throws -> DexcareiOSSDK.DexcarePatient
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getCatchmentArea(visitState: Swift.String, residenceState: Swift.String, residenceZipCode: Swift.String, brand: Swift.String) async throws -> DexcareiOSSDK.CatchmentArea
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func findOrCreatePatient(inEhrSystem: Swift.String, patientDemographics: DexcareiOSSDK.PatientDemographics) async throws -> DexcareiOSSDK.DexcarePatient
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func findOrCreateDependentPatient(inEhrSystem: Swift.String, dependentPatientDemographics: DexcareiOSSDK.PatientDemographics) async throws -> DexcareiOSSDK.DexcarePatient
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getSuffixes() async throws -> [Swift.String]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func deletePatientAccount() async throws
   #endif
-
 }
 extension Swift.String : Swift.Error {
 }
@@ -674,16 +624,12 @@ public struct DexcareAPIError {
 }
 @available(iOS, deprecated: 15.0, message: "AsyncCompatibilityKit is only useful when targeting iOS versions earlier than 15")
 extension Foundation.URLSession {
-  
   #if compiler(>=5.3) && $AsyncAwait
   public func data(from url: Foundation.URL) async throws -> (Foundation.Data, Foundation.URLResponse)
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   public func data(for request: Foundation.URLRequest) async throws -> (Foundation.Data, Foundation.URLResponse)
   #endif
-
 }
 @available(*, unavailable, renamed: "RetailAppointmentTimeSlot")
 public struct ClinicTimeSlot {
@@ -754,11 +700,9 @@ public class DexcareSDK {
   public func signIn(accessToken: Swift.String)
   public func signOut()
   public func getDexcareStatus(success: @escaping (DexcareiOSSDK.DexcareStatus) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   public func getDexcareStatus() async throws -> DexcareiOSSDK.DexcareStatus
   #endif
-
   @objc deinit
 }
 public typealias TokenRequestCallback = ((Swift.String?) -> (Swift.Void))
@@ -932,21 +876,15 @@ public protocol AppointmentService {
   func getRetailVisits(success: @escaping ([DexcareiOSSDK.ScheduledVisit]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getCancelReasons(brandName: Swift.String, success: @escaping ([DexcareiOSSDK.CancelReason]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func cancelRetailAppointment(visitId: Swift.String, cancelReason: DexcareiOSSDK.CancelReason, success: @escaping () -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getRetailVisits() async throws -> [DexcareiOSSDK.ScheduledVisit]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getCancelReasons(brandName: Swift.String) async throws -> [DexcareiOSSDK.CancelReason]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func cancelRetailAppointment(visitId: Swift.String, cancelReason: DexcareiOSSDK.CancelReason) async throws
   #endif
-
 }
 public struct ProviderAvailabilityResult : Swift.Codable {
   public var results: [DexcareiOSSDK.ProviderAvailability]
@@ -1231,11 +1169,9 @@ public struct ProviderAvailability : Swift.Codable, Swift.Equatable {
 }
 public protocol PracticeService {
   func getVirtualPractice(practiceId: Swift.String, success: @escaping (DexcareiOSSDK.VirtualPractice) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getVirtualPractice(practiceId: Swift.String) async throws -> DexcareiOSSDK.VirtualPractice
   #endif
-
 }
 public struct VirtualVisitModality : Swift.RawRepresentable, Swift.Codable, Swift.Equatable {
   public typealias RawValue = Swift.String
@@ -1263,22 +1199,16 @@ public protocol PaymentService {
   func verifyCouponCode(couponCode: Swift.String, success: @escaping (Foundation.Decimal) -> Swift.Void, failure: @escaping (DexcareiOSSDK.CouponCodeFailedReason) -> Swift.Void)
   @available(*, deprecated, message: "Upload Insurance Card is deprecated and no longer supported")
   func uploadInsuranceCard(frontImage: UIKit.UIImage, backImage: UIKit.UIImage, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.InsuranceCardFailedReason) -> Swift.Void)
-  
   #if compiler(>=5.3) && $AsyncAwait
   func getInsurancePayers(tenant: Swift.String) async throws -> [DexcareiOSSDK.InsurancePayer]
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   func verifyCouponCode(couponCode: Swift.String) async throws -> Foundation.Decimal
   #endif
-
-  
   #if compiler(>=5.3) && $AsyncAwait
   @available(*, deprecated, message: "Upload Insurance Card is deprecated and no longer supported")
   func uploadInsuranceCard(frontImage: UIKit.UIImage, backImage: UIKit.UIImage) async throws -> Swift.String
   #endif
-
 }
 public struct ProviderVisitTypeAvailability : Swift.Codable, Swift.Equatable {
   public let visitType: DexcareiOSSDK.ProviderVisitType

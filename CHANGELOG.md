@@ -1,4 +1,14 @@
 # Release Notes
+## 8.3.0
+### New
+- Added `RetailService.getRetailDepartment` to load information on a single retail department.
+- Default Waiting Room video has been updated to load from Vimeo, supporting Spanish localization. Waiting Room video can still be overridden through the `VirtualConfig` property on intialization. 
+
+### Other
+- Fixed a scenario where the SDK version posted inside the userAgent header on api calls was incorrect
+- Updated OpenTok to 2.24.0
+- SDK is built with Xcode 14.1, supporting iOS 13+
+
 ## 8.2.0
 ### New
 - `PaymentMethod.insuranceManualSelf` and `PaymentMethod.insuranceManualOther` now take in an optional `insuranceGroupNumber` property.
