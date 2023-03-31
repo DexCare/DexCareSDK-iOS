@@ -1,4 +1,9 @@
 # Release Notes
+## 8.3.1
+### Other
+- Updated OpenTok to 2.24.2
+- SDK is built with Xcode 14.1, supporting iOS 13+
+
 ## 8.3.0
 ### New
 - Added `RetailService.getRetailDepartment` to load information on a single retail department.
