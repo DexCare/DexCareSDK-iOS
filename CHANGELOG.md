@@ -1,8 +1,14 @@
 # Release Notes
-## 8.3.1
-### Other
-- Updated OpenTok to 2.24.2
-- SDK is built with Xcode 14.1, supporting iOS 13+
+## 8.4.0
+
+### New
+- `PaymentMethod.insuranceManualSelfWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), and `payorName`
+- `PaymentMethod.insuranceManualOtherWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), `payorName` and `subcriberId`
+- Added `getEMRPatient` to `PatientService` to allow loading a patient information using a MyChartSSO authentication token 
+
+### Deprecations
+- `PaymentMethod.insuranceManualSelf` has been deprecated in favor of using `PaymentMethod.insuranceManualSelfWithPayor`. `payorId` is the new property to to pass in the insurance payor id. 
+- `PaymentMethod.insuranceManualOther` has been deprecated in favor of using `PaymentMethod.insuranceManualOtherWithPayor`. `payorId` is the new property to to pass in the insurance payor id. 
 
 ## 8.3.0
 ### New
@@ -55,7 +61,7 @@
 
 ### Fixes
 - Fixes MessageKit dependency version misalignment
-- Removes hardcoded `VirtualVisitAssignmentQualifer.adult` and  `VirtualVisitAssignmentQualifer.pediatric` options. Regular virtual visits without special qualifications, should set the `VirtualVisitDetails.assignmentQualifers` to `nil`
+- Removes hardcoded `VirtualVisitAssignmentQualifer.adult` and `VirtualVisitAssignmentQualifer.pediatric` options. Regular virtual visits without special qualifications, should set the `VirtualVisitDetails.assignmentQualifers` to `nil`
 - Removes missed async version of `RetailService.getClinics` this was renamed to `RetailService.getRetailDepartments`
 
 ## 8.0.0
@@ -71,7 +77,7 @@
 - Added `VirtualVisitFailedReason.visitTypeNotSupported` - returned when you try and call `VirtualService.resumeVirtualVisit` with a non-virtual visit type.
 - Added `VirtualPracticeRegion.pedatricsAgeRange` to indicate the age of patients that pediatric providers can see. 
 
-- Upon signing in to the SDK, some validation configs are pulled down from the server.  This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment.  This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
+- Upon signing in to the SDK, some validation configs are pulled down from the server. This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment. This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
 - A new `EmailValidator.EMAIL_REGEX_FROM_CONFIG` is available to get the latest email regex the SDK will use. This will default to `EmailValidator.EMAIL_VALIDATION_REGEX`.
 - A new `DexcareSDK.getStatusPage` is available to asynchronously grab the current status of the DexCare Platform. You can use this method to check for any incidents or scheduled maintenances on our infrastructure.
 - `VisitStatus` has been switched from an **enum** to a **struct** that inherits from `RawRepresentable`. 
@@ -118,7 +124,7 @@ For more examples of how you can call the new functions, please look at the v8 m
 ## 7.2.0
 ### New
 - Adds a `PatientService.deletePatientAccount` to start the process of deleting a DexCare Patient Account.
-- Upon signing in to the SDK, some validation configs are pulled down from the server.  This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment.  This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
+- Upon signing in to the SDK, some validation configs are pulled down from the server. This allows for the validation to be consistent across DexCare platforms, and also allows for the validation requirements to be configurable per-environment. This currently only affects the EmailValidator, but may be expanded to other areas in a future SDK version.
 - A new `EmailValidator.EMAIL_REGEX_FROM_CONFIG` is available to get the latest email regex the SDK will use. This will default to `EmailValidator.EMAIL_VALIDATION_REGEX`.
 
 ### Fixed
@@ -134,7 +140,7 @@ For more examples of how you can call the new functions, please look at the v8 m
 ## 7.1.0
 ### New
 - Introduced a new `VideoCallStatistics` structure that can return network statistics about a video visit. Statistics are automatically gathered during a visit by the SDK, and can be queried by you after a visit is complete.
--  `VideoCallStatistics` includes information about packet loss, bandwidth speeds, and bytes send/received. This should be used for your debugging or logging purposes.
+- `VideoCallStatistics` includes information about packet loss, bandwidth speeds, and bytes send/received. This should be used for your debugging or logging purposes.
 - These statistics can be retrieve by calling `VirtualService.getVideoCallStatistics()` after a video visit has started.
 - Added a new `VirtualService.getVirtualVisitStatus(visitId:)` that will return a `VisitStatus` enum. A helper function `isActive` is also added to `VisitStatus` to indicate whether or not you can resume with that visitId or not.
 - Added a `[PatientQuestion]` array to the `RetailVisitInformation` and `ProviderVisitInformation` object. This can be used during retail and provider visits to pass up information to be saved.
@@ -157,7 +163,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 
 ## 7.0.0
 ### New
-- Introduced a new `VirtualEventDelegate` protocol that can optionally be set on `VirtualService.setVirtualEventDelegate(delegate?)` to listen for various events while the patient is inside the waiting room/video conference.  Note that the delegate should primarily be used for logging purposes.
+- Introduced a new `VirtualEventDelegate` protocol that can optionally be set on `VirtualService.setVirtualEventDelegate(delegate?)` to listen for various events while the patient is inside the waiting room/video conference. Note that the delegate should primarily be used for logging purposes.
 - Added `PracticeService.getEstimatedWaitTime(practiceRegionId)` function to retrieve the estimated wait time of a practice region.
 - Added `VirtualService.getEstimatedWaitTime` function to retrieve the estimated wait time when you're in a visit waiting room. This was previously internal and was called and displayed on the waiting room view
 - Added `CustomizationOptions.validateEmails` that if set to **false** will skip any email validation the SDK uses. You can set the customization through the `DexcareSDK.customizationOption` property after initialization. **Defaults to TRUE** for backwards compatibility. Epic is still the final validation for emails and you should use this property in sync in how your Epic server validates email. This will skip **ALL** email validation (not including empty fields) - so it is up to you to validate any emails if this property is set to false. The email validation SDK uses can be found at `EmailValidator.EMAIL_VALIDATION_REGEX`.
@@ -171,7 +177,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
   - This is to allow future `VisitType`s to be created, without the need of new SDK's.
   - Old enum values have been switched to static variables: ex: `public static let illness = VisitTypeShortName(rawValue: "Illness")`
   - `ProviderService.getMaxLookaheadDays` now accepts a `VisitTypeShortName` instead of an `AllowedVisitType`, (no functional change)
-  - `RetailService.getTimeSlots` method's `allowedVisitType` parameter changed to `visitTypeShortName: VisitTypeShortName`.  This means that you can retrieve time slots for any visit type you want to support, and the SDK no longer restricts to the few that were defined in the old `VisitType` enum.
+  - `RetailService.getTimeSlots` method's `allowedVisitType` parameter changed to `visitTypeShortName: VisitTypeShortName`. This means that you can retrieve time slots for any visit type you want to support, and the SDK no longer restricts to the few that were defined in the old `VisitType` enum.
   - `ProviderVisitType.shortName` type changed to `VisitTypeShortName` from String (no functional change).
 
 - Removed the following deprecated models/methods/properties:
@@ -208,10 +214,10 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 - Fixed a crash on launch
 
 ### New
-- Added a new optional parameter to the `CustomizationOptions` model, `VirtualConfig`.  This new model contains various customization options related the the virtual visit experience.
+- Added a new optional parameter to the `CustomizationOptions` model, `VirtualConfig`. This new model contains various customization options related the the virtual visit experience.
 `VirtualConfig` currently has two optional parameters:
-   - `showWaitingRoomVideo` - Whether or not to display the video on the waiting room.  Defaults to `true`.
-   - `waitingRoomVideoURL` - A bundle url that can be optionally specified to change the video that displays inside the virtual waiting room.  When not specified, the default video is used (the same video that has always played in the waiting room, no changes). See documentation for more detail and example.
+   - `showWaitingRoomVideo` - Whether or not to display the video on the waiting room. Defaults to `true`.
+   - `waitingRoomVideoURL` - A bundle url that can be optionally specified to change the video that displays inside the virtual waiting room. When not specified, the default video is used (the same video that has always played in the waiting room, no changes). See documentation for more detail and example.
  When these properties or `VirtualConfig` are not explicitly overridden, the default values are used.
 
 ### Deprecated
@@ -227,7 +233,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 
 ## 6.1.0
 ### New
-- Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device.  For more information about TytoCare, visit https://www.tytocare.com/.
+- Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device. For more information about TytoCare, visit https://www.tytocare.com/.
 - New permissions are also required in order for the TytoCare integration to work:
   - The [Wifi entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_wifi-info) will need to be enabled on your build.
   - Location with percise accuracy.
@@ -263,7 +269,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 
 ### PaymentService
 - `VirtualService.getInsurancePayers` has been deprecated and moved to `PaymentService.getInsurancePayers`
-- `VirtualService.verifyCouponCode` has been deprecated and moved to  `PaymentService.verifyCouponCode`,
+- `VirtualService.verifyCouponCode` has been deprecated and moved to `PaymentService.verifyCouponCode`,
 - `RetailService.uploadInsuranceCard` has been deprecated and moved to `PaymentService.uploadInsuranceCard`
 - Added a property on`DexcareSDK` instance called `paymentService`
 
@@ -325,7 +331,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 
 
 ### Fixed
-- When passing in a nil `VirtualVisitInformation.preTriageTags` the function would return an error. This adds internally a default empty array if nil is passed in. Workaround for client in the interim is to pass in an empty array.  (DC-3502)
+- When passing in a nil `VirtualVisitInformation.preTriageTags` the function would return an error. This adds internally a default empty array if nil is passed in. Workaround for client in the interim is to pass in an empty array. (DC-3502)
 - If a user disallows push notifications, the SDK now allows them to start a Virtual Visit. Only Microphone and Camera are required. (DC-3885)
 
 ### Dependencies
@@ -366,7 +372,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 - Any old deprecated functions, methods, protocols, classes from `3.0` have now been removed. It is recommended if you are coming from `2.x` to first update to `3.X` then to `4.0`
 
 ### Changed/Updated
-- `RetailService.getRetailClinics` is now `RetailService.getClinics`  (DC-2769)
+- `RetailService.getRetailClinics` is now `RetailService.getClinics` (DC-2769)
 - Added some extra validation for empty strings on some methods. (DC-2885)
 - Updated an internal endpoint used by the sdk to resume virtual visits (DC-2836)
 - Adds the SDK Version to the `userAgent` header for all network calls (DC-3206)

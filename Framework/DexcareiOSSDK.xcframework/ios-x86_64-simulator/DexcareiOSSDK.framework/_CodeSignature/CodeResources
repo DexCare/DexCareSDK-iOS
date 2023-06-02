@@ -6,7 +6,7 @@
 	<dict>
 		<key>Assets.car</key>
 		<data>
-		1k+qHLcdlPR/NC65fGI5GRlbE/c=
+		g116dLSReMo17UPf+JlxaBFgkM8=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
 		<data>
@@ -14,7 +14,7 @@
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/GIL-eq-BzS-view-ldn-Db-Gqf.nib</key>
 		<data>
-		BpYGksmv4WrYfzkJUgPAZ75QDB8=
+		7aPxhAM8dd/PUYh6iVonitzCjeQ=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
 		<data>
@@ -34,11 +34,11 @@
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/bkY-Bk-jEC-view-FeP-YF-R2K.nib</key>
 		<data>
-		HlgaoEkfckP4r+kQ/Zrk1MJSBcU=
+		iY6ysG9qfpZD2gLz3s3AYBOLnWE=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/d7O-IK-ciA-view-Cu7-LN-bpd.nib</key>
 		<data>
-		EdOGfe1rFG4LZ3co+ylzQYQJgSI=
+		cBsKbqRHlMNyRZNXm0zyH8+1dBA=
 		</data>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
 		<data>
@@ -50,31 +50,31 @@
 		</data>
 		<key>Headers/DexcareiOSSDK-Swift.h</key>
 		<data>
-		4wfdFB1mIYSQwLJ8J6BirKDhbxM=
+		crR9TFX3Sgtfr+ylKu+UpgVOA/w=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		+exhrcH8085JekXMdR0RK94GQpk=
+		cERbWq/LLCFCair+IIzoN7sz9wE=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		lkTEAs0JbjW3unzHmO8qzPT4R7s=
+		7EB5+AARjEsBXix89ZtrYAaIXtM=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		gGNn+3XAfqC6EhAv88+8eNa+BEM=
+		Ct2wvvYDMUnujktZKLlyO8SGf4w=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		TBy6YsO7boRrNlwc8QCJtiPk1Kw=
+		ll/OS09uRgXFJdrx4NLUAOSnUBw=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		gGNn+3XAfqC6EhAv88+8eNa+BEM=
+		Ct2wvvYDMUnujktZKLlyO8SGf4w=
 		</data>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		iUsZyLgF84gdKN4fMIU3rxBqyaM=
+		rmrV9d7la51Ehhw3GN3pNPKBqtI=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -153,7 +153,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			nzWh2AMtSRU9kAH0Q2PkITfcuD2HlJLO1TRwkSfzlmI=
+			99CuxDOe+oolnuPO6/XZmWWsg3+Q9O38anursUhf2hc=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/EmbeddedVideoViewController.nib</key>
@@ -167,7 +167,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			dOHs0x9+R11Df+a+gUPCGi0GqCm1FAnIx8ZbL6x8gqA=
+			H5MNs/Bubb9jSs+A7nHMm/gMX5AJdFO4yk957Vs3OrM=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/Info.plist</key>
@@ -202,14 +202,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			/T7veX0wDMecHGIYUkni9k/mo2bnl30UiGwcWbgavik=
+			MLjVr2hifgs1HUCzSWCeLc9P7D10ssnS6o2x5yyzTM4=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/d7O-IK-ciA-view-Cu7-LN-bpd.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XxLBDQ7jQA6/tUr155to/C2UKrnC37uaRhO/KpYOAnM=
+			lKje67D+phBQKd0T1nohGKf19h2OXj8oW9W5nIUsnFQ=
 			</data>
 		</dict>
 		<key>DexcareVirtualVisit.storyboardc/ew1-GX-Lz2-view-Kho-Nm-zPD.nib</key>
@@ -230,42 +230,42 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+92Pf7nbNLVmqFnwm4mr1gMdVJ0S4WTMNig6xASeeRs=
+			gSIk0pEmg79spPwFuqPeHR86VI4piAsho1m2sWjCt9Q=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			dE6p8ab/FtNnH1po8xu7LbRjyT5qrDXcMH3kKak6gf0=
+			siqMsrNZDn1Vy1rEFkcX3ACbSjgaaNSe4zGZP3J/zuQ=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iOTfJR8jlo0wcz2hQHLbWwrUC0HzNuDN8qHvHbJYDsI=
+			sGTJgg3CruaBHkCh9MfPHDgaXGV5FTwIt3DWLNC+euM=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			3FzZxPjVVOWkTSwf2bxgeBFsd0TEidHU9+56aDya33A=
+			N8HrF2Uj0hRByle2dcU30tXdlozla8g1YPV/w6/gXTw=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iOTfJR8jlo0wcz2hQHLbWwrUC0HzNuDN8qHvHbJYDsI=
+			sGTJgg3CruaBHkCh9MfPHDgaXGV5FTwIt3DWLNC+euM=
 			</data>
 		</dict>
 		<key>Modules/DexcareiOSSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			U8Jp+QMVyBECDD0dz7ETQU92Tq77wxqxB1WbE93QYBw=
+			qMqhLIQvEGloSGrdwoaLXmbwySaBFvStHNfkjhEPrvQ=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
