@@ -1,9 +1,51 @@
 # Release Notes
+## 8.5.0
+
+### Bug fixes
+- Fixed `VirtualPracticeRegion.pedatricsAgeRange` not being decoded from the network response
+- `ScheduleRetailAppointmentRequest.init` is no longer optional. All errors are surfaced via throwing
+
+### Other
+- Update TokBox to `OTXCFramework` version 2.25.1
+
+### Clean up
+We've fixed a number of misspelled symbols in this release and marked many the incorrectly spelled symbols as deprecated. We've also renamed a few symbols to better align with standard Swift naming conventions. All these symbols provide 1 click fixes via Xcode and will be removed completely in the next release. There are also a few cases of misspellings that are impossible to deprecate while leaving the original intact, these will be removed with fixit's available in the next release as well. Further, we've deprecated a number of initializers for objects that should only be constructed via `Codable`. If you feel any of these should remain, please reach out to us.
+
+For reference the deprecated symbols are:
+- `AllowedVisitType.init`
+- `EmailValidator.EMAIL_REGEX_FROM_CONFIG`
+- `EmailValidator.EMAIL_VALIDATION_REGEX`
+- `OpenDay.init`
+- `OpenHours.init`
+- `PatientDemographics.init`
+- `PhoneValidator.PHONE_VALIDATION_REGEX`
+- `PracticeRegionAvailability.init`
+- `Provider.init`
+- `ProviderDepartment.init`
+- `ProviderService.getProviderTimeslots`
+- `ProviderTimeSlot.init`
+- `ProviderVisitType.init`
+- `RetailDepartment.init`
+- `RetailService.scheduleRetailAppointment`
+- `ScheduleDay.init`
+- `ScheduledProviderVisit.init`
+- `ScheduledProviderVisit.VirtualMeetingInfo.init`
+- `ScheduledVisit.init`
+- `ScheduledVisit.AppointmentDetails.init`
+- `ScheduledVisit.Timestamps.init`
+- `VirtualPractice.init`
+- `VirtualPractice.PracticePaymentAvailability.init`
+- `VirtualPracticeRegion.init`
+- `VirtualPracticeRegion.pedatricsAgeRange`
+- `WaitTime.init`
+- `WaitTimeLocalizationInfo.init`
+- `ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX`
+
 ## 8.4.0
 
 ### New
 - `PaymentMethod.insuranceManualSelfWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), and `payorName`
-- `PaymentMethod.insuranceManualOtherWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), `payorName` and `subcriberId`
+- `PaymentMethod.insuranceManualOtherWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), `payorName` and `subscriberId`
 - Added `getEMRPatient` to `PatientService` to allow loading a patient information using a MyChartSSO authentication token 
 
 ### Deprecations
@@ -13,7 +55,7 @@
 ## 8.3.0
 ### New
 - Added `RetailService.getRetailDepartment` to load information on a single retail department.
-- Default Waiting Room video has been updated to load from Vimeo, supporting Spanish localization. Waiting Room video can still be overridden through the `VirtualConfig` property on intialization. 
+- Default Waiting Room video has been updated to load from Vimeo, supporting Spanish localization. Waiting Room video can still be overridden through the `VirtualConfig` property on initialization. 
 
 ### Other
 - Fixed a scenario where the SDK version posted inside the userAgent header on api calls was incorrect
@@ -23,12 +65,12 @@
 ## 8.2.0
 ### New
 - `PaymentMethod.insuranceManualSelf` and `PaymentMethod.insuranceManualOther` now take in an optional `insuranceGroupNumber` property.
-- Added new `ScheduleProviderAppointmentFailedReason.patientNotOnPhysicialPanel`. Will return if on `ProviderService.scheduleProviderVisit` provider requires that the patient be on their panel.
+- Added new `ScheduleProviderAppointmentFailedReason.patientNotOnPhysicalPanel`. Will return if on `ProviderService.scheduleProviderVisit` provider requires that the patient be on their panel.
 - Added `VirtualVisitDetails.additionalDetails` property to allow saving of meta/extra information on a visit.
 
 ### AvailabilityService
-- Included is a new `AvailabilityService` which allows you to search for an available provider, by location, or department. Options include sorting by most available, giving the ability to give timeslots to lesser booked providers
-- Timeslots can also be searched with similar functionality. 
+- Included is a new `AvailabilityService` which allows you to search for an available provider, by location, or department. Options include sorting by most available, giving the ability to give time slots to lesser booked providers
+- Time slots can also be searched with similar functionality. 
 
 ### Fixes
 - Update internal endpoint for provider bookings with insurance to save the appointment notes properly (ENG-1040) 
@@ -38,7 +80,7 @@
 
 ### Deprecations
 - `PaymentService.uploadInsuranceCard` has been deprecated as it's no longer supported
-- `PaymentMethod.insuranceImageSelf` and `PaymentMethod.insuranceImageOther` has been depecrated as it's no longer supported.
+- `PaymentMethod.insuranceImageSelf` and `PaymentMethod.insuranceImageOther` has been deprecrated as it's no longer supported.
 
 ## 8.1.0
 ### New
@@ -61,7 +103,7 @@
 
 ### Fixes
 - Fixes MessageKit dependency version misalignment
-- Removes hardcoded `VirtualVisitAssignmentQualifer.adult` and `VirtualVisitAssignmentQualifer.pediatric` options. Regular virtual visits without special qualifications, should set the `VirtualVisitDetails.assignmentQualifers` to `nil`
+- Removes hardcoded `VirtualVisitAssignmentQualifier.adult` and `VirtualVisitAssignmentQualifier.pediatric` options. Regular virtual visits without special qualifications, should set the `VirtualVisitDetails.assignmentQualifiers` to `nil`
 - Removes missed async version of `RetailService.getClinics` this was renamed to `RetailService.getRetailDepartments`
 
 ## 8.0.0
@@ -102,15 +144,15 @@ For more examples of how you can call the new functions, please look at the v8 m
 - `ProviderService.getProviderTimeslots` passing in `visitTypeId` is deprecated in favour of `ProviderService.getProviderTimeslots` and passing in a `VisitTypeShortName` instead
 
 ### Removals
-- `VirtualSerivce.startVirtualVisit` - use the new `VirtualSerivce.createVirtualVisit` passing in the new `VirtualVisitDetails`
-- `VirtualVisitInformation` - use `VirtualVisitDetails` with the new `VirtualSerivce.createVirtualVisit`
+- `VirtualService.startVirtualVisit` - use the new `VirtualService.createVirtualVisit` passing in the new `VirtualVisitDetails`
+- `VirtualVisitInformation` - use `VirtualVisitDetails` with the new `VirtualService.createVirtualVisit`
 - `PracticeService.getVirtualPracticeRegionAvailability` - use the new `VirtualService.getWaitTimeAvailability`
 - `PracticeService.getEstimatedWaitTime` - use the new `VirtualService.getWaitTimeAvailability`
 - `RegionAvailability` - use the new `WaitTimeAvailability` returning from `VirtualService.getWaitTimeAvailability`
 - `PatientService.createPatientWithMyChart` has been removed and can no longer be called.
 - Removed `VirtualVisitFailedReason.deprecated`
 - `RetailService.getClinics` has been renamed to `RetailService.getRetailDepartments` which in turn return `RetailDepartments` from the previous `Clinics`
-- `ClinicTimeslots` have been renamed to `RetailAppointmentTimeslots` 
+- `ClinicTimeslots` have been renamed to `RetailAppointmentTimeSlots` 
 - `ScheduleVisit.clinic` has been renamed to `ScheduleVisit.retailDepartment`
 
 ### Other
@@ -187,7 +229,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
   - VirtualService.getRegions
   - RetailService.getRetailClinics
   - RetailService.uploadInsurance
-  - VirtualSerivce.getRegionAvailability
+  - VirtualService.getRegionAvailability
   - VirtualService.getInsurancePayers
   - VirtualService.verifyCouponCode
   - VirtualService.startVirtualVisit methods without practiceId argument
@@ -236,7 +278,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 - Added support for TytoCare devices in the Virtual Visit experience. When enabled on the server, a new button will appear in the waiting room and conference screens. Clicking the button will open a new that instructs the user on how to pair/connect their TytoCare device. For more information about TytoCare, visit https://www.tytocare.com/.
 - New permissions are also required in order for the TytoCare integration to work:
   - The [Wifi entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_networking_wifi-info) will need to be enabled on your build.
-  - Location with percise accuracy.
+  - Location with precise accuracy.
 - If any of the new permissions are not available, the integration will still work, but the SDK will not be able to get the current Wifi network information
 - `DexCareSDK.customizationOptions` now has a `tytoCareConfig` option for any TytoCare configuration that is allowed in the SDK. Please update these before starting a virtual visit.
 - More information and details are available on https://developers.dexcarehealth.com/virtualvisit/tytocare
@@ -290,8 +332,8 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 ### Providers
 - Added a new `ProviderService` to the SDK to load `Provider` Information.
 - Added `ProviderService.getProvider(providerNationalId)` to retrieve information about a provider.
-- Added `ProviderService.getProviderTimeslots(providerNationalId, visitTypeId, startDate, endDate)` to load timeslots for a given provider
-- Added `ProviderService.getMaxLookaheadDays(visitTypeShortName, ehrSystemName)` to get the max days the server will look ahead for timeslots
+- Added `ProviderService.getProviderTimeslots(providerNationalId, visitTypeId, startDate, endDate)` to load time slots for a given provider
+- Added `ProviderService.getMaxLookaheadDays(visitTypeShortName, ehrSystemName)` to get the max days the server will look ahead for time slots
 - Added `ProviderService.scheduleProviderVisit(paymentMethod, providerVisitInformation, timeSlot, ehrSystemName, patientDexcarePatient, actorDexcarePatient?)` to book through a provider.
 - New models `Provider`, `ProviderDepartment`, `ProviderVisitType`, `ScheduledProviderVisit`
 
@@ -374,7 +416,7 @@ It is recommended that on intake, you provide a Phone Number field that can be p
 ### Changed/Updated
 - `RetailService.getRetailClinics` is now `RetailService.getClinics` (DC-2769)
 - Added some extra validation for empty strings on some methods. (DC-2885)
-- Updated an internal endpoint used by the sdk to resume virtual visits (DC-2836)
+- Updated an internal endpoint used by the SDK to resume virtual visits (DC-2836)
 - Adds the SDK Version to the `userAgent` header for all network calls (DC-3206)
 - `PatientDemographic.actorRelationshipToPatient` is deprecated. All `actorRelationshipToPatient` should now be passed in via the `RetailVisitInformation` or the `VirtualVisitInformation`
 - Removed `AllowedVisitType.reasonLabel` and `AllowedVisitType.description` as they are unused
@@ -415,7 +457,7 @@ _____
 - `DexcareSDK.signIn(accessToken:String)` replaces `DexcareSDK.authentication.signIn`
 - `DexcareSDK.signOut()` replaces `DexcareSDK.authentication.signOut`
 - `VirtualService.startVirtualVisit` without email replaces the same call with email. Email property is now passed through `VirtualVisitInformation.userEmail`
-- `VirtualService.resumeVirtualVisit` without email replaces the same call with email, dislplayName. DisplayName is now gathered automatically by SDK.
+- `VirtualService.resumeVirtualVisit` without email replaces the same call with email, displayName. DisplayName is now gathered automatically by SDK.
 - `PatientService.createPatient` and `PatientService.createDependentPatient` now have extra validation checks for `Address.postalCode`, `homePhone`, `mobilePhone`, `workPhone`,
 - New `VirtualFeedback` enum that is used in new postFeedback call
 - `VirtualService.postFeedback([VirtualFeedback])` replaces `VirtualService.postFeedback(patientId...)` to simplify the postFeedback call. A `startVirtualVisit` or a `resumeVirtualVisit` must have been called before you can call this function.
@@ -461,7 +503,7 @@ _____
 
 ### Changed
 - Moved `scheduleRetailAppointment` from `RetailService` to `AppointmentService`
-- Deprecated `AppointmentService.scheduleRetailAppointment` with the old `RetailTimeslot` paramater in favor of using the new `TimeSlot` parameter
+- Deprecated `AppointmentService.scheduleRetailAppointment` with the old `RetailTimeslot` parameter in favor of using the new `TimeSlot` parameter
 - Deprecated `RetailService.appointments` which is now `AppointmentService.getRetailVisits`
 - Deprecated `RetailClinic` in favor of `Clinic`
 - Deprecated `RetailClinicAddress` in favor of `Address`

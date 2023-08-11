@@ -62,7 +62,9 @@ public protocol RetailService {
   func getRetailDepartments(brand: Swift.String, success: @escaping ([DexcareiOSSDK.RetailDepartment]) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getRetailDepartment(departmentName: Swift.String, success: @escaping (DexcareiOSSDK.RetailDepartment) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getTimeSlots(departmentName: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName?, success: @escaping (DexcareiOSSDK.RetailAppointmentTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  @available(*, deprecated, message: "Please use capitalize the S in parameter timeSlot. This will be removed in the next release")
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
+  func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (Swift.String) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleRetailAppointmentFailedReason) -> Swift.Void)
   #if compiler(>=5.3) && $AsyncAwait
   func getRetailDepartments(brand: Swift.String) async throws -> [DexcareiOSSDK.RetailDepartment]
   #endif
@@ -70,7 +72,11 @@ public protocol RetailService {
   func getTimeSlots(departmentName: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName?) async throws -> DexcareiOSSDK.RetailAppointmentTimeSlot
   #endif
   #if compiler(>=5.3) && $AsyncAwait
+  @available(*, deprecated, message: "Please use capitalize the S in parameter timeSlot. This will be removed in the next release")
   func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeslot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?) async throws -> Swift.String
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  func scheduleRetailAppointment(paymentMethod: DexcareiOSSDK.PaymentMethod, visitInformation: DexcareiOSSDK.RetailVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?) async throws -> Swift.String
   #endif
   #if compiler(>=5.3) && $AsyncAwait
   func getRetailDepartment(departmentName: Swift.String) async throws -> DexcareiOSSDK.RetailDepartment
@@ -110,6 +116,7 @@ public struct WaitTime : Swift.Decodable, Swift.Equatable {
   public var estimatedWaitTimeSeconds: Swift.Int
   public var estimatedWaitTimeMessage: Swift.String?
   public var waitTimeLocalizationInfo: DexcareiOSSDK.WaitTimeLocalizationInfo?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(generatedAt: Foundation.Date, estimatedWaitTimeSeconds: Swift.Int, estimatedWaitTimeMessage: Swift.String?, waitTimeLocalizationInfo: DexcareiOSSDK.WaitTimeLocalizationInfo?)
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.WaitTime, b: DexcareiOSSDK.WaitTime) -> Swift.Bool
@@ -181,6 +188,7 @@ public struct PatientDemographics : Swift.Codable, Swift.Equatable {
   public var homePhone: Swift.String?
   public var mobilePhone: Swift.String?
   public var workPhone: Swift.String?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(name: DexcareiOSSDK.HumanName, addresses: [DexcareiOSSDK.Address], birthdate: Foundation.Date, email: Swift.String, gender: DexcareiOSSDK.Gender, identifiers: [DexcareiOSSDK.Identifier], ehrSystemName: Swift.String?, last4SSN: Swift.String, homePhone: Swift.String?, mobilePhone: Swift.String?, workPhone: Swift.String?)
   public init(name: DexcareiOSSDK.HumanName, addresses: [DexcareiOSSDK.Address], birthDate: Foundation.Date, email: Swift.String, gender: DexcareiOSSDK.Gender, ehrSystemName: Swift.String?, last4SSN: Swift.String, homePhone: Swift.String?, mobilePhone: Swift.String?, workPhone: Swift.String?)
   public init(from decoder: any Swift.Decoder) throws
@@ -247,6 +255,7 @@ public struct Provider : Swift.Codable {
   public let isActive: Swift.Bool?
   public let departments: [DexcareiOSSDK.ProviderDepartment]
   public let visitTypes: [DexcareiOSSDK.ProviderVisitType]
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(providerNationalId: Swift.String, name: Swift.String, credentials: Swift.String?, minAge: Swift.Int?, maxAge: Swift.Int?, brand: Swift.String?, isActive: Swift.Bool?, departments: [DexcareiOSSDK.ProviderDepartment], visitTypes: [DexcareiOSSDK.ProviderVisitType])
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -256,6 +265,7 @@ public struct ProviderVisitType : Swift.Codable, Swift.Equatable {
   public let name: Swift.String
   public let shortName: DexcareiOSSDK.VisitTypeShortName?
   public let description: Swift.String?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(visitTypeId: Swift.String, name: Swift.String, shortName: DexcareiOSSDK.VisitTypeShortName?, description: Swift.String?)
   public static func == (a: DexcareiOSSDK.ProviderVisitType, b: DexcareiOSSDK.ProviderVisitType) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -268,6 +278,7 @@ public struct ProviderDepartment : Swift.Codable {
   public let center: Swift.String?
   public let phone: Swift.String?
   public let address: DexcareiOSSDK.Address?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(departmentId: Swift.String, ehrSystemName: Swift.String, name: Swift.String, center: Swift.String?, phone: Swift.String?, address: DexcareiOSSDK.Address?)
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -464,9 +475,11 @@ public enum VisitCompletionReason : Swift.String {
 }
 public protocol ProviderService {
   func getProvider(providerNationalId: Swift.String, success: @escaping (DexcareiOSSDK.Provider) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
-  @available(*, deprecated, message: "Loading of provider time slots with visitTypeId is deprecated. Use getProviderTimeslots passing in visitTypeShortName instead")
+  @available(*, deprecated, message: "Loading of provider time slots with visitTypeId is deprecated. Use getProviderTimeSlots passing in visitTypeShortName instead")
   func getProviderTimeslots(providerNationalId: Swift.String, visitTypeId: Swift.String, startDate: Foundation.Date?, endDate: Foundation.Date?, success: @escaping (DexcareiOSSDK.ProviderTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  @available(*, deprecated, renamed: "getProviderTimeSlots", message: "Please use the correctly spelled getProviderTimeSlots. This will be removed in the next release")
   func getProviderTimeslots(providerNationalId: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, startDate: Foundation.Date?, endDate: Foundation.Date?, success: @escaping (DexcareiOSSDK.ProviderTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
+  func getProviderTimeSlots(providerNationalId: Swift.String, visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, startDate: Foundation.Date?, endDate: Foundation.Date?, success: @escaping (DexcareiOSSDK.ProviderTimeSlot) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func getMaxLookaheadDays(visitTypeShortName: DexcareiOSSDK.VisitTypeShortName, ehrSystemName: Swift.String, success: @escaping (Swift.Int) -> Swift.Void, failure: @escaping (DexcareiOSSDK.FailedReason) -> Swift.Void)
   func scheduleProviderVisit(paymentMethod: DexcareiOSSDK.PaymentMethod, providerVisitInformation: DexcareiOSSDK.ProviderVisitInformation, timeSlot: DexcareiOSSDK.TimeSlot, ehrSystemName: Swift.String, patientDexCarePatient: DexcareiOSSDK.DexcarePatient, actorDexCarePatient: DexcareiOSSDK.DexcarePatient?, success: @escaping (DexcareiOSSDK.ScheduledProviderVisit) -> Swift.Void, failure: @escaping (DexcareiOSSDK.ScheduleProviderAppointmentFailedReason) -> Swift.Void)
   #if compiler(>=5.3) && $AsyncAwait
@@ -503,8 +516,11 @@ public struct VirtualPracticeRegion : Swift.Codable, Swift.Equatable {
   public var busyMessage: Swift.String
   public var visitPrice: Foundation.Decimal
   public var availability: [DexcareiOSSDK.PracticeRegionAvailability]
+  @available(*, deprecated, renamed: "pediatricsAgeRange", message: "Please use the correctly spelled pediatricsAgeRange. This will be removed in the next release")
   public var pedatricsAgeRange: DexcareiOSSDK.PediatricsAgeRange?
+  public var pediatricsAgeRange: DexcareiOSSDK.PediatricsAgeRange?
   public init(from decoder: any Swift.Decoder) throws
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(practiceRegionId: Swift.String, displayName: Swift.String, regionCode: Swift.String, active: Swift.Bool, busy: Swift.Bool, busyMessage: Swift.String, visitPrice: Foundation.Decimal, availability: [DexcareiOSSDK.PracticeRegionAvailability], pedatricsAgeRange: DexcareiOSSDK.PediatricsAgeRange?)
   public static func == (a: DexcareiOSSDK.VirtualPracticeRegion, b: DexcareiOSSDK.VirtualPracticeRegion) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -520,6 +536,7 @@ public struct PediatricsAgeRange : Swift.Codable, Swift.Equatable {
 public struct PracticeRegionAvailability : Swift.Codable, Swift.Equatable {
   public let start: Foundation.Date
   public let end: Foundation.Date
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(start: Foundation.Date, end: Foundation.Date)
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.PracticeRegionAvailability, b: DexcareiOSSDK.PracticeRegionAvailability) -> Swift.Bool
@@ -596,6 +613,7 @@ public struct VirtualPractice : Swift.Codable {
   public var payment: DexcareiOSSDK.PracticePaymentAvailability
   public var epicBookingEnabled: Swift.Bool
   public var practiceRegions: [DexcareiOSSDK.VirtualPracticeRegion]
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(practiceId: Swift.String, displayName: Swift.String, careMode: DexcareiOSSDK.PracticeCareMode, payment: DexcareiOSSDK.PracticePaymentAvailability, epicBookingEnabled: Swift.Bool, practiceRegions: [DexcareiOSSDK.VirtualPracticeRegion])
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -614,6 +632,7 @@ public struct PracticePaymentAvailability : Swift.Codable {
   public let insurance: Swift.Bool
   public let selfPay: Swift.Bool
   public let serviceKey: Swift.Bool
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(insurance: Swift.Bool, selfPay: Swift.Bool, serviceKey: Swift.Bool)
   public func encode(to encoder: any Swift.Encoder) throws
   public init(from decoder: any Swift.Decoder) throws
@@ -774,8 +793,13 @@ public enum DevicePairError : Swift.Error, Swift.Equatable {
   case tytoCarePairFailed(DexcareiOSSDK.TytoCareFailedReason)
 }
 @_hasMissingDesignatedInitializers public class EmailValidator {
+  @available(*, deprecated, renamed: "emailValidationRegex")
   public static let EMAIL_VALIDATION_REGEX: Swift.String
+  @available(*, deprecated, renamed: "emailValidationRegex")
   public static var EMAIL_REGEX_FROM_CONFIG: Swift.String {
+    get
+  }
+  public static var emailValidationRegex: Swift.String {
     get
   }
   public static func isValid(email: Swift.String) -> Swift.Bool
@@ -811,6 +835,7 @@ public struct RetailDepartment : Swift.Equatable, Swift.Codable {
   public let instanceId: Swift.String
   public let allowedVisitTypes: [DexcareiOSSDK.AllowedVisitType]
   public let openDays: [DexcareiOSSDK.OpenDay]
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(brandName: Swift.String, displayName: Swift.String, address: DexcareiOSSDK.Address, phone: Swift.String, smallImageUrl: Foundation.URL, longitude: Swift.Double, latitude: Swift.Double, ehrSystemName: Swift.String, departmentName: Swift.String, timezone: Swift.String, departmentId: Swift.String, clinicType: Swift.String, isActive: Swift.Bool, instanceId: Swift.String, allowedVisitTypes: [DexcareiOSSDK.AllowedVisitType], openDays: [DexcareiOSSDK.OpenDay])
   public static func == (a: DexcareiOSSDK.RetailDepartment, b: DexcareiOSSDK.RetailDepartment) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -834,6 +859,7 @@ public struct AllowedVisitType : Swift.Equatable, Swift.Codable {
   public let visitTypeId: Swift.String
   public let name: Swift.String
   public let shortName: DexcareiOSSDK.VisitTypeShortName
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(visitTypeId: Swift.String, name: Swift.String, shortName: DexcareiOSSDK.VisitTypeShortName)
   public static func == (a: DexcareiOSSDK.AllowedVisitType, b: DexcareiOSSDK.AllowedVisitType) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -842,6 +868,7 @@ public struct AllowedVisitType : Swift.Equatable, Swift.Codable {
 public struct OpenDay : Swift.Equatable, Swift.Codable {
   public let day: Swift.String
   public let openHours: DexcareiOSSDK.OpenHours
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(day: Swift.String, openHours: DexcareiOSSDK.OpenHours)
   public static func == (a: DexcareiOSSDK.OpenDay, b: DexcareiOSSDK.OpenDay) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -850,6 +877,7 @@ public struct OpenDay : Swift.Equatable, Swift.Codable {
 public struct OpenHours : Swift.Equatable, Swift.Codable {
   public let startTimeString: Swift.String
   public let endTimeString: Swift.String
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(startTimeString: Swift.String, endTimeString: Swift.String)
   public static func == (a: DexcareiOSSDK.OpenHours, b: DexcareiOSSDK.OpenHours) -> Swift.Bool
   public func encode(to encoder: any Swift.Encoder) throws
@@ -980,7 +1008,9 @@ public struct TimeSlot : Swift.Equatable, Swift.Codable {
   public func encode(to encoder: any Swift.Encoder) throws
 }
 @_hasMissingDesignatedInitializers public class ZipCodeValidator {
+  @available(*, deprecated, renamed: "zipCodeValidationRegex")
   public static let ZIP_CODE_VALIDATION_REGEX: Swift.String
+  public static let zipCodeValidationRegex: Swift.String
   public static func isValid(zipCode: Swift.String) -> Swift.Bool
   @objc deinit
 }
@@ -992,6 +1022,7 @@ public struct WaitTimeLocalizationInfo : Swift.Decodable, Swift.Equatable {
   public var waitTimeMapKey: Swift.String
   public var timeMinSeconds: Swift.Int?
   public var timeMaxSeconds: Swift.Int?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(modality: DexcareiOSSDK.VirtualVisitModality, waitTimeMapKey: Swift.String, timeMinSeconds: Swift.Int?, timeMaxSeconds: Swift.Int?)
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.WaitTimeLocalizationInfo, b: DexcareiOSSDK.WaitTimeLocalizationInfo) -> Swift.Bool
@@ -1056,6 +1087,7 @@ public struct ScheduledVisit : Swift.Equatable, Swift.Codable {
   public let patientPhone: Swift.String?
   public let timestamps: DexcareiOSSDK.ScheduledVisit.Timestamps
   public var retailDepartment: DexcareiOSSDK.RetailDepartment?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(id: Swift.String, type: DexcareiOSSDK.ScheduledVisitType, status: DexcareiOSSDK.ScheduledVisitStatus, address: DexcareiOSSDK.Address, appointmentDetails: DexcareiOSSDK.ScheduledVisit.AppointmentDetails, departmentId: Swift.String, ehrSystemName: Swift.String, isNewPatient: Swift.Bool, isReadyForVisit: Swift.Bool, patientEmail: Swift.String?, patientGuid: Swift.String, patientPhone: Swift.String?, timestamps: DexcareiOSSDK.ScheduledVisit.Timestamps, retailDepartment: DexcareiOSSDK.RetailDepartment?)
   public struct AppointmentDetails : Swift.Equatable, Swift.Codable {
     public let appointmentId: Swift.String
@@ -1063,6 +1095,7 @@ public struct ScheduledVisit : Swift.Equatable, Swift.Codable {
     public let startDateTime: Foundation.Date
     public let endDateTime: Foundation.Date
     public let timezone: Swift.String
+    @available(*, deprecated, message: "This will be removed in the next release")
     public init(appointmentId: Swift.String, slotId: Swift.String, startDateTime: Foundation.Date, endDateTime: Foundation.Date, timezone: Swift.String)
     public static func == (a: DexcareiOSSDK.ScheduledVisit.AppointmentDetails, b: DexcareiOSSDK.ScheduledVisit.AppointmentDetails) -> Swift.Bool
     public func encode(to encoder: any Swift.Encoder) throws
@@ -1073,6 +1106,7 @@ public struct ScheduledVisit : Swift.Equatable, Swift.Codable {
     public let done: Foundation.Date?
     public let requested: Foundation.Date?
     public let staffDeclined: Foundation.Date?
+    @available(*, deprecated, message: "This will be removed in the next release")
     public init(cancelled: Foundation.Date?, done: Foundation.Date?, requested: Foundation.Date?, staffDeclined: Foundation.Date?)
     public init(from decoder: any Swift.Decoder) throws
     public static func == (a: DexcareiOSSDK.ScheduledVisit.Timestamps, b: DexcareiOSSDK.ScheduledVisit.Timestamps) -> Swift.Bool
@@ -1124,6 +1158,7 @@ public struct ScheduledProviderVisit : Swift.Codable, Swift.Equatable {
   public let visitId: Swift.String
   public let isVirtual: Swift.Bool
   public let virtualMeetingInfo: DexcareiOSSDK.ScheduledProviderVisit.VirtualMeetingInfo?
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(visitId: Swift.String, isVirtual: Swift.Bool, virtualMeetingInfo: DexcareiOSSDK.ScheduledProviderVisit.VirtualMeetingInfo?)
   public struct VirtualMeetingInfo : Swift.Codable, Swift.Equatable {
     public let joinUrl: Foundation.URL?
@@ -1133,6 +1168,7 @@ public struct ScheduledProviderVisit : Swift.Codable, Swift.Equatable {
     public let password: Swift.String?
     public let vendor: DexcareiOSSDK.ScheduledProviderVisit.VirtualMeetingInfo.VirtualMeetingVendor?
     public init(from decoder: any Swift.Decoder) throws
+    @available(*, deprecated, message: "This will be removed in the next release")
     public init(joinUrl: Foundation.URL?, joinUrlShort: Foundation.URL?, conferenceId: Swift.String?, tollFreeNumber: Swift.String?, password: Swift.String?, vendor: DexcareiOSSDK.ScheduledProviderVisit.VirtualMeetingInfo.VirtualMeetingVendor?)
     public enum VirtualMeetingVendor : Swift.String, Swift.Codable, Swift.Equatable {
       case teams
@@ -1257,7 +1293,9 @@ public struct VirtualVisitDetails : Swift.Encodable, Swift.Equatable {
   public func encode(to encoder: any Swift.Encoder) throws
 }
 @_hasMissingDesignatedInitializers public class PhoneValidator {
+  @available(*, deprecated, renamed: "phoneValidationRegex")
   public static let PHONE_VALIDATION_REGEX: Swift.String
+  public static let phoneValidationRegex: Swift.String
   public static func isValid(phoneNumber: Swift.String) -> Swift.Bool
   @objc deinit
 }
@@ -1273,6 +1311,7 @@ public struct ProviderTimeSlot : Swift.Equatable, Swift.Codable {
   public var timeZone: Foundation.TimeZone? {
     get
   }
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(providerNationalId: Swift.String, startDate: Foundation.Date, endDate: Foundation.Date, timezoneString: Swift.String, scheduleDays: [DexcareiOSSDK.ScheduleDay])
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.ProviderTimeSlot, b: DexcareiOSSDK.ProviderTimeSlot) -> Swift.Bool
@@ -1296,6 +1335,7 @@ public struct ProviderVisitInformation : Swift.Equatable, Swift.Codable {
 public struct ScheduleDay : Swift.Equatable, Swift.Codable {
   public let date: Foundation.Date
   public let timeSlots: [DexcareiOSSDK.TimeSlot]
+  @available(*, deprecated, message: "This will be removed in the next release")
   public init(date: Foundation.Date, timeSlots: [DexcareiOSSDK.TimeSlot])
   public init(from decoder: any Swift.Decoder) throws
   public static func == (a: DexcareiOSSDK.ScheduleDay, b: DexcareiOSSDK.ScheduleDay) -> Swift.Bool
