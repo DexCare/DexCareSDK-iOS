@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="F4k-f1-Afq">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--TytoCareSetup-->
+        <scene sceneID="GfL-YD-Fif">
+            <objects>
+                <viewController storyboardIdentifier="TytoCareSetupViewController" title="TytoCareSetup" id="F4k-f1-Afq" customClass="TytoCareSetupViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HNg-77-cvX">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gJl-az-SNw">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7p9-XN-gKh">
+                                <rect key="frame" x="0.0" y="44" width="428" height="713"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YAh-7E-ifx" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="380"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="eiu-Qn-yQR">
+                                                <rect key="frame" x="25" y="0.0" width="378" height="380"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is TytoCare?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AHk-PC-sVS">
+                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yfu-lQ-mlI">
+                                                        <rect key="frame" x="0.0" y="39" width="378" height="153"/>
+                                                        <string key="text">Tyto is a handheld exam kit and app that lets you perform guided medical exams with a healthcare provider, anytime, anywhere. The Tyto Device needs to connect to Wi-Fi to send exams to the TytoApp and stream video during a live visit with a provider. \n You will need to enter your network details through our app to connect your TytoCare device for our providers.</string>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NTE-Ou-Gdh">
+                                                        <rect key="frame" x="0.0" y="207" width="378" height="30"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fpq-fi-d7O">
+                                                                <rect key="frame" x="0.0" y="0.0" width="378" height="30"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info" translatesAutoresizingMaskIntoConstraints="NO" id="Nga-NW-Kwx">
+                                                                        <rect key="frame" x="0.0" y="7.6666666666666856" width="15" height="15"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="15" id="Hzh-oD-s4J"/>
+                                                                            <constraint firstAttribute="height" constant="15" id="x7F-eO-Xvl"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE: 5 GHz Wi-Fi networks are not supported." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nLm-O6-0K1">
+                                                                        <rect key="frame" x="18" y="6.6666666666666856" width="360" height="17"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="height" constant="30" id="7xd-hu-XJ4"/>
+                                                                    <constraint firstItem="Nga-NW-Kwx" firstAttribute="leading" secondItem="fpq-fi-d7O" secondAttribute="leading" id="RMQ-GA-iQw"/>
+                                                                    <constraint firstItem="nLm-O6-0K1" firstAttribute="leading" secondItem="Nga-NW-Kwx" secondAttribute="trailing" constant="3" id="Uqd-wu-YS1"/>
+                                                                    <constraint firstItem="nLm-O6-0K1" firstAttribute="centerY" secondItem="fpq-fi-d7O" secondAttribute="centerY" id="VbL-0B-2qA"/>
+                                                                    <constraint firstItem="Nga-NW-Kwx" firstAttribute="centerY" secondItem="fpq-fi-d7O" secondAttribute="centerY" id="fi9-Nu-Qm2"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="nLm-O6-0K1" secondAttribute="trailing" id="vDn-4P-2I8"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="fpq-fi-d7O" secondAttribute="trailing" id="2Pd-VW-sFs"/>
+                                                            <constraint firstItem="fpq-fi-d7O" firstAttribute="centerY" secondItem="NTE-Ou-Gdh" secondAttribute="centerY" id="4RI-wx-k4v"/>
+                                                            <constraint firstAttribute="height" constant="30" id="ZdG-hm-KTf"/>
+                                                            <constraint firstItem="fpq-fi-d7O" firstAttribute="leading" secondItem="NTE-Ou-Gdh" secondAttribute="leading" id="geg-bv-RWL"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="cU8-rt-B7y">
+                                                        <rect key="frame" x="0.0" y="252" width="378" height="128"/>
+                                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="128" id="0x2-wu-N49"/>
+                                                        </constraints>
+                                                        <color key="textColor" systemColor="labelColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                    </textView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="eiu-Qn-yQR" secondAttribute="bottom" id="K1q-Zm-1mp"/>
+                                            <constraint firstAttribute="trailing" secondItem="eiu-Qn-yQR" secondAttribute="trailing" constant="25" id="SCe-BI-Jsb"/>
+                                            <constraint firstItem="eiu-Qn-yQR" firstAttribute="top" secondItem="YAh-7E-ifx" secondAttribute="top" id="Sub-i6-Rfr"/>
+                                            <constraint firstItem="eiu-Qn-yQR" firstAttribute="leading" secondItem="YAh-7E-ifx" secondAttribute="leading" constant="25" id="utG-7j-ktI"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="YAh-7E-ifx" firstAttribute="width" secondItem="7p9-XN-gKh" secondAttribute="width" id="1wt-pN-awt"/>
+                                    <constraint firstAttribute="trailing" secondItem="YAh-7E-ifx" secondAttribute="trailing" id="btp-om-zFQ"/>
+                                    <constraint firstItem="YAh-7E-ifx" firstAttribute="top" secondItem="7p9-XN-gKh" secondAttribute="top" id="dMU-Tz-RQB"/>
+                                    <constraint firstItem="YAh-7E-ifx" firstAttribute="leading" secondItem="7p9-XN-gKh" secondAttribute="leading" id="g1y-er-Bm2"/>
+                                    <constraint firstAttribute="bottom" secondItem="YAh-7E-ifx" secondAttribute="bottom" id="xLH-4k-q03"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxj-5w-2YW">
+                                <rect key="frame" x="0.0" y="757" width="428" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVj-ig-jts" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                        <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
+                                        <color key="backgroundColor" name="tytoCareButtonBlue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="mX8-X2-nhJ"/>
+                                            <constraint firstAttribute="height" constant="40" id="wrg-jD-6RG"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="SETUP TYTOCARE"/>
+                                        <connections>
+                                            <action selector="setupButtonTapped" destination="F4k-f1-Afq" eventType="touchUpInside" id="sjc-MO-Irk"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="0ud-iP-piH"/>
+                                    <constraint firstItem="dVj-ig-jts" firstAttribute="centerX" secondItem="gxj-5w-2YW" secondAttribute="centerX" id="DHv-LX-UcI"/>
+                                    <constraint firstItem="dVj-ig-jts" firstAttribute="centerY" secondItem="gxj-5w-2YW" secondAttribute="centerY" id="mrC-2R-gEx"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ezT-87-Yt5">
+                                <rect key="frame" x="0.0" y="832" width="428" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tf9-Jh-TZb">
+                                        <rect key="frame" x="20" y="0.0" width="388" height="60"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zvc-IV-DSX">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="1"/>
+                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="aS3-aX-DKn"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dtV-f3-RlP">
+                                                <rect key="frame" x="0.0" y="1" width="388" height="59"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="RETURN TO VISIT">
+                                                    <color key="titleColor" name="tytoCareBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closeButtonTapped" destination="F4k-f1-Afq" eventType="touchUpInside" id="1Vn-Fh-TI3"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="tf9-Jh-TZb" secondAttribute="bottom" id="1Gi-J2-0gB"/>
+                                    <constraint firstAttribute="trailing" secondItem="tf9-Jh-TZb" secondAttribute="trailing" constant="20" id="28d-tR-ajR"/>
+                                    <constraint firstItem="tf9-Jh-TZb" firstAttribute="top" secondItem="ezT-87-Yt5" secondAttribute="top" id="FES-dS-qJf"/>
+                                    <constraint firstItem="tf9-Jh-TZb" firstAttribute="leading" secondItem="ezT-87-Yt5" secondAttribute="leading" constant="20" id="jSW-ct-pmF"/>
+                                    <constraint firstAttribute="height" constant="60" id="t51-9M-hGu"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="hqh-om-ZXl"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ezT-87-Yt5" firstAttribute="top" secondItem="gxj-5w-2YW" secondAttribute="bottom" id="2i0-db-l8J"/>
+                            <constraint firstItem="gJl-az-SNw" firstAttribute="leading" secondItem="HNg-77-cvX" secondAttribute="leading" id="2js-cK-Yq0"/>
+                            <constraint firstAttribute="trailing" secondItem="gJl-az-SNw" secondAttribute="trailing" id="Crg-G1-4uN"/>
+                            <constraint firstItem="7p9-XN-gKh" firstAttribute="top" secondItem="hqh-om-ZXl" secondAttribute="top" id="E6j-UE-L8w"/>
+                            <constraint firstItem="7p9-XN-gKh" firstAttribute="leading" secondItem="HNg-77-cvX" secondAttribute="leading" id="LvB-7j-ZNt"/>
+                            <constraint firstItem="gxj-5w-2YW" firstAttribute="leading" secondItem="hqh-om-ZXl" secondAttribute="leading" id="RVW-Q3-wrh"/>
+                            <constraint firstItem="ezT-87-Yt5" firstAttribute="leading" secondItem="HNg-77-cvX" secondAttribute="leading" id="WXU-TP-OyL"/>
+                            <constraint firstItem="gJl-az-SNw" firstAttribute="top" secondItem="HNg-77-cvX" secondAttribute="top" id="ZWe-3u-gWL"/>
+                            <constraint firstAttribute="trailing" secondItem="7p9-XN-gKh" secondAttribute="trailing" id="aQJ-pp-cEm"/>
+                            <constraint firstItem="hqh-om-ZXl" firstAttribute="bottom" secondItem="ezT-87-Yt5" secondAttribute="bottom" id="cZl-j3-N7q"/>
+                            <constraint firstItem="gxj-5w-2YW" firstAttribute="top" secondItem="7p9-XN-gKh" secondAttribute="bottom" id="k11-NS-pCU"/>
+                            <constraint firstAttribute="bottom" secondItem="gJl-az-SNw" secondAttribute="bottom" id="p6Y-eT-RRk"/>
+                            <constraint firstItem="hqh-om-ZXl" firstAttribute="trailing" secondItem="gxj-5w-2YW" secondAttribute="trailing" id="pIL-qc-C1t"/>
+                            <constraint firstAttribute="trailing" secondItem="ezT-87-Yt5" secondAttribute="trailing" id="vUM-fO-GD1"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="linkTextView" destination="cU8-rt-B7y" id="OXw-Sc-Ru8"/>
+                        <outlet property="messageDescription" destination="yfu-lQ-mlI" id="zJS-Lo-I4y"/>
+                        <outlet property="setupButton" destination="dVj-ig-jts" id="oad-cx-s6x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cCu-xX-oW2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-393" y="90"/>
+        </scene>
+        <!--TytoCarePrivacy-->
+        <scene sceneID="CG2-zU-B53">
+            <objects>
+                <viewController storyboardIdentifier="TytoCareMissingPrivacyViewController" title="TytoCareSetup" id="FyZ-xh-P8p" userLabel="TytoCarePrivacy" customClass="TytoCareMissingPrivacyViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qaj-6F-ghD">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPh-fq-raU">
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                            </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yyf-0w-E1i">
+                                <rect key="frame" x="0.0" y="44" width="428" height="713"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DMa-oI-asX" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="77.333333333333329"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="3kH-bq-jCr">
+                                                <rect key="frame" x="25" y="0.0" width="378" height="77.333333333333329"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authorize Location Services and GPS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="URC-QO-awv">
+                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To find the current Wi-Fi network, please allow access to your location services." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kU-vb-xOJ">
+                                                        <rect key="frame" x="0.0" y="39" width="378" height="38.333333333333343"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="3kH-bq-jCr" firstAttribute="top" secondItem="DMa-oI-asX" secondAttribute="top" id="372-kM-yI9"/>
+                                            <constraint firstAttribute="bottom" secondItem="3kH-bq-jCr" secondAttribute="bottom" id="JRo-8k-RXY"/>
+                                            <constraint firstAttribute="trailing" secondItem="3kH-bq-jCr" secondAttribute="trailing" constant="25" id="QDe-Bg-bsI"/>
+                                            <constraint firstItem="3kH-bq-jCr" firstAttribute="leading" secondItem="DMa-oI-asX" secondAttribute="leading" constant="25" id="qeV-94-cOa"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="DMa-oI-asX" secondAttribute="trailing" id="Ind-iH-IRm"/>
+                                    <constraint firstItem="DMa-oI-asX" firstAttribute="width" secondItem="yyf-0w-E1i" secondAttribute="width" id="VdR-qW-fAu"/>
+                                    <constraint firstItem="DMa-oI-asX" firstAttribute="top" secondItem="yyf-0w-E1i" secondAttribute="top" id="eXg-hJ-KxD"/>
+                                    <constraint firstAttribute="bottom" secondItem="DMa-oI-asX" secondAttribute="bottom" id="gLH-vR-6Lb"/>
+                                    <constraint firstItem="DMa-oI-asX" firstAttribute="leading" secondItem="yyf-0w-E1i" secondAttribute="leading" id="sQC-4R-wBm"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yrb-oj-E7O">
+                                <rect key="frame" x="0.0" y="757" width="428" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOy-Sv-bta" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                        <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
+                                        <color key="backgroundColor" name="tytoCareButtonBlue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="AE4-Zi-ofz"/>
+                                            <constraint firstAttribute="width" constant="240" id="Qf0-uN-0cy"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="GO TO SERVICES"/>
+                                        <connections>
+                                            <action selector="networkButtonTapped" destination="FyZ-xh-P8p" eventType="touchUpInside" id="Qpn-5P-F5W"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="WOy-Sv-bta" firstAttribute="centerX" secondItem="Yrb-oj-E7O" secondAttribute="centerX" id="QNi-cH-L7V"/>
+                                    <constraint firstAttribute="height" constant="75" id="Txt-Fu-ZbW"/>
+                                    <constraint firstItem="WOy-Sv-bta" firstAttribute="centerY" secondItem="Yrb-oj-E7O" secondAttribute="centerY" id="pvO-gl-0cL"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yi7-79-9ZY">
+                                <rect key="frame" x="0.0" y="832" width="428" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="nIv-XG-Gty">
+                                        <rect key="frame" x="20" y="0.0" width="388" height="60"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4Y-ns-fjD">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="1"/>
+                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="2l6-vp-vjH"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NMy-yQ-VQc">
+                                                <rect key="frame" x="0.0" y="1" width="388" height="59"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="ENTER WI-FI NAME MANUALLY">
+                                                    <color key="titleColor" name="tytoCareBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="manualButtonTapped" destination="FyZ-xh-P8p" eventType="touchUpInside" id="PRr-7w-btq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="nIv-XG-Gty" secondAttribute="trailing" constant="20" id="NWC-XM-BES"/>
+                                    <constraint firstItem="nIv-XG-Gty" firstAttribute="leading" secondItem="yi7-79-9ZY" secondAttribute="leading" constant="20" id="Pp6-27-iWq"/>
+                                    <constraint firstItem="nIv-XG-Gty" firstAttribute="top" secondItem="yi7-79-9ZY" secondAttribute="top" id="Tyc-JZ-MZ1"/>
+                                    <constraint firstAttribute="height" constant="60" id="jW5-fq-mzw"/>
+                                    <constraint firstAttribute="bottom" secondItem="nIv-XG-Gty" secondAttribute="bottom" id="pnw-HS-vbn"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="nRo-PA-Eli"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YPh-fq-raU" secondAttribute="trailing" id="21c-kZ-EA5"/>
+                            <constraint firstItem="yi7-79-9ZY" firstAttribute="leading" secondItem="Qaj-6F-ghD" secondAttribute="leading" id="4M3-xU-4xg"/>
+                            <constraint firstItem="nRo-PA-Eli" firstAttribute="trailing" secondItem="Yrb-oj-E7O" secondAttribute="trailing" id="Bhf-E6-D0V"/>
+                            <constraint firstItem="yi7-79-9ZY" firstAttribute="top" secondItem="Yrb-oj-E7O" secondAttribute="bottom" id="Rq0-Lz-6nf"/>
+                            <constraint firstItem="Yrb-oj-E7O" firstAttribute="top" secondItem="yyf-0w-E1i" secondAttribute="bottom" id="Uv2-fe-Enb"/>
+                            <constraint firstItem="yyf-0w-E1i" firstAttribute="leading" secondItem="Qaj-6F-ghD" secondAttribute="leading" id="ZPy-m9-fW6"/>
+                            <constraint firstItem="Yrb-oj-E7O" firstAttribute="leading" secondItem="nRo-PA-Eli" secondAttribute="leading" id="arI-bO-tk3"/>
+                            <constraint firstAttribute="trailing" secondItem="yyf-0w-E1i" secondAttribute="trailing" id="dEj-hh-ra5"/>
+                            <constraint firstItem="nRo-PA-Eli" firstAttribute="bottom" secondItem="yi7-79-9ZY" secondAttribute="bottom" id="dPZ-ET-NV1"/>
+                            <constraint firstItem="YPh-fq-raU" firstAttribute="top" secondItem="Qaj-6F-ghD" secondAttribute="top" id="rvq-pm-vWg"/>
+                            <constraint firstAttribute="trailing" secondItem="yi7-79-9ZY" secondAttribute="trailing" id="rzh-HG-iNT"/>
+                            <constraint firstItem="YPh-fq-raU" firstAttribute="leading" secondItem="Qaj-6F-ghD" secondAttribute="leading" id="s7r-gn-xOK"/>
+                            <constraint firstItem="yyf-0w-E1i" firstAttribute="top" secondItem="nRo-PA-Eli" secondAttribute="top" id="xfG-bm-yAj"/>
+                            <constraint firstAttribute="bottom" secondItem="YPh-fq-raU" secondAttribute="bottom" id="y06-tS-ykG"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BuK-d0-xmM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="294" y="90"/>
+        </scene>
+        <!--Tyto Care Wifi Name View Controller-->
+        <scene sceneID="E7V-Nh-7eG">
+            <objects>
+                <viewController storyboardIdentifier="TytoCareWifiNameViewController" id="Lcv-pu-2Fv" customClass="TytoCareWifiNameViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1xW-MX-BAq">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eOY-qm-9se">
+                                <rect key="frame" x="0.0" y="44" width="428" height="713"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8cV-dD-GlA" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="158.33333333333334"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="eX7-NX-Bfz">
+                                                <rect key="frame" x="25" y="0.0" width="378" height="158.33333333333334"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Network name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ld3-Zx-L62">
+                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your Wi-Fi network name (SSID)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="umL-xG-nlZ">
+                                                        <rect key="frame" x="0.0" y="39" width="378" height="19.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bXu-8b-cuo" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="73.333333333333329" width="378" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="avp-te-TZK"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
+                                                                <color key="value" name="tytoCareBlue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
+                                                                <color key="value" name="tytoCareBlue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="selectedLineHeight">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter your Wi-Fi network name"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Network Name"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LfY-X5-OpS">
+                                                        <rect key="frame" x="0.0" y="128.33333333333334" width="378" height="30"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wpS-gP-UnX">
+                                                                <rect key="frame" x="0.0" y="0.0" width="378" height="30"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info" translatesAutoresizingMaskIntoConstraints="NO" id="f1h-1f-adI">
+                                                                        <rect key="frame" x="0.0" y="7.6666666666666572" width="15" height="15"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="15" id="S5d-5O-JNr"/>
+                                                                            <constraint firstAttribute="width" constant="15" id="drs-eG-aHV"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE: 5 GHz Wi-Fi networks are not supported." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1NV-4K-pcR">
+                                                                        <rect key="frame" x="18" y="6.6666666666666572" width="360" height="17"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="f1h-1f-adI" firstAttribute="centerY" secondItem="wpS-gP-UnX" secondAttribute="centerY" id="1x5-Qn-0S1"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="1NV-4K-pcR" secondAttribute="trailing" id="3S9-Ek-lxh"/>
+                                                                    <constraint firstItem="1NV-4K-pcR" firstAttribute="centerY" secondItem="wpS-gP-UnX" secondAttribute="centerY" id="Dgh-Ka-7mW"/>
+                                                                    <constraint firstAttribute="height" constant="30" id="Hel-Vi-rze"/>
+                                                                    <constraint firstItem="f1h-1f-adI" firstAttribute="leading" secondItem="wpS-gP-UnX" secondAttribute="leading" id="cfz-j7-5tF"/>
+                                                                    <constraint firstItem="1NV-4K-pcR" firstAttribute="leading" secondItem="f1h-1f-adI" secondAttribute="trailing" constant="3" id="wiS-6u-l3a"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="trailing" secondItem="wpS-gP-UnX" secondAttribute="trailing" id="4d5-xC-sQO"/>
+                                                            <constraint firstAttribute="height" constant="30" id="D72-n4-0d1"/>
+                                                            <constraint firstItem="wpS-gP-UnX" firstAttribute="leading" secondItem="LfY-X5-OpS" secondAttribute="leading" id="FfV-mW-BAP"/>
+                                                            <constraint firstItem="wpS-gP-UnX" firstAttribute="centerY" secondItem="LfY-X5-OpS" secondAttribute="centerY" id="erO-i2-eMu"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="eX7-NX-Bfz" secondAttribute="bottom" id="2em-3y-k2h"/>
+                                            <constraint firstItem="eX7-NX-Bfz" firstAttribute="leading" secondItem="8cV-dD-GlA" secondAttribute="leading" constant="25" id="3d1-N0-C1p"/>
+                                            <constraint firstAttribute="trailing" secondItem="eX7-NX-Bfz" secondAttribute="trailing" constant="25" id="bTA-qs-077"/>
+                                            <constraint firstItem="eX7-NX-Bfz" firstAttribute="top" secondItem="8cV-dD-GlA" secondAttribute="top" id="gtZ-xG-TQj"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="8cV-dD-GlA" secondAttribute="bottom" id="MGH-3d-Mw1"/>
+                                    <constraint firstItem="8cV-dD-GlA" firstAttribute="top" secondItem="eOY-qm-9se" secondAttribute="top" id="Obb-nU-Dc3"/>
+                                    <constraint firstItem="8cV-dD-GlA" firstAttribute="leading" secondItem="eOY-qm-9se" secondAttribute="leading" id="cLX-HO-Jq8"/>
+                                    <constraint firstItem="8cV-dD-GlA" firstAttribute="width" secondItem="eOY-qm-9se" secondAttribute="width" id="eVm-Uz-70w"/>
+                                    <constraint firstAttribute="trailing" secondItem="8cV-dD-GlA" secondAttribute="trailing" id="ptx-tP-skL"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1v-kb-h1b">
+                                <rect key="frame" x="0.0" y="757" width="428" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cL-fd-xzM" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                        <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
+                                        <color key="backgroundColor" name="tytoCareButtonBlue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="PjO-io-jaH"/>
+                                            <constraint firstAttribute="width" constant="240" id="sqV-97-RaL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="NEXT"/>
+                                        <state key="disabled">
+                                            <color key="titleColor" systemColor="systemGray5Color"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextButtonTapped" destination="Lcv-pu-2Fv" eventType="touchUpInside" id="d86-FT-4ir"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="0cL-fd-xzM" firstAttribute="centerX" secondItem="Y1v-kb-h1b" secondAttribute="centerX" id="0T8-s3-tiA"/>
+                                    <constraint firstAttribute="height" constant="75" id="Dpn-KE-1Ii"/>
+                                    <constraint firstItem="0cL-fd-xzM" firstAttribute="centerY" secondItem="Y1v-kb-h1b" secondAttribute="centerY" id="LHG-yk-JLN"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cGB-g0-yEn">
+                                <rect key="frame" x="0.0" y="832" width="428" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="WbP-qA-fVl">
+                                        <rect key="frame" x="20" y="0.0" width="388" height="60"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kns-J2-pb1">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="1"/>
+                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="K2h-q8-P8p"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fKI-gu-EFz">
+                                                <rect key="frame" x="0.0" y="1" width="388" height="59"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="CANCEL">
+                                                    <color key="titleColor" name="tytoCareBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="cancelTapped" destination="Lcv-pu-2Fv" eventType="touchUpInside" id="yLC-Rq-cuh"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="WbP-qA-fVl" secondAttribute="trailing" constant="20" id="BRz-g0-jqi"/>
+                                    <constraint firstItem="WbP-qA-fVl" firstAttribute="top" secondItem="cGB-g0-yEn" secondAttribute="top" id="Tcq-qe-gfk"/>
+                                    <constraint firstItem="WbP-qA-fVl" firstAttribute="leading" secondItem="cGB-g0-yEn" secondAttribute="leading" constant="20" id="Xcy-ZC-FQ0"/>
+                                    <constraint firstAttribute="bottom" secondItem="WbP-qA-fVl" secondAttribute="bottom" id="bcG-DM-V4f"/>
+                                    <constraint firstAttribute="height" constant="60" id="iHe-uQ-4Qn"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="fAt-HL-ggE"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="eOY-qm-9se" firstAttribute="trailing" secondItem="fAt-HL-ggE" secondAttribute="trailing" id="9tO-b6-LDF"/>
+                            <constraint firstItem="Y1v-kb-h1b" firstAttribute="top" secondItem="eOY-qm-9se" secondAttribute="bottom" id="DSc-ve-Not"/>
+                            <constraint firstItem="eOY-qm-9se" firstAttribute="top" secondItem="fAt-HL-ggE" secondAttribute="top" id="Kyi-Rz-17d"/>
+                            <constraint firstItem="fAt-HL-ggE" firstAttribute="trailing" secondItem="Y1v-kb-h1b" secondAttribute="trailing" id="O2Y-Yj-R2X"/>
+                            <constraint firstItem="Y1v-kb-h1b" firstAttribute="leading" secondItem="fAt-HL-ggE" secondAttribute="leading" id="Ojy-6U-kXV"/>
+                            <constraint firstItem="cGB-g0-yEn" firstAttribute="leading" secondItem="1xW-MX-BAq" secondAttribute="leading" id="Svz-ep-CZm"/>
+                            <constraint firstItem="cGB-g0-yEn" firstAttribute="trailing" secondItem="fAt-HL-ggE" secondAttribute="trailing" id="h4J-xE-JNn"/>
+                            <constraint firstItem="cGB-g0-yEn" firstAttribute="top" secondItem="Y1v-kb-h1b" secondAttribute="bottom" id="nz6-SK-ECW"/>
+                            <constraint firstItem="eOY-qm-9se" firstAttribute="leading" secondItem="fAt-HL-ggE" secondAttribute="leading" id="qx5-3x-d6C"/>
+                            <constraint firstItem="fAt-HL-ggE" firstAttribute="bottom" secondItem="cGB-g0-yEn" secondAttribute="bottom" id="yNN-5v-18q"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="nextButton" destination="0cL-fd-xzM" id="AZc-Dq-Z7U"/>
+                        <outlet property="wifiNameTextField" destination="bXu-8b-cuo" id="Iwb-aY-z4M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k41-Xd-epO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="974" y="90"/>
+        </scene>
+        <!--Tyto Care Wifi Password View Controller-->
+        <scene sceneID="zir-Jn-ZlP">
+            <objects>
+                <viewController storyboardIdentifier="TytoCareWifiPasswordViewController" id="Enc-w8-e5o" customClass="TytoCareWifiPasswordViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GKY-9J-HJh">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lZj-o6-nib">
+                                <rect key="frame" x="0.0" y="44" width="428" height="713"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6v-nW-jAJ" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="158.33333333333334"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fC0-h9-FLA">
+                                                <rect key="frame" x="25" y="0.0" width="378" height="158.33333333333334"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect to your network" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4Y-vW-P8t">
+                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your Wi-Fi network name (SSID)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L37-vN-4mo">
+                                                        <rect key="frame" x="0.0" y="39" width="378" height="19.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iof-ti-6wK" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="73.333333333333329" width="378" height="40"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="40" id="M94-wg-iRg"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedTitleColor">
+                                                                <color key="value" name="tytoCareBlue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="selectedLineColor">
+                                                                <color key="value" name="tytoCareBlue"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="lineHeight">
+                                                                <real key="value" value="1"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="selectedLineHeight">
+                                                                <real key="value" value="2"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Enter your Wi-Fi password"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="title" value="Wi-Fi Password"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </textField>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sr7-R7-8bg">
+                                                        <rect key="frame" x="0.0" y="128.33333333333334" width="378" height="30"/>
+                                                        <subviews>
+                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="237-0b-wF3">
+                                                                <rect key="frame" x="0.0" y="0.0" width="378" height="30"/>
+                                                                <subviews>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="info" translatesAutoresizingMaskIntoConstraints="NO" id="4fP-rw-cgv">
+                                                                        <rect key="frame" x="0.0" y="7.6666666666666572" width="15" height="15"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="width" constant="15" id="0Jp-cL-Aco"/>
+                                                                            <constraint firstAttribute="height" constant="15" id="MWU-eB-Upt"/>
+                                                                        </constraints>
+                                                                    </imageView>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NOTE: 5 GHz Wi-Fi networks are not supported." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGA-Js-Ncy">
+                                                                        <rect key="frame" x="18" y="6.6666666666666572" width="360" height="17"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                    </label>
+                                                                </subviews>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <constraints>
+                                                                    <constraint firstItem="4fP-rw-cgv" firstAttribute="leading" secondItem="237-0b-wF3" secondAttribute="leading" id="6ci-7a-KfY"/>
+                                                                    <constraint firstItem="xGA-Js-Ncy" firstAttribute="leading" secondItem="4fP-rw-cgv" secondAttribute="trailing" constant="3" id="8dd-cM-4m0"/>
+                                                                    <constraint firstItem="4fP-rw-cgv" firstAttribute="centerY" secondItem="237-0b-wF3" secondAttribute="centerY" id="Mit-MN-PVe"/>
+                                                                    <constraint firstAttribute="height" constant="30" id="TMo-tB-ak6"/>
+                                                                    <constraint firstItem="xGA-Js-Ncy" firstAttribute="centerY" secondItem="237-0b-wF3" secondAttribute="centerY" id="i2Z-oB-dZr"/>
+                                                                    <constraint firstAttribute="trailing" secondItem="xGA-Js-Ncy" secondAttribute="trailing" id="thh-dN-aao"/>
+                                                                </constraints>
+                                                            </view>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <constraints>
+                                                            <constraint firstItem="237-0b-wF3" firstAttribute="centerY" secondItem="sr7-R7-8bg" secondAttribute="centerY" id="NJX-Uu-mgT"/>
+                                                            <constraint firstItem="237-0b-wF3" firstAttribute="leading" secondItem="sr7-R7-8bg" secondAttribute="leading" id="Qy8-sm-v7d"/>
+                                                            <constraint firstAttribute="height" constant="30" id="W79-e7-nH6"/>
+                                                            <constraint firstAttribute="trailing" secondItem="237-0b-wF3" secondAttribute="trailing" id="fXt-4i-neb"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="fC0-h9-FLA" firstAttribute="top" secondItem="h6v-nW-jAJ" secondAttribute="top" id="RJM-pb-t9N"/>
+                                            <constraint firstAttribute="trailing" secondItem="fC0-h9-FLA" secondAttribute="trailing" constant="25" id="dn1-zx-2rU"/>
+                                            <constraint firstAttribute="bottom" secondItem="fC0-h9-FLA" secondAttribute="bottom" id="es7-ih-del"/>
+                                            <constraint firstItem="fC0-h9-FLA" firstAttribute="leading" secondItem="h6v-nW-jAJ" secondAttribute="leading" constant="25" id="yFm-Sf-WUP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="h6v-nW-jAJ" secondAttribute="trailing" id="3Wc-Sg-1oN"/>
+                                    <constraint firstAttribute="bottom" secondItem="h6v-nW-jAJ" secondAttribute="bottom" id="M73-Ip-Qzm"/>
+                                    <constraint firstItem="h6v-nW-jAJ" firstAttribute="width" secondItem="lZj-o6-nib" secondAttribute="width" id="aXN-a2-dC9"/>
+                                    <constraint firstItem="h6v-nW-jAJ" firstAttribute="top" secondItem="lZj-o6-nib" secondAttribute="top" id="qAl-sz-Bfw"/>
+                                    <constraint firstItem="h6v-nW-jAJ" firstAttribute="leading" secondItem="lZj-o6-nib" secondAttribute="leading" id="qp0-Kj-wPw"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYS-gS-ZeH">
+                                <rect key="frame" x="25" y="757" width="378" height="75"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orQ-rd-M1E" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                        <rect key="frame" x="69" y="17.666666666666629" width="240" height="40"/>
+                                        <color key="backgroundColor" name="tytoCareButtonBlue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="Ejn-2B-tVm"/>
+                                            <constraint firstAttribute="height" constant="40" id="khg-qg-YJN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="NEXT"/>
+                                        <connections>
+                                            <action selector="nextButtonTapped" destination="Enc-w8-e5o" eventType="touchUpInside" id="ce7-Kd-ofo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="1Nv-M6-r9n"/>
+                                    <constraint firstItem="orQ-rd-M1E" firstAttribute="centerY" secondItem="cYS-gS-ZeH" secondAttribute="centerY" id="Jyg-Mn-KhU"/>
+                                    <constraint firstItem="orQ-rd-M1E" firstAttribute="centerX" secondItem="cYS-gS-ZeH" secondAttribute="centerX" id="aic-jz-t6Z"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Okj-0D-DR9">
+                                <rect key="frame" x="0.0" y="832" width="428" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Tkk-wJ-GRz">
+                                        <rect key="frame" x="20" y="0.0" width="388" height="60"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGK-CI-9p8">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="1"/>
+                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="UbV-15-nC8"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wb9-eY-Mt2">
+                                                <rect key="frame" x="0.0" y="1" width="388" height="59"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="BACK">
+                                                    <color key="titleColor" name="tytoCareBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="backTapped" destination="Enc-w8-e5o" eventType="touchUpInside" id="gUY-W5-Pqq"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Tkk-wJ-GRz" firstAttribute="leading" secondItem="Okj-0D-DR9" secondAttribute="leading" constant="20" id="Fbj-fK-P2T"/>
+                                    <constraint firstItem="Tkk-wJ-GRz" firstAttribute="top" secondItem="Okj-0D-DR9" secondAttribute="top" id="Zte-ry-U3o"/>
+                                    <constraint firstAttribute="bottom" secondItem="Tkk-wJ-GRz" secondAttribute="bottom" id="bUe-Dk-tMe"/>
+                                    <constraint firstAttribute="trailing" secondItem="Tkk-wJ-GRz" secondAttribute="trailing" constant="20" id="gEn-ki-77Q"/>
+                                    <constraint firstAttribute="height" constant="60" id="r5s-TX-pGJ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="mdb-3d-AST"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Okj-0D-DR9" firstAttribute="top" secondItem="cYS-gS-ZeH" secondAttribute="bottom" id="0GJ-qN-rJn"/>
+                            <constraint firstItem="lZj-o6-nib" firstAttribute="trailing" secondItem="mdb-3d-AST" secondAttribute="trailing" id="7RD-YF-I5M"/>
+                            <constraint firstItem="Okj-0D-DR9" firstAttribute="trailing" secondItem="mdb-3d-AST" secondAttribute="trailing" id="Fba-ud-J8q"/>
+                            <constraint firstItem="mdb-3d-AST" firstAttribute="trailing" secondItem="cYS-gS-ZeH" secondAttribute="trailing" constant="25" id="Hbj-Kw-noq"/>
+                            <constraint firstItem="cYS-gS-ZeH" firstAttribute="leading" secondItem="mdb-3d-AST" secondAttribute="leading" constant="25" id="PLt-Aj-Ler"/>
+                            <constraint firstItem="cYS-gS-ZeH" firstAttribute="top" secondItem="lZj-o6-nib" secondAttribute="bottom" id="TT4-T9-0Dd"/>
+                            <constraint firstItem="Okj-0D-DR9" firstAttribute="leading" secondItem="GKY-9J-HJh" secondAttribute="leading" id="exf-Eg-6X4"/>
+                            <constraint firstItem="lZj-o6-nib" firstAttribute="top" secondItem="mdb-3d-AST" secondAttribute="top" id="h2z-yn-m6b"/>
+                            <constraint firstItem="mdb-3d-AST" firstAttribute="bottom" secondItem="Okj-0D-DR9" secondAttribute="bottom" id="sP1-1x-JEz"/>
+                            <constraint firstItem="lZj-o6-nib" firstAttribute="leading" secondItem="mdb-3d-AST" secondAttribute="leading" id="vkY-l2-1le"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="nextButton" destination="orQ-rd-M1E" id="aSM-uy-Ogh"/>
+                        <outlet property="titleLabel" destination="L37-vN-4mo" id="yMe-Nb-h0e"/>
+                        <outlet property="wifiPasswordTextField" destination="iof-ti-6wK" id="fcW-MR-Hai"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ie9-MA-gZb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1617" y="90"/>
+        </scene>
+        <!--Tyto CareQR Code View Controller-->
+        <scene sceneID="V47-h4-gyn">
+            <objects>
+                <viewController storyboardIdentifier="TytoCareQRCodeViewController" id="1b6-iZ-Qtn" customClass="TytoCareQRCodeViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Mqh-Pt-x7N">
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tIr-4P-s3z">
+                                <rect key="frame" x="0.0" y="44" width="428" height="743"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zto-eK-BV5" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="428" height="411.66666666666669"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ERF-QK-1GY">
+                                                <rect key="frame" x="25" y="0.0" width="378" height="411.66666666666669"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scan QR code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGX-Eq-NHi">
+                                                        <rect key="frame" x="0.0" y="0.0" width="378" height="24"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                        <color key="textColor" name="tytoCareBlue"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Use your Tyto Device to scan the code now" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DaW-uO-Pkt">
+                                                        <rect key="frame" x="0.0" y="34" width="378" height="19.333333333333329"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Xwa-XZ-nbc">
+                                                        <rect key="frame" x="0.0" y="63.333333333333314" width="378" height="300"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="300" id="NRP-eM-RYE"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="If your Tyto Device fails to connect generate a new QR code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ooI-xn-sbS">
+                                                        <rect key="frame" x="0.0" y="373.33333333333331" width="378" height="38.333333333333314"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstItem="ERF-QK-1GY" firstAttribute="leading" secondItem="Zto-eK-BV5" secondAttribute="leading" constant="25" id="07K-dS-C5o"/>
+                                            <constraint firstAttribute="trailing" secondItem="ERF-QK-1GY" secondAttribute="trailing" constant="25" id="66W-xB-Mr0"/>
+                                            <constraint firstItem="ERF-QK-1GY" firstAttribute="top" secondItem="Zto-eK-BV5" secondAttribute="top" id="lCw-3G-tyB"/>
+                                            <constraint firstAttribute="bottom" secondItem="ERF-QK-1GY" secondAttribute="bottom" id="xVd-Su-Ibs"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Zto-eK-BV5" firstAttribute="leading" secondItem="tIr-4P-s3z" secondAttribute="leading" id="edB-5l-Bmb"/>
+                                    <constraint firstItem="Zto-eK-BV5" firstAttribute="width" secondItem="tIr-4P-s3z" secondAttribute="width" id="gBF-hF-Tl8"/>
+                                    <constraint firstAttribute="trailing" secondItem="Zto-eK-BV5" secondAttribute="trailing" id="xk6-fW-Q4C"/>
+                                    <constraint firstAttribute="bottom" secondItem="Zto-eK-BV5" secondAttribute="bottom" id="xpH-Rc-owG"/>
+                                    <constraint firstItem="Zto-eK-BV5" firstAttribute="top" secondItem="tIr-4P-s3z" secondAttribute="top" id="xyP-U2-IAX"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luF-i4-INy">
+                                <rect key="frame" x="25" y="787" width="378" height="55"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XdP-fw-VnE" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                        <rect key="frame" x="69" y="7.6666666666666288" width="240" height="40"/>
+                                        <color key="backgroundColor" name="tytoCareButtonBlue"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="qeL-Jc-VSh"/>
+                                            <constraint firstAttribute="height" constant="40" id="ukT-dG-2oi"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="GENERATE NEW CODE"/>
+                                        <connections>
+                                            <action selector="generateNewCodeTapped" destination="1b6-iZ-Qtn" eventType="touchUpInside" id="AaF-jx-YWF"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="XdP-fw-VnE" firstAttribute="centerX" secondItem="luF-i4-INy" secondAttribute="centerX" id="aeF-ma-UIp"/>
+                                    <constraint firstItem="XdP-fw-VnE" firstAttribute="centerY" secondItem="luF-i4-INy" secondAttribute="centerY" id="bNB-jW-Xbf"/>
+                                    <constraint firstAttribute="height" constant="55" id="fnm-8Z-Lc9"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S0N-a4-zK6">
+                                <rect key="frame" x="0.0" y="842" width="428" height="50"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="9WX-AI-MgE">
+                                        <rect key="frame" x="20" y="0.0" width="388" height="50"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g64-7D-PQU">
+                                                <rect key="frame" x="0.0" y="0.0" width="388" height="1"/>
+                                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="1" id="Y4x-bd-BBd"/>
+                                                </constraints>
+                                            </view>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONo-yV-LLS">
+                                                <rect key="frame" x="0.0" y="1" width="388" height="49"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <state key="normal" title="CLOSE">
+                                                    <color key="titleColor" name="tytoCareBlue"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="closeTapped" destination="1b6-iZ-Qtn" eventType="touchUpInside" id="fIX-BV-XKW"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="04I-dW-Xg3"/>
+                                    <constraint firstAttribute="trailing" secondItem="9WX-AI-MgE" secondAttribute="trailing" constant="20" id="QKE-aD-5eX"/>
+                                    <constraint firstItem="9WX-AI-MgE" firstAttribute="top" secondItem="S0N-a4-zK6" secondAttribute="top" id="Vwa-AG-97m"/>
+                                    <constraint firstItem="9WX-AI-MgE" firstAttribute="leading" secondItem="S0N-a4-zK6" secondAttribute="leading" constant="20" id="hbz-Rw-4T4"/>
+                                    <constraint firstAttribute="bottom" secondItem="9WX-AI-MgE" secondAttribute="bottom" id="qyT-67-zdB"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9ZL-ip-RGo"/>
+                        <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9ZL-ip-RGo" firstAttribute="trailing" secondItem="luF-i4-INy" secondAttribute="trailing" constant="25" id="82r-By-BK9"/>
+                            <constraint firstItem="tIr-4P-s3z" firstAttribute="trailing" secondItem="9ZL-ip-RGo" secondAttribute="trailing" id="BPR-ev-PXw"/>
+                            <constraint firstItem="luF-i4-INy" firstAttribute="leading" secondItem="9ZL-ip-RGo" secondAttribute="leading" constant="25" id="Oy7-IG-vNK"/>
+                            <constraint firstItem="S0N-a4-zK6" firstAttribute="leading" secondItem="Mqh-Pt-x7N" secondAttribute="leading" id="OyE-ML-bSD"/>
+                            <constraint firstItem="luF-i4-INy" firstAttribute="top" secondItem="tIr-4P-s3z" secondAttribute="bottom" id="WTu-8s-mgQ"/>
+                            <constraint firstItem="tIr-4P-s3z" firstAttribute="top" secondItem="9ZL-ip-RGo" secondAttribute="top" id="XYD-6g-Yb3"/>
+                            <constraint firstItem="tIr-4P-s3z" firstAttribute="leading" secondItem="9ZL-ip-RGo" secondAttribute="leading" id="ZYa-iw-J8o"/>
+                            <constraint firstItem="S0N-a4-zK6" firstAttribute="top" secondItem="luF-i4-INy" secondAttribute="bottom" id="bGW-Rp-cI1"/>
+                            <constraint firstItem="9ZL-ip-RGo" firstAttribute="bottom" secondItem="S0N-a4-zK6" secondAttribute="bottom" id="fWh-We-Pbl"/>
+                            <constraint firstItem="S0N-a4-zK6" firstAttribute="trailing" secondItem="9ZL-ip-RGo" secondAttribute="trailing" id="j1Z-MH-vgK"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="qrCodeImageView" destination="Xwa-XZ-nbc" id="F9m-go-i1L"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fOi-kp-4Cw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2248" y="90"/>
+        </scene>
+    </scenes>
+    <designables>
+        <designable name="bXu-8b-cuo">
+            <size key="intrinsicContentSize" width="199.66666666666666" height="18.666666666666668"/>
+        </designable>
+        <designable name="iof-ti-6wK">
+            <size key="intrinsicContentSize" width="170.33333333333334" height="17"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="info" width="15" height="15"/>
+        <namedColor name="tytoCareBlue">
+            <color red="0.16862745098039217" green="0.36078431372549019" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="tytoCareButtonBlue">
+            <color red="0.16862745098039217" green="0.36078431372549019" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

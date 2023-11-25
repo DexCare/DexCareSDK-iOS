@@ -1,6 +1,12 @@
 # iOS DexCareSDK
 
-Contains the compiled framework of the iOS DexcareSDK for express care services.
+Contains the source framework of the iOS DexcareSDK for express care services.
+
+## Swift Package Manger
+
+iOS SDK is available via SPM.
+
+To install, add the following url to your dependencies `https://github.com/DexCare/DexCareSDK-iOS/` being sure to target `9.0.0` or greater
 
 ## Cocoapods
 
@@ -23,7 +29,7 @@ Cocoapods will install the following dependencies
   'MBProgressHUD' - Used to show a spinner when starting virtual visits
   'MessageKit' - Used in the chat view
   'OTXCFramework' - The library used when having 1:1 video conferences with your provider.
-  
+  'FittedSheets' - Controls the presentation of the virtual visits
 ```
 
 ## Swift/Xcode

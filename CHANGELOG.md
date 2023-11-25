@@ -1,9 +1,50 @@
 # Release Notes
-## 8.5.0
 
+## 9.0.0
+### New
+- Support for Swift Package Manager
+- Library is now released as source code instead of a binary package
+- Added `PracticeRegionDepartment` which is now returned as part of `getVirtualPractice(practiceId:)`
+
+### Removals
+- `getCatchmentArea(visitState:, residenceState:, residenceZipCode:, brand:)` and `CatchmentArea` have been removed, see v9 migration guide for more information
+- `PaymentMethod` enum cases have been simplified, see v9 migration guide for more information.
+- Creating a `PaymentMethod` via insurance card has been removed along side `InsuranceCardFailedReason`
+- Virtual visit customization via `CustomStrings` has been removed, see v9 migration guide for more information
+- All other previously deprecated symbols have been removed. They are:
+  - `AllowedVisitType.init`
+  - `EmailValidator.EMAIL_REGEX_FROM_CONFIG`
+  - `EmailValidator.EMAIL_VALIDATION_REGEX`
+  - `OpenDay.init`
+  - `OpenHours.init`
+  - `PatientDemographics.init`
+  - `PhoneValidator.PHONE_VALIDATION_REGEX`
+  - `PracticeRegionAvailability.init`
+  - `Provider.init`
+  - `ProviderDepartment.init`
+  - `ProviderService.getProviderTimeslots`
+  - `ProviderTimeSlot.init`
+  - `ProviderVisitType.init`
+  - `RetailDepartment.init`
+  - `RetailService.scheduleRetailAppointment`
+  - `ScheduleDay.init`
+  - `ScheduledProviderVisit.init`
+  - `ScheduledProviderVisit.VirtualMeetingInfo.init`
+  - `ScheduledVisit.init`
+  - `ScheduledVisit.AppointmentDetails.init`
+  - `ScheduledVisit.Timestamps.init`
+  - `VirtualPractice.init`
+  - `VirtualPractice.PracticePaymentAvailability.init`
+  - `VirtualPracticeRegion.init`
+  - `VirtualPracticeRegion.pedatricsAgeRange`
+  - `WaitTime.init`
+  - `WaitTimeLocalizationInfo.init`
+  - `ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX`
+
+## 8.5.0
 ### Bug fixes
 - Fixed `VirtualPracticeRegion.pedatricsAgeRange` not being decoded from the network response
-- `ScheduleRetailAppointmentRequest.init` is no longer optional. All errors are surfaced via throwing
+- `ScheduleRetailAppointmentRequest.init` is no longer optional. All errors are now thrown
 
 ### Other
 - Update TokBox to `OTXCFramework` version 2.25.1
@@ -42,7 +83,6 @@ For reference the deprecated symbols are:
 - `ZipCodeValidator.ZIP_CODE_VALIDATION_REGEX`
 
 ## 8.4.0
-
 ### New
 - `PaymentMethod.insuranceManualSelfWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), and `payorName`
 - `PaymentMethod.insuranceManualOtherWithPayor` now takes in more insurance information. `payorId` (replaces `providerId`), `payorName` and `subscriberId`
