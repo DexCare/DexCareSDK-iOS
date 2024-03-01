@@ -31,6 +31,7 @@ protocol VirtualVisitManagerType: AnyObject {
     func sendChatMessage(_ message: String)
     func hangup()
     func cancel()
+    func leave()
     func loadWaitTime()
     
     func toggleCameraPosition()
@@ -125,33 +126,26 @@ class VirtualVisitOpenTokManager: NSObject {
         static let hangupAbort = localizeString("dialog_visitEndConfirm_button_cancel")
         
         // Waiting Room Cancel
+        static let cancelTitle = localizeString("dialog_waitingRoomCancelConfirm_title_cancelCall")
         static let cancelMessage = localizeString("dialog_waitingRoomCancelConfirm_message_cancelCallConfirmation")
+        static let confirmAction = localizeString("dialog_waitingRoomCancelConfirm_button_confirm")
         static let cancelAbort = localizeString("dialog_waitingRoomCancelConfirm_button_cancel")
+        
+        // Waiting Room Leave
+        static let leaveTitle = localizeString("dialog_waitingRoomCancelConfirm_title_leaveCall")
+        static let leaveMessage = localizeString("dialog_waitingRoomCancelConfirm_message_leaveCallConfirmation")
+        
+        static let permissionTitle = localizeString("dialog_permission_title")
+        static let permissionMessage = localizeString("dialog_permission_body_message")
         
         static let waitingRoomChatTitle = localizeString("waitingRoom_chatView_title_navigation")
         static let visitChatTitle = localizeString("visit_chatView_title_navigation")
         
         // Cancel Reconnect
         static let cancelReconnectTitle = localizeString("dialog_cancelReconnect_title")
+        static let cancelReconnectMessage = localizeString("dialog_cancelReconnect_message")
         static let cancelReconnectCancel = localizeString("dialog_cancelReconnect_cancel")
         static let cancelReconnectKeepTrying = localizeString("dialog_cancelReconnect_confirm")
-    }
-    
-    private var cancelThisVisitActionTitle: String {
-        return localizeString("dialog_waitingRoomCancelConfirm_button_confirm")
-    }
-    
-    private var permissionDeniedAlertTitle: String {
-        return localizeString("dialog_permission_body_message")
-    }
-    
-    // Cancel
-    private var abortAppointmentAlertTitle: String {
-        return localizeString("dialog_waitingRoomCancelConfirm_title_cancelCall")
-    }
-    
-    private var cancelReconnectAlertMessage: String {
-        return localizeString("dialog_cancelReconnect_message")
     }
     
     private enum Images {
@@ -297,23 +291,24 @@ class VirtualVisitOpenTokManager: NSObject {
     
     func showPermissionDeniedAlert() {
         self.navigator.displayAlert(
-            title: localizeString("dialog_permission_title"),
-            message: permissionDeniedAlertTitle, // says title but we originally just had a title with no body,
+            title: Strings.permissionTitle,
+            message: Strings.permissionMessage,
             actions: [
-            AlertAction(title: cancelThisVisitActionTitle, style: .destructive, handler: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                Task {
-                    try await strongSelf.virtualService?.cancelVirtualVisit(visitId: strongSelf.visitId)
-                }
-                strongSelf.endConference(reason: .canceled)
-            }),
-            AlertAction(title: Strings.openSettingsTitle, style: .cancel, handler: { _ in
-                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                    return
-                }
-                UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
-            })
-        ])
+                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
+                    guard let strongSelf = self else { return }
+                    Task {
+                        try await strongSelf.virtualService?.cancelVirtualVisit(visitId: strongSelf.visitId)
+                    }
+                    strongSelf.endConference(reason: .canceled)
+                }),
+                AlertAction(title: Strings.openSettingsTitle, style: .cancel, handler: { _ in
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+                    UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil)
+                })
+            ]
+        )
     }
     
     var isPublishing: Bool = false
@@ -505,10 +500,10 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
     
     func cancel() {
         navigator.displayAlert(
-            title: abortAppointmentAlertTitle,
+            title: Strings.cancelTitle,
             message: Strings.cancelMessage,
             actions: [
-                AlertAction(title: cancelThisVisitActionTitle, style: .destructive, handler: { [weak self] _ in
+                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
                     guard let strongSelf = self else { return }
                     strongSelf.navigator.showHud()
                     Task {
@@ -528,10 +523,28 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         )
     }
     
+    func leave() {
+        navigator.displayAlert(
+            title: Strings.leaveTitle,
+            message: Strings.leaveMessage,
+            actions: [
+                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
+                    self?.navigator.showHud()
+                    try? self?.waitingRoomSession?.signal(type: SignalMessageType.participantLeft.rawValue, string: nil, connection: nil)
+                    self?.navigator.hideHud()
+                    self?.logger?.log(.visitLeft)
+                    self?.virtualService?.virtualEventDelegate?.onVirtualVisitCancelledByUser()
+                    self?.endConference(reason: .left)
+                }),
+                AlertAction(title: Strings.cancelAbort, style: .cancel, handler: nil)
+            ]
+        )
+    }
+    
     func cancelReconnectionAlert() {
         navigator.displayAlert(
             title: Strings.cancelReconnectTitle,
-            message: cancelReconnectAlertMessage,
+            message: Strings.cancelReconnectMessage,
             actions: [
                 AlertAction(title: Strings.cancelReconnectCancel, style: .destructive, handler: { [weak self] _ in
                     guard let strongSelf = self else { return }
