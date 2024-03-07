@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -36,6 +36,33 @@
                                                             <segue destination="ew1-GX-Lz2" kind="embed" id="geT-Wb-PZi"/>
                                                         </connections>
                                                     </containerView>
+                                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SgK-hj-lkV">
+                                                        <rect key="frame" x="0.0" y="227" width="390" height="36"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Another provider will be with you shortly." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EaA-Ec-Kx6">
+                                                                <rect key="frame" x="20" y="20" width="308.33333333333331" height="0.0"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pWl-bU-zyC">
+                                                                <rect key="frame" x="286.66666666666669" y="28" width="83.333333333333314" height="0.0"/>
+                                                                <state key="normal" title="Button"/>
+                                                                <buttonConfiguration key="configuration" style="plain" title="Dismiss"/>
+                                                                <connections>
+                                                                    <action selector="dismissTransferMessage" destination="GIL-eq-BzS" eventType="touchUpInside" id="JEz-th-y7s"/>
+                                                                </connections>
+                                                            </button>
+                                                        </subviews>
+                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <constraints>
+                                                            <constraint firstItem="EaA-Ec-Kx6" firstAttribute="leading" secondItem="SgK-hj-lkV" secondAttribute="leading" constant="20" symbolic="YES" id="HXk-Q2-bsR"/>
+                                                            <constraint firstItem="pWl-bU-zyC" firstAttribute="top" secondItem="EaA-Ec-Kx6" secondAttribute="bottom" constant="8" id="PVH-0X-VYo"/>
+                                                            <constraint firstAttribute="trailing" secondItem="pWl-bU-zyC" secondAttribute="trailing" constant="20" id="isy-a9-h0G"/>
+                                                            <constraint firstItem="EaA-Ec-Kx6" firstAttribute="top" secondItem="SgK-hj-lkV" secondAttribute="top" constant="20" id="vuX-u9-x2w"/>
+                                                            <constraint firstAttribute="bottom" secondItem="pWl-bU-zyC" secondAttribute="bottom" constant="8" id="z6G-0M-8zk"/>
+                                                        </constraints>
+                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwA-bU-2n5">
                                                         <rect key="frame" x="0.0" y="234.33333333333331" width="390" height="206"/>
                                                         <subviews>
@@ -205,6 +232,9 @@
                         <outlet property="messageLabel" destination="PW4-bh-C2e" id="HCG-UI-hIe"/>
                         <outlet property="notificationMessageLabel" destination="DA4-GU-T2s" id="Nch-Qk-Ic5"/>
                         <outlet property="previewSelfVideoView" destination="Qzs-2w-V7U" id="IZl-gN-sOv"/>
+                        <outlet property="transferContainer" destination="SgK-hj-lkV" id="eEu-fU-4ft"/>
+                        <outlet property="transferDismissButton" destination="pWl-bU-zyC" id="TrC-Nf-QnX"/>
+                        <outlet property="transferLabel" destination="EaA-Ec-Kx6" id="WyP-T5-oRf"/>
                         <outlet property="tytoCareButton" destination="f6g-M2-5Ha" id="nUY-Yj-u7A"/>
                         <outlet property="tytoWidthConstraint" destination="0vo-xb-pha" id="c84-JM-bgS"/>
                     </connections>

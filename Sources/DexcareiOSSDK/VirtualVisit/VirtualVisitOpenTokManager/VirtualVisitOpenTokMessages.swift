@@ -9,7 +9,7 @@
 import Foundation
 
 enum SignalMessageType: String {
-    case instantMessage, typingStateMessage, participantLeft, error, statusChange
+    case instantMessage, typingStateMessage, participantLeft, error, statusChange, endCallAndTransfer
 }
 
 struct SignalInstantMessage: Codable {

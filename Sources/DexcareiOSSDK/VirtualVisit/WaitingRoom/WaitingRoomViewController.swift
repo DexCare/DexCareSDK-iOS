@@ -12,6 +12,7 @@ protocol WaitingRoomView: AnyObject {
     func updateWaitTime(waitTimeMessage: String, estimateMessage: String)
     func abortedWaitTime()
     func stopSelfPreview()
+    func prepareForTransfer()
 }
 
 class WaitingRoomViewController: UIViewController, WaitingRoomView {
@@ -21,6 +22,18 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     
     lazy var captureSessionHandler: CaptureSessionHandler = WaitingRoomCaptureSessionHandler()
     private(set) var embeddedVideoViewController: EmbeddedVideoViewController?
+    
+    @IBOutlet weak var transferContainer: UIView!
+    @IBOutlet weak var transferLabel: UILabel! {
+        didSet {
+            transferLabel.text = localizeString("waitingRoom_message_patientTransfer")
+        }
+    }
+    @IBOutlet weak var transferDismissButton: UIButton! {
+        didSet {
+            transferDismissButton.setTitle(localizeString("waitingRoom_message_dismiss"), for: .normal)
+        }
+    }
     
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var estimateLabel: UILabel!
@@ -114,7 +127,11 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     // MARK: - IBActions
     
     @IBAction func cancelButtonTapped() {
-        manager?.cancel()
+        if embeddedContainerView.isHidden {
+            manager?.leave()
+        } else {
+            manager?.cancel()
+        }
     }
     
     @IBAction func chatButtonTapped() {
@@ -123,6 +140,10 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     
     @IBAction func tytocareButtonTapped() {
         tytoCareManager?.openTytoCare(from: self)
+    }
+    
+    @IBAction func dismissTransferMessage() {
+        transferContainer.isHidden = true
     }
     
     // MARK: - Self Preview
@@ -174,5 +195,12 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     func abortedWaitTime() {
         estimateSpinner.alpha = 0.0
         estimateSpinner.stopAnimating()
+    }
+    
+    // MARK: - Transfer
+    func prepareForTransfer() {
+        embeddedContainerView.isHidden = true
+        transferContainer.isHidden = false
+        cancelVisitButton.setTitle(localizeString("waitingRoom_link_leaveVisit"), for: .normal)
     }
 }

@@ -102,7 +102,7 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         
         // Because we are setting the stream right away, we need to make sure the view is loaded
         visitViewController.loadViewIfNeeded()
-        existingNavigationController.setViewControllers([visitViewController], animated: true)
+        existingNavigationController.pushViewController(visitViewController, animated: true)
         return visitViewController
     }
     

@@ -260,6 +260,8 @@ public enum VisitCompletionReason: String {
     case completed
     /// User canceled the virtual visit
     case canceled
+    /// User left the visit after being transferred back to the waiting room
+    case left
     /// Trying to join after you are already in the conference
     case alreadyInConference
     /// Trying to join after the conference is already full
