@@ -70,6 +70,7 @@ extension DexcareSDKLogger {
 enum LogMessages: String {
     case visitCancelled = "visit_cancelled"
     case visitFinished = "visit_finished"
+    case visitLeft = "visit_left"
     case visitSessionBeginReconnecting = "visit_session_begin_reconnecting"
     case visitSessionDidReconnect = "visit_session_did_reconnect"
     case visitSessionDidFail = "visit_session_did_fail"

@@ -224,8 +224,10 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         let notMyOwnConnection = !isWaitingRoomConnection && !isVideoConnection
         
         switch messageType {
-        case .participantLeft where notMyOwnConnection:
-            endConference(reason: .completed)
+        case .participantLeft:
+            if notMyOwnConnection {
+                endConference(reason: .completed)
+            }
         case .instantMessage:
             processInstantMessage(sessionId: session.sessionId, with: string)
         case .typingStateMessage:
@@ -234,8 +236,16 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
             processErrorMessage(with: string)
         case .statusChange:
             processStatusChange(with: string)
-        default: break
+        case .endCallAndTransfer:
+            processTransfer()
         }
+    }
+    
+    private func processTransfer() {
+        waitingRoomView?.prepareForTransfer()
+        waitingRoomView = navigator.showWaitingRoom(completion: nil)
+        try? cleanupSubscriber()
+        virtualService?.virtualEventDelegate?.onWaitingRoomTransferred()
     }
     
     private func processInstantMessage(sessionId: String, with string: String?) {

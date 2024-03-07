@@ -1,5 +1,22 @@
 # Release Notes
 
+## 9.1.0
+### New
+This version of the SDK adds support for virtual visit transfers between providers. To accomplish this we've added a number of things:
+
+- Localizable strings:
+
+  | localizable.strings key                                     | Usage|
+  |-------------------------------------------------------------|---|
+  | waitingRoom\_link\_leaveVisit.                                 | CTA to leave a visit after being transferred back to the waiting room |
+  | waitingRoom\_message\_patientTransfer                          | Message shown only after being transferred back to the waiting room |
+  | waitingRoom\_message\_dismiss                                  | CTA to dismiss the above message |
+  | dialog_waitingRoomCancelConfirm_title_leaveCall              | Dialog title to confirm the user wants to leave the call |
+  | dialog\_waitingRoomCancelConfirm\_message\_leaveCallConfirmation| Dialog message to confirm the user wants to leave the call |
+
+- `VirtualEventDelegate.onWaitingRoomTransferred` Called when the user is transferred back to the waiting room after already being in a call
+- `VisitCompletionReason.left` Used in the visit completion block to indicate the user chose to leave the visit
+
 ## 9.0.0
 ### New
 - Support for Swift Package Manager

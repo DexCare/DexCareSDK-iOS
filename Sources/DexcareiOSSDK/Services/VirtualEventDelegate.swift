@@ -11,6 +11,8 @@ public protocol VirtualEventDelegate: AnyObject {
     func onWaitingRoomReconnecting()
     /// Called when the SDK successfully reconnects to the waiting room session
     func onWaitingRoomReconnected()
+    /// Called when the user is transferred back to the waiting from after already being in a visit
+    func onWaitingRoomTransferred()
     
     /// Called when the virtual visit session is disconnected. SDK will return as a failure in the main closure
     func onVirtualVisitDisconnected()
