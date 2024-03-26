@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Sources/DexcareiOSSDK/**/*.swift'
   s.resource_bundles = {
-    'DexcareSDK' => ['Sources/DexcareiOSSDK/**/*.{xib,storyboard,xcassets}']
+    'DexcareSDK' => ['Sources/DexcareiOSSDK/**/*.{xib,storyboard,xcassets,strings}']
   }
 
   # DexcareSDK dependency
