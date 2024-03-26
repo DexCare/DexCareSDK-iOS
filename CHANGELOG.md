@@ -1,5 +1,12 @@
 # Release Notes
 
+## 9.1.1
+### Bug Fixes
+- Fixed virtual visit crash when integrating the SDK using Service Package Manager (SPM).
+- Fixed issue where canceling a virtual visit was taking multiple seconds before dismissing the waiting room screen.
+- Fixed issue where localization strings were not available when integrating the SDK using CocoaPods.
+- Added server logs to track the "Index out of range" error in ChatViewController.messageForItem(IndexPath, MessagesCollectionView).
+
 ## 9.1.0
 ### New
 This version of the SDK adds support for virtual visit transfers between providers. To accomplish this we've added a number of things:

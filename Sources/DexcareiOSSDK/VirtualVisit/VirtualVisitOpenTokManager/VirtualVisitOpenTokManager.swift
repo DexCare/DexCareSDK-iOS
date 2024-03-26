@@ -51,12 +51,18 @@ class VirtualVisitOpenTokManager: NSObject {
     lazy var waitingRoomSession: SessionType? = OTSession(apiKey: apiKey, sessionId: waitingRoomSessionId, delegate: self)
     lazy var videoConferenceSession: SessionType? = OTSession(apiKey: apiKey, sessionId: videoSessionId, delegate: self)
     var videoSubscriber: SubscriberType?
+    // This property is to address the issue where the video publisher was created when we where trying to clean it up.
+    // This was a problem because creating the OTPublisher() take multiple seconds and was preventing the VirtualVisit
+    // screen from being dismissed.
+    private (set) var isVideoPublisherInstantiated: Bool = false
     lazy var videoPublisher: PublisherType = {
         let settings = OTPublisherSettings()
-        return OTPublisher(delegate: self, settings: settings)!
+        let otPublisher = OTPublisher(delegate: self, settings: settings)!
+        isVideoPublisherInstantiated = true
+        return otPublisher
     }()
     lazy var subscriberFactory: SubscriberFactory = SubscriberFactory()
-    
+        
     let navigator: VirtualVisitNavigatorType
     let completion: VisitCompletion
     
@@ -349,13 +355,13 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         switch visitState {
         case .visit:
             if chatView == nil {
-                chatView = navigator.showChat(manager: self)
+                chatView = navigator.showChat(manager: self, serverLogger: serverLogger)
             }
             chatView?.navigationTitle = Strings.visitChatTitle
             chatView?.refresh(chatMessages: chatMessages)
         case .waitingRoom:
             if chatView == nil {
-                chatView = navigator.showChat(manager: self)
+                chatView = navigator.showChat(manager: self, serverLogger: serverLogger)
             }
             chatView?.navigationTitle = Strings.waitingRoomChatTitle
             chatView?.refresh(chatMessages: chatMessages)
@@ -612,8 +618,9 @@ extension VirtualVisitOpenTokManager {
     func cleanupPublisher() throws {
         visitView?.removeLocalView()
         guard let videoConferenceSession = videoConferenceSession else { return }
-        
-        return try videoConferenceSession.unpublish(publisher: videoPublisher)
+        if isVideoPublisherInstantiated {
+            try videoConferenceSession.unpublish(publisher: videoPublisher)
+        }
     }
     
     func navigateToVisitView() {
