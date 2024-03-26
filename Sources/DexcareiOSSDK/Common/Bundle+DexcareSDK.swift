@@ -4,7 +4,14 @@ import Foundation
 
 extension Bundle {
     static var dexcareSDK: Bundle {
+        // SPM and cocoapods to not package ressources (images, storyboards, etc.) the same way.
+        #if SWIFT_PACKAGE
+        // SPM
+        let currentBundle = Bundle.module
+        #else
+        // Cocoapods
         let currentBundle = Bundle(for: DexcareSDK.self)
+        #endif
         
         // Because OpenTok is a static framework,
         // We may need to expose Dexcare as a static framework/resource bundle for development

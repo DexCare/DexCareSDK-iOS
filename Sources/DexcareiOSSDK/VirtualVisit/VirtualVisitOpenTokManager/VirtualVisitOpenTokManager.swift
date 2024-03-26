@@ -349,13 +349,13 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         switch visitState {
         case .visit:
             if chatView == nil {
-                chatView = navigator.showChat(manager: self)
+                chatView = navigator.showChat(manager: self, serverLogger: serverLogger)
             }
             chatView?.navigationTitle = Strings.visitChatTitle
             chatView?.refresh(chatMessages: chatMessages)
         case .waitingRoom:
             if chatView == nil {
-                chatView = navigator.showChat(manager: self)
+                chatView = navigator.showChat(manager: self, serverLogger: serverLogger)
             }
             chatView?.navigationTitle = Strings.waitingRoomChatTitle
             chatView?.refresh(chatMessages: chatMessages)

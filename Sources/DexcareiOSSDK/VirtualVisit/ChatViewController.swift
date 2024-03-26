@@ -21,6 +21,7 @@ protocol ChatView: AnyObject {
 
 class ChatViewController: MessagesViewController, ChatView {
     weak var manager: VirtualVisitManagerType?
+    private var serverLogger: LoggingService?
     lazy var linkHandler: ExternalLinkHandler = UIApplication.shared
     
     // Add a small (but not too big) delay on when to refresh the collection view or typing state
@@ -40,8 +41,10 @@ class ChatViewController: MessagesViewController, ChatView {
     var messages: [ChatMessage] = []
     let semaphore = DispatchSemaphore(value: 1)
     
-    init(manager: VirtualVisitManagerType) {
+    init(manager: VirtualVisitManagerType,
+         serverLogger: LoggingService?) {
         self.manager = manager
+        self.serverLogger = serverLogger
         userSender = ChatSender(id: manager.userId, displayName: manager.chatDisplayName)
         super.init(nibName: nil, bundle: nil)
     }
@@ -222,6 +225,15 @@ extension ChatViewController: MessagesDataSource {
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
+        /// There is an issue where the message does not exit at the given index.
+        /// Unfortunetly, we are unable to reproduce the issue.
+        /// We added extra logs to track the issue and help us reproduce it.
+        ///
+        /// Internal Issue: ENG-11367
+        if let message = messages[safe: indexPath.section] {
+            return message
+        }
+        serverLogger?.postMessage(message: "ChatViewController::messageForItem(at \(indexPath.section)) does not exist. Total number of sections = \(messages.count).")
         return messages[indexPath.section]
     }
     
