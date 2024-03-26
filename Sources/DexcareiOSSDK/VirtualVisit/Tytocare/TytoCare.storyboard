@@ -13,7 +13,7 @@
         <!--TytoCareSetup-->
         <scene sceneID="GfL-YD-Fif">
             <objects>
-                <viewController storyboardIdentifier="TytoCareSetupViewController" title="TytoCareSetup" id="F4k-f1-Afq" customClass="TytoCareSetupViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TytoCareSetupViewController" title="TytoCareSetup" id="F4k-f1-Afq" customClass="TytoCareSetupViewController" customModule="DexcareiOSSDK" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HNg-77-cvX">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -116,7 +116,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxj-5w-2YW">
                                 <rect key="frame" x="0.0" y="757" width="428" height="75"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVj-ig-jts" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dVj-ig-jts" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK">
                                         <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
                                         <color key="backgroundColor" name="tytoCareButtonBlue"/>
                                         <constraints>
@@ -205,7 +205,7 @@
         <!--TytoCarePrivacy-->
         <scene sceneID="CG2-zU-B53">
             <objects>
-                <viewController storyboardIdentifier="TytoCareMissingPrivacyViewController" title="TytoCareSetup" id="FyZ-xh-P8p" userLabel="TytoCarePrivacy" customClass="TytoCareMissingPrivacyViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TytoCareMissingPrivacyViewController" title="TytoCareSetup" id="FyZ-xh-P8p" userLabel="TytoCarePrivacy" customClass="TytoCareMissingPrivacyViewController" customModule="DexcareiOSSDK" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Qaj-6F-ghD">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -258,7 +258,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yrb-oj-E7O">
                                 <rect key="frame" x="0.0" y="757" width="428" height="75"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOy-Sv-bta" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOy-Sv-bta" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK">
                                         <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
                                         <color key="backgroundColor" name="tytoCareButtonBlue"/>
                                         <constraints>
@@ -342,7 +342,7 @@
         <!--Tyto Care Wifi Name View Controller-->
         <scene sceneID="E7V-Nh-7eG">
             <objects>
-                <viewController storyboardIdentifier="TytoCareWifiNameViewController" id="Lcv-pu-2Fv" customClass="TytoCareWifiNameViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TytoCareWifiNameViewController" id="Lcv-pu-2Fv" customClass="TytoCareWifiNameViewController" customModule="DexcareiOSSDK" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1xW-MX-BAq">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -368,7 +368,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bXu-8b-cuo" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bXu-8b-cuo" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK">
                                                         <rect key="frame" x="0.0" y="73.333333333333329" width="378" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="avp-te-TZK"/>
@@ -454,7 +454,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y1v-kb-h1b">
                                 <rect key="frame" x="0.0" y="757" width="428" height="75"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cL-fd-xzM" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0cL-fd-xzM" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK">
                                         <rect key="frame" x="94" y="17.666666666666629" width="240" height="40"/>
                                         <color key="backgroundColor" name="tytoCareButtonBlue"/>
                                         <constraints>
@@ -541,7 +541,7 @@
         <!--Tyto Care Wifi Password View Controller-->
         <scene sceneID="zir-Jn-ZlP">
             <objects>
-                <viewController storyboardIdentifier="TytoCareWifiPasswordViewController" id="Enc-w8-e5o" customClass="TytoCareWifiPasswordViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TytoCareWifiPasswordViewController" id="Enc-w8-e5o" customClass="TytoCareWifiPasswordViewController" customModule="DexcareiOSSDK" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GKY-9J-HJh">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -567,7 +567,7 @@
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iof-ti-6wK" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iof-ti-6wK" customClass="SkyFloatingLabelTextField" customModule="DexcareiOSSDK">
                                                         <rect key="frame" x="0.0" y="73.333333333333329" width="378" height="40"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="M94-wg-iRg"/>
@@ -653,7 +653,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cYS-gS-ZeH">
                                 <rect key="frame" x="25" y="757" width="378" height="75"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orQ-rd-M1E" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="orQ-rd-M1E" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK">
                                         <rect key="frame" x="69" y="17.666666666666629" width="240" height="40"/>
                                         <color key="backgroundColor" name="tytoCareButtonBlue"/>
                                         <constraints>
@@ -738,7 +738,7 @@
         <!--Tyto CareQR Code View Controller-->
         <scene sceneID="V47-h4-gyn">
             <objects>
-                <viewController storyboardIdentifier="TytoCareQRCodeViewController" id="1b6-iZ-Qtn" customClass="TytoCareQRCodeViewController" customModule="DexcareiOSSDK" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TytoCareQRCodeViewController" id="1b6-iZ-Qtn" customClass="TytoCareQRCodeViewController" customModule="DexcareiOSSDK" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mqh-Pt-x7N">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -799,7 +799,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="luF-i4-INy">
                                 <rect key="frame" x="25" y="787" width="378" height="55"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XdP-fw-VnE" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XdP-fw-VnE" customClass="TytoCareStyleButton" customModule="DexcareiOSSDK">
                                         <rect key="frame" x="69" y="7.6666666666666288" width="240" height="40"/>
                                         <color key="backgroundColor" name="tytoCareButtonBlue"/>
                                         <constraints>
