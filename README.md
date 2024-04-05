@@ -6,7 +6,7 @@ Contains the source framework of the iOS DexcareSDK for express care services.
 
 iOS SDK is available via SPM.
 
-To install, add the following url to your dependencies `https://github.com/DexCare/DexCareSDK-iOS/` being sure to target `9.0.0` or greater
+To install, add the following url to your dependencies `https://github.com/DexCare/DexCareSDK-iOS/` being sure to target `9.1.1` or greater
 
 ## Cocoapods
 
