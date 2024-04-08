@@ -19,7 +19,7 @@ protocol VirtualVisitNavigatorType {
     func reconnected()
     func showVisit(completion: PresentingCompletion?) -> VisitView?
     func showWaitingRoom(completion: PresentingCompletion?) -> WaitingRoomView?
-    func showChat(manager: VirtualVisitManagerType) -> ChatView?
+    func showChat(manager: VirtualVisitManagerType, serverLogger: LoggingService?) -> ChatView?
     func displayAlert(title: String, message: String, actions: [AlertAction])
     func showHud()
     func hideHud()
@@ -125,7 +125,8 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         return waitingRoomViewController
     }
     
-    func showChat(manager: VirtualVisitManagerType) -> ChatView? {
+    func showChat(manager: VirtualVisitManagerType,
+                  serverLogger: LoggingService?) -> ChatView? {
         let existingNavigationController = presentedNavigationController()
         
         // Check to see if we have shown the chat already
@@ -134,7 +135,7 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
             return existingNavigationController.viewControllers.last as? ChatViewController
         }
         
-        let chatViewController = ChatViewController(manager: manager)
+        let chatViewController = ChatViewController(manager: manager, serverLogger: serverLogger)
         existingNavigationController.pushViewController(chatViewController, animated: true)
         return chatViewController
     }
