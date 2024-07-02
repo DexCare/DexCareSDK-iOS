@@ -3,7 +3,7 @@
 // DexcareiOSSDK
 //
 // Created by Matt Kiazyk on 2021-08-30.
-// Copyright © 2021 Providence. All rights reserved.
+// Copyright © 2021 DexCare. All rights reserved.
 //
 
 import Foundation

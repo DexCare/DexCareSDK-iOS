@@ -1,4 +1,4 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 import UIKit
@@ -253,6 +253,9 @@ protocol InternalVirtualService: AnyObject {
     // Async
     func cancelVirtualVisit(visitId: String) async throws
     
+    // Wait offline
+    func attemptToWaitOffline(visitId: String, practiceId: String, sessionId: String) async throws
+    
 }
 
 public enum VisitCompletionReason: String {
@@ -282,8 +285,10 @@ public enum VisitCompletionReason: String {
     case staffDeclined
     /// Virtual visit failed with an unknown error
     case failed
-    /// Phone Visit has been requested.
+    /// Phone Visit has been requested
     case phoneVisit
+    /// User has elected to wait offline
+    case waitOffline
 }
 
 class VirtualServiceSDK: VirtualService, InternalVirtualService {
@@ -360,6 +365,10 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
             return dexcareRoute.lionTowerBuilder.post("/api/6/visit/\(visitId)/chat/\(sessionId)")
         }
         
+        func waitOffline() -> URLRequest {
+            return dexcareRoute.lionTowerBuilder.post("/v1/visits/event")
+        }
+        
         // MARK: - In Visit
         
         func cancel(visitId: String) -> URLRequest {
@@ -397,6 +406,10 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         }
         
         // MARK: WaitTime
+        func getBlisseyConfigs() -> URLRequest {
+            return dexcareRoute.fhirBuilder.get("v2/blisseyconfigs")
+        }
+        
         func getWaitTimeAvailability() -> URLRequest {
             return dexcareRoute.lionTowerBuilder.get("/api/9/regions/waittimes")
         }
@@ -704,20 +717,29 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         
         let waitingTokenURL = routes.token(visitId: response.visitId, sessionId: tokBoxVisit.waitingRoomSession.sessionId).token(authenticationToken)
         let videoTokenURL = routes.token(visitId: response.visitId, sessionId: tokBoxVisit.videoConferenceSession.sessionId).token(authenticationToken)
+        let blisseyConfigsURL = routes.getBlisseyConfigs()
         
-        async let waitingTokenResponse: TokBoxTokenResponse = asyncNetworkService.requestObject(waitingTokenURL)
-        async let videoTokenResponse: TokBoxTokenResponse = asyncNetworkService.requestObject(videoTokenURL)
+        let initialState: VisitInitialState
+        switch response.status {
+        case .inVisit: initialState = .inVisit
+        case .waitOffline: initialState = .waitOffline
+        default: initialState = .waitingRoom
+        }
         
-        var results: (TokBoxTokenResponse, TokBoxTokenResponse)
-       
+        let waitingTokenResponse: TokBoxTokenResponse
+        let videoTokenResponse: TokBoxTokenResponse
+        let minimumWaitTimeForWaitOffline: Int
         do {
-            results = try await (waitingTokenResponse, videoTokenResponse)
+            waitingTokenResponse = try await asyncNetworkService.requestObject(waitingTokenURL)
+            videoTokenResponse = try await asyncNetworkService.requestObject(videoTokenURL)
+            let blisseyConfigs: BlisseyConfigs? = try? await asyncNetworkService.requestObject(blisseyConfigsURL)
+            minimumWaitTimeForWaitOffline = blisseyConfigs?.minimumWaitTimeForWaitOffline ?? .max
         } catch {
             throw VirtualVisitFailedReason.from(error: error)
         }
         
-        let waitingToken = results.0.token
-        let videoToken = results.1.token
+        let waitingToken = waitingTokenResponse.token
+        let videoToken = videoTokenResponse.token
         let tytoCare = response.tytoCare
         
         self.dexcareConfiguration.serverLogger?.visitId = response.visitId
@@ -726,13 +748,15 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
             virtualService: self,
             displayName: displayName,
             visitId: response.visitId,
+            practiceId: response.practiceId,
             userId: response.userId,
             apiKey: apiKey,
             waitingRoomSessionId: tokBoxVisit.waitingRoomSession.sessionId,
             videoSessionId: tokBoxVisit.videoConferenceSession.sessionId,
             waitingRoomToken: waitingToken,
             videoToken: videoToken,
-            inVisitOnResume: response.status == .inVisit,
+            initialState: initialState,
+            minimumWaitTimeForWaitOffline: minimumWaitTimeForWaitOffline,
             navigator: VirtualVisitNavigator(
                 presentingViewController: presentingViewController,
                 customizationOptions: self.customizationOptions
@@ -755,6 +779,7 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
                 }
             }
         )
+        self.virtualVisitManager?.forceWaitOfflineHidden = response.status == .caregiverAssigned
         
         // Make sure to register our device token with lion tower endpoint
         // Note: userId is old and response actually returns patientGuid,
@@ -1123,6 +1148,18 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
             throw FailedReason.from(error: error)
         case .success:
             return
+        }
+    }
+    
+    func attemptToWaitOffline(visitId: String, practiceId: String, sessionId: String) async throws {
+        let requestBody = WaitOfflineRequest(visitId: visitId, practiceId: practiceId, sessionId: sessionId)
+        let urlRequest = routes.waitOffline().body(json: requestBody).token(authenticationToken)
+        do {
+            try await asyncNetworkService.requestVoid(urlRequest)
+        } catch {
+            dexcareConfiguration.logger?.log("Could not wait offline: \(error.localizedDescription)")
+            dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: VirtualVisitFailedReason.from(error: error), data: ["visitId": visitId])
+            throw FailedReason.from(error: error)
         }
     }
     

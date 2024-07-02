@@ -1,4 +1,4 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 import AVKit
@@ -9,10 +9,11 @@ protocol WaitingRoomView: AnyObject {
     var tytoCareManager: TytoCareManagerType? { get set }
     
     func loadInitialWaitTime(waitTimeMessage: String, estimateMessage: String)
-    func updateWaitTime(waitTimeMessage: String, estimateMessage: String)
+    func updateWaitTime(waitTimeMessage: String, estimateMessage: String, canWaitOffline: Bool)
     func abortedWaitTime()
     func stopSelfPreview()
     func prepareForTransfer()
+    func hideWaitOffline()
 }
 
 class WaitingRoomViewController: UIViewController, WaitingRoomView {
@@ -38,6 +39,13 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var estimateLabel: UILabel!
     @IBOutlet weak var estimateSpinner: UIActivityIndicatorView!
+    @IBOutlet weak var waitOfflineContainer: UIView!
+    @IBOutlet weak var waitOfflineMessageLabel: UILabel! {
+        didSet {
+            waitOfflineMessageLabel.text = localizeString("waitingRoom_message_waitOfflinePrompt")
+        }
+    }
+    @IBOutlet weak var waitOfflineButton: UIButton!
     @IBOutlet weak var notificationMessageLabel: UILabel! {
         didSet {
             notificationMessageLabel.text = localizeString("waitingRoom_message_readyPhotoId")
@@ -75,6 +83,10 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
         
         let cancelButtonTitle = localizeString("waitingRoom_link_cancelVisit")
         cancelVisitButton.setTitle(cancelButtonTitle, for: .normal)
+        
+        let waitOfflineButtonTitle = localizeString("waitingRoom_link_waitOffline")
+        waitOfflineButton.setTitle(waitOfflineButtonTitle, for: .normal)
+        waitOfflineContainer.isHidden = true // Starts hidden, only shown when available
         
         setupTytoCare()
     }
@@ -126,6 +138,10 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     
     // MARK: - IBActions
     
+    @IBAction func waitOfflineButtonTapped() {
+        manager?.showWaitOfflineAlert()
+    }
+    
     @IBAction func cancelButtonTapped() {
         if embeddedContainerView.isHidden {
             manager?.leave()
@@ -165,7 +181,7 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
         estimateLabel.text = estimateMessage
     }
     
-    func updateWaitTime(waitTimeMessage: String, estimateMessage: String) {
+    func updateWaitTime(waitTimeMessage: String, estimateMessage: String, canWaitOffline: Bool) {
         estimateSpinner.alpha = 1.0
         estimateSpinner.startAnimating()
         
@@ -181,6 +197,7 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
                 animations: {
                     self.estimateLabel.text = estimateMessage
                     self.estimateSpinner.alpha = 0.0
+                    self.waitOfflineContainer.isHidden = !canWaitOffline
                 },
                 completion: { _ in
                     self.estimateSpinner.stopAnimating()
@@ -201,6 +218,11 @@ class WaitingRoomViewController: UIViewController, WaitingRoomView {
     func prepareForTransfer() {
         embeddedContainerView.isHidden = true
         transferContainer.isHidden = false
-        cancelVisitButton.setTitle(localizeString("waitingRoom_link_leaveVisit"), for: .normal)
+        cancelVisitButton.isHidden = true
+        hideWaitOffline()
+    }
+    
+    func hideWaitOffline() {
+        waitOfflineContainer.isHidden = true
     }
 }

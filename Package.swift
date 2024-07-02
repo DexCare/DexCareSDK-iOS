@@ -27,6 +27,8 @@ let package = Package(
                     "MessageKit",
                     "FittedSheets",
                     .product(name: "VonageClientSDKVideo", package: "vonage-client-sdk-video")
-                ])
+                ],
+                resources: [.process("PrivacyInfo.xcprivacy")]
+               )
     ]
 )

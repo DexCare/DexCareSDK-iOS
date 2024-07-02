@@ -1,4 +1,4 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 import MessageKit
@@ -41,12 +41,26 @@ class ChatViewController: MessagesViewController, ChatView {
     var messages: [ChatMessage] = []
     let semaphore = DispatchSemaphore(value: 1)
     
+    private var backBarButtonItem: UIBarButtonItem {
+        // We create a custom back button to accomodate the fact that some implementation will
+        // update the navigation tint color globally to white.
+        // 'UINavigationBar.appearance().tintColor = .white'
+        let backButton = UIButton(type: .custom)
+        backButton.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        backButton.tintColor = .link
+        backButton.setTitle("Back", for: .normal)
+        backButton.setTitleColor(.link, for: .normal)
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        return UIBarButtonItem(customView: backButton)
+    }
+    
     init(manager: VirtualVisitManagerType,
          serverLogger: LoggingService?) {
         self.manager = manager
         self.serverLogger = serverLogger
         userSender = ChatSender(id: manager.userId, displayName: manager.chatDisplayName)
         super.init(nibName: nil, bundle: nil)
+        navigationItem.leftBarButtonItem = backBarButtonItem
     }
 
     @available(*, unavailable)
@@ -159,6 +173,10 @@ class ChatViewController: MessagesViewController, ChatView {
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + workItemDelay, execute: workItem)
     }
     
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+    
     private func refreshTypingIndicator(shown: Bool) {
         // Cancel any existing workItem if there is any
         if let currentWorkItem = typingIndicatorWorkItem {
@@ -225,7 +243,7 @@ extension ChatViewController: MessagesDataSource {
     }
     
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {
-        /// There is an issue where the message does not exist at the given index.
+        /// There is an issue where the message does not exit at the given index.
         /// Unfortunetly, we are unable to reproduce the issue.
         /// We added extra logs to track the issue and help us reproduce it.
         ///

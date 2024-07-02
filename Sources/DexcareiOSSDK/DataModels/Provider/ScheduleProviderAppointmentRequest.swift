@@ -1,4 +1,4 @@
-// Copyright © 2021 Providence. All rights reserved.
+// Copyright © 2021 DexCare. All rights reserved.
 
 import Foundation
 

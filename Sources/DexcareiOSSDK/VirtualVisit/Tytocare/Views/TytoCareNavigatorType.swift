@@ -12,7 +12,7 @@ protocol TytoCareNavigatorType {
     
     func showHud()
     func hideHud()
-    func displayAlert(title: String, message: String, actions: [AlertAction])
+    func displayAlert(title: String, message: String, actions: [VirtualVisitAlertAction])
     
     func closeView()
     func goBack(animated: Bool)
@@ -117,11 +117,8 @@ class TytoCareNavigator: TytoCareNavigatorType {
         navigationController?.popViewController(animated: animated)
     }
     
-    func displayAlert(title: String, message: String, actions: [AlertAction]) {
-        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        actions.forEach { action in
-            controller.addAction(UIAlertAction(title: action.title, style: action.style, handler: action.handler))
-        }
+    func displayAlert(title: String, message: String, actions: [VirtualVisitAlertAction]) {
+        let controller = VirtualVisitAlertViewController(title: title, message: message, actions: actions)
         navigationController?.present(controller, animated: true, completion: nil)
     }
     

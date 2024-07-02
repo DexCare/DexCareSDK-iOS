@@ -3,7 +3,7 @@
 // DexcareSDK
 //
 // Created by Matt Kiazyk on 2020-12-21.
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 //
 
 import Foundation
@@ -71,6 +71,31 @@ public struct VirtualPracticeRegion: Codable, Equatable {
         availability = try values.decode([PracticeRegionAvailability].self, forKey: .availability)
         pediatricsAgeRange = try? values.decode(PediatricsAgeRange.self, forKey: .pediatricsAgeRange)
         departments = try values.decode([PracticeRegionDepartment].self, forKey: .departments)
+    }
+    
+    // An internal constructor for VirtualPracticeRegion
+    // This constructor is not intended to be used in production
+    // It was created to simplify testing and SwiftUI previews
+    public init(practiceRegionId: String,
+                displayName: String,
+                regionCode: String,
+                active: Bool,
+                busy: Bool,
+                busyMessage: String,
+                visitPrice: Decimal,
+                availability: [PracticeRegionAvailability],
+                pediatricsAgeRange: PediatricsAgeRange?,
+                departments: [PracticeRegionDepartment]) {
+        self.practiceRegionId = practiceRegionId
+        self.displayName = displayName
+        self.regionCode = regionCode
+        self.active = active
+        self.busy = busy
+        self.busyMessage = busyMessage
+        self.visitPrice = visitPrice
+        self.availability = availability
+        self.pediatricsAgeRange = pediatricsAgeRange
+        self.departments = departments
     }
 }
 

@@ -3,7 +3,7 @@
 // DexcareSDK
 //
 // Created by Reuben Lee on 2020-01-23.
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 //
 
 import Foundation
@@ -15,7 +15,7 @@ internal enum Constants {
     static let firstDelayInterval: TimeInterval = 5.0
 }
 
-extension VirtualVisitManagerType {
+extension VirtualVisitOpenTokManager {
 
     func loadWaitTime() {
         loadWaitTime(firstDelayInterval: Constants.firstDelayInterval)
@@ -51,31 +51,34 @@ extension VirtualVisitManagerType {
     }
     
     func updateWaitTime() {
-        guard let virtualService = self.virtualService else {
-            self.waitingRoomView?.abortedWaitTime()
+        guard let virtualService else {
+            waitingRoomView?.abortedWaitTime()
             return
         }
         
         Task {
             do {
-                defer {
-                    self.addWaitTimeWorkItem()
-                }
                 let waitTimeResponse = try await virtualService.getEstimatedWaitTime(visitId: visitId)
-                let localizedWaitTimeMessage = self.getLocalizedWaitTimeMessage(waitTime: waitTimeResponse)
-                
-                DispatchQueue.main.async { [weak self] in
-                    self?.waitingRoomView?.updateWaitTime(
+                let localizedWaitTimeMessage = getLocalizedWaitTimeMessage(waitTime: waitTimeResponse)
+                let isEstimatedTimeBiggerThanMinWaitOffline = waitTimeResponse.estimatedWaitTimeSeconds >= minimumWaitTimeForWaitOffline
+                let canWaitOffline = isEstimatedTimeBiggerThanMinWaitOffline && !forceWaitOfflineHidden
+                DispatchQueue.main.async {
+                    self.waitingRoomView?.updateWaitTime(
                         waitTimeMessage: localizedWaitTimeMessage ?? "",
-                        estimateMessage: self?.currentEstimateMessage ?? ""
+                        estimateMessage: self.currentEstimateMessage,
+                        canWaitOffline: canWaitOffline
                     )
+                    self.logWaitOfflineServerLog(canWaitOffline: canWaitOffline,
+                                                 estimatedWaitTime: waitTimeResponse.estimatedWaitTimeSeconds,
+                                                 minimumWaitTimeForWaitOffline: self.minimumWaitTimeForWaitOffline,
+                                                 forceWaitOfflineHidden: self.forceWaitOfflineHidden)
                 }
-                
             } catch {
                 DispatchQueue.main.async { [weak self] in
                     self?.waitingRoomView?.abortedWaitTime()
                 }
             }
+            addWaitTimeWorkItem()
         }
     }
     
@@ -119,5 +122,17 @@ extension VirtualVisitManagerType {
         } else {
             return nil
         }
+    }
+    
+    private func logWaitOfflineServerLog(canWaitOffline: Bool,
+                                         estimatedWaitTime: Int,
+                                         minimumWaitTimeForWaitOffline: Int,
+                                         forceWaitOfflineHidden: Bool) {
+        let visibleString = canWaitOffline ? "visible" : "NOT visible"
+        serverLogger?.postMessage(message: "Wait Offline button is \(visibleString)",
+                                  data: ["estimatedWaitTime": String(estimatedWaitTime),
+                                         "minimumWaitTimeForWaitOffline": String(minimumWaitTimeForWaitOffline),
+                                         "forceWaitOfflineHidden": String(forceWaitOfflineHidden)])
+        
     }
 }

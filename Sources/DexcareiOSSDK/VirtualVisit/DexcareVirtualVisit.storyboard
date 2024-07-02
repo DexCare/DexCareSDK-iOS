@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -22,10 +22,10 @@
                                 <rect key="frame" x="0.0" y="47" width="390" height="763"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2GI-TT-Wue" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="763"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="782"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Yk9-HN-NIy">
-                                                <rect key="frame" x="0.0" y="0.0" width="390" height="440.33333333333331"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="390" height="618"/>
                                                 <subviews>
                                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gYh-qN-foi">
                                                         <rect key="frame" x="0.0" y="0.0" width="390" height="219.33333333333334"/>
@@ -64,10 +64,10 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cwA-bU-2n5">
-                                                        <rect key="frame" x="0.0" y="234.33333333333331" width="390" height="206"/>
+                                                        <rect key="frame" x="0.0" y="234.33333333333329" width="390" height="383.66666666666674"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZH3-rW-itb">
-                                                                <rect key="frame" x="20" y="20" width="350" height="186"/>
+                                                                <rect key="frame" x="20" y="20" width="350" height="363.66666666666669"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="One of our healthcare providers will meet you here in about 5–10 minutes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PW4-bh-C2e" userLabel="messageLabel">
                                                                         <rect key="frame" x="0.0" y="0.0" width="350" height="38.333333333333336"/>
@@ -103,15 +103,43 @@
                                                                             <constraint firstItem="XKK-lj-yki" firstAttribute="centerY" secondItem="U8j-AM-eSa" secondAttribute="centerY" id="wHy-bA-aev"/>
                                                                         </constraints>
                                                                     </view>
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lg0-8l-sPd">
+                                                                        <rect key="frame" x="0.0" y="88.333333333333371" width="350" height="128"/>
+                                                                        <subviews>
+                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="unU-HT-VSK">
+                                                                                <rect key="frame" x="147" y="-5" width="203" height="30"/>
+                                                                                <accessibility key="accessibilityConfiguration" identifier="CANCEL_BUTTON"/>
+                                                                                <state key="normal" title="Come back later"/>
+                                                                                <connections>
+                                                                                    <action selector="waitOfflineButtonTapped" destination="GIL-eq-BzS" eventType="touchUpInside" id="bHk-iG-JtM"/>
+                                                                                </connections>
+                                                                            </button>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't want to wait?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odt-zY-UEI">
+                                                                                <rect key="frame" x="0.0" y="0.0" width="139" height="128"/>
+                                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                                <nil key="textColor"/>
+                                                                                <nil key="highlightedColor"/>
+                                                                            </label>
+                                                                        </subviews>
+                                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                        <constraints>
+                                                                            <constraint firstItem="unU-HT-VSK" firstAttribute="leading" secondItem="odt-zY-UEI" secondAttribute="trailing" constant="8" symbolic="YES" id="1Wq-e3-PFd"/>
+                                                                            <constraint firstItem="odt-zY-UEI" firstAttribute="top" secondItem="lg0-8l-sPd" secondAttribute="top" id="2mK-fy-vhb"/>
+                                                                            <constraint firstAttribute="bottom" secondItem="odt-zY-UEI" secondAttribute="bottom" id="Lu1-Bi-XQG"/>
+                                                                            <constraint firstItem="odt-zY-UEI" firstAttribute="leading" secondItem="lg0-8l-sPd" secondAttribute="leading" id="bNl-In-ZLW"/>
+                                                                            <constraint firstItem="unU-HT-VSK" firstAttribute="firstBaseline" secondItem="odt-zY-UEI" secondAttribute="firstBaseline" id="baJ-Ss-15V"/>
+                                                                            <constraint firstAttribute="trailing" secondItem="unU-HT-VSK" secondAttribute="trailing" id="uzs-EZ-w7W"/>
+                                                                        </constraints>
+                                                                    </view>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Keep the app open, and when your provider is ready you'll be notified. Please have your photo ID ready." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DA4-GU-T2s" userLabel="notification Message Label">
-                                                                        <rect key="frame" x="0.0" y="88.333333333333371" width="350" height="57.333333333333343"/>
+                                                                        <rect key="frame" x="0.0" y="226.33333333333331" width="350" height="57.333333333333314"/>
                                                                         <accessibility key="accessibilityConfiguration" identifier="NOTIFICATION_MESSAGE"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OAd-0x-Ma7">
-                                                                        <rect key="frame" x="0.0" y="155.66666666666669" width="350" height="30.333333333333343"/>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OAd-0x-Ma7">
+                                                                        <rect key="frame" x="0.0" y="293.66666666666669" width="350" height="70"/>
                                                                         <accessibility key="accessibilityConfiguration" identifier="CANCEL_BUTTON"/>
                                                                         <state key="normal" title="Cancel this virtual visit"/>
                                                                         <connections>
@@ -132,7 +160,7 @@
                                                 </subviews>
                                             </stackView>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X2w-2G-2vK">
-                                                <rect key="frame" x="0.0" y="599" width="390" height="163"/>
+                                                <rect key="frame" x="0.0" y="618" width="390" height="163"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f6g-M2-5Ha" customClass="TytoCareButton" customModule="DexcareiOSSDK">
                                                         <rect key="frame" x="226" y="20" width="144" height="54"/>
@@ -237,11 +265,14 @@
                         <outlet property="transferLabel" destination="EaA-Ec-Kx6" id="WyP-T5-oRf"/>
                         <outlet property="tytoCareButton" destination="f6g-M2-5Ha" id="nUY-Yj-u7A"/>
                         <outlet property="tytoWidthConstraint" destination="0vo-xb-pha" id="c84-JM-bgS"/>
+                        <outlet property="waitOfflineButton" destination="unU-HT-VSK" id="wMy-8U-RbX"/>
+                        <outlet property="waitOfflineContainer" destination="lg0-8l-sPd" id="q5m-h6-a9b"/>
+                        <outlet property="waitOfflineMessageLabel" destination="odt-zY-UEI" id="ZN8-cn-7vb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pbX-v8-34S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-133.59999999999999" y="116.49175412293854"/>
+            <point key="canvasLocation" x="-133.84615384615384" y="115.87677725118483"/>
         </scene>
         <!--Embedded Video View Controller-->
         <scene sceneID="Wub-jq-lue">

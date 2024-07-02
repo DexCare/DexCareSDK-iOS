@@ -2,16 +2,22 @@ import Foundation
 
 /// An `Error` enum returned for Estimated Wait Times
 public enum WaitTimeFailedReason: Error, FailedReasonType, Equatable {
-    /// The `PracticeRegionId` passed in does not exist on our system
-    case regionNotFound
-
     /// There are no Providers that are on call in the PracticeRegion.
     case noOnCallProviders
 
-    /// The Practice Region is busy or it's off hours.
-    case regionUnavailable
+    /// The Practice Region is off hours.
+    case offHours
     
-    /// Something went wrong internally. Please send us the correlation id
+    /// The Practice Region is experiencing high demand (busy).
+    case regionBusy
+    
+    /// The `PracticeRegionId` passed in does not exist on our system
+    case regionNotFound
+
+    /// The visit with the given visitId was not found.
+    case visitNotFound
+    
+    /// Something went wrong internally. Please send us the correlation id.
     case internalServerError
     
     /// Some information is missing from the request. Check the message
@@ -27,12 +33,16 @@ public enum WaitTimeFailedReason: Error, FailedReasonType, Equatable {
             // Convert the response data to utf8 text
             let dataText = String(data: data ?? Data(), encoding: .utf8) ?? ""
             switch statusCode {
-            case 400 where dataText.contains("REGION_UNAVAILABLE"):
-                return .regionUnavailable
+            case 400 where dataText.contains("OFF_HOURS"):
+                return .offHours
+            case 400 where dataText.contains("REGION_BUSY"):
+                return .regionBusy
             case 400 where dataText.contains("NO_ONCALL_PROVIDERS"):
                 return .noOnCallProviders
-            case 404:
+            case 400 where dataText.contains("NO_REGIONS_FOUND"):
                 return .regionNotFound
+            case 404:
+                return .visitNotFound
             case 500:
                 return .internalServerError
             default:

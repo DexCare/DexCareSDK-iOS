@@ -3,13 +3,20 @@
 // DexcareSDK
 //
 // Created by Reuben Lee on 2020-01-21.
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 //
 
 import Foundation
 
 enum SignalMessageType: String {
-    case instantMessage, typingStateMessage, participantLeft, error, statusChange, endCallAndTransfer
+    case instantMessage,
+         typingStateMessage,
+         participantLeft,
+         error,
+         statusChange,
+         endCallAndTransfer,
+         patientEnterWaitOfflineSuccess,
+         patientEnterWaitOfflineError
 }
 
 struct SignalInstantMessage: Codable {

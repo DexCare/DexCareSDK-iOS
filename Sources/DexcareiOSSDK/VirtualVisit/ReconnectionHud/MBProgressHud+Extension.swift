@@ -1,4 +1,4 @@
-// Copyright © 2018 Providence. All rights reserved.
+// Copyright © 2018 DexCare. All rights reserved.
 
 import Foundation
 import MBProgressHUD

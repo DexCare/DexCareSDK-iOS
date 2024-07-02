@@ -3,11 +3,14 @@
 "waitingRoom_subtitle_providerWaitTime"="Uno de nuestros proveedores médicos se reunirá con usted aquí tan pronto como esté disponible";
 "waitingRoom_caption_estimatedTime"="Estimación a partir de";
 "waitingRoom_message_readyPhotoId"="Mantenga la aplicación abierta y, cuando su proveedor esté listo, se le notificará. Tenga listo su documento de identificación con foto.";
+"waitingRoom_link_waitOffline"="Veulve mas tarde";
 "waitingRoom_link_cancelVisit"="Cancelar esta visita virtual";
-"waitingRoom_link_leaveVisit"="Deja esta visita virtual";
 "waitingRoom_message_patientTransfer"="Otro proveedor estará con usted en breve.";
 "waitingRoom_message_dismiss"="Despedir";
 "waitingRoom_title_navigation"="Sala de espera de visita virtual";
+"waitingRoom_message_waitOfflinePrompt"="¿Quieres unirte a la lista de espera?";
+"waitingRoom_waitOffline_title"="Tu lugar en la fila está reservado";
+"waitingRoom_waitOffline_message"="Gracias por solicitar una visita virtual. Has reservado con éxito tu lugar en la fila. Se le notificará cuando el proveedor esté listo para usted.";
 "chatView_hint_emptyChat"="Escriba aquí...";
 "visit_chatView_title_navigation"="Chatear con el proveedor";
 "waitingRoom_chatView_title_navigation"="Chat";
@@ -15,9 +18,15 @@
 "dialog_waitingRoomCancelConfirm_title_cancelCall"="Cancelar llamada";
 "dialog_waitingRoomCancelConfirm_title_leaveCall"="Dejar llamada";
 "dialog_waitingRoomCancelConfirm_message_cancelCallConfirmation"="¿Está seguro de que desea cancelar esta visita virtual?";
+"dialog_waitOffline_title"="Tu lugar en la fila está reservado";
+"dialog_waitOffline_message"="Nos comunicaremos con usted cuando el proveedor esté listo.";
+"dialog_waitOffline_stay"="Espera aquí";
+"dialog_waitOffline_leave"="Vuelve mas tarde";
+"dialog_waitOffline_cancelTitle"="¿Ya no estás interesado?";
 "dialog_waitingRoomCancelConfirm_message_leaveCallConfirmation"="¿Estás seguro de que quieres dejar esta visita virtual? ";
-"dialog_waitingRoomCancelConfirm_button_confirm"="Confirmar";
+"dialog_waitingRoomCancelConfirm_button_confirm"="Cancelar visita y salir";
 "dialog_waitingRoomCancelConfirm_button_cancel"="Volver";
+"dialog_waitingRoom_button_confirm"="Confirmar";
 "dialog_visitEndConfirm_title"="Confirmar";
 "dialog_visitEndConfirm_message"="¿Está seguro(a) de que quiere terminar la llamada?";
 "dialog_visitEndConfirm_button_confirm"="Finalizar llamada";
@@ -47,6 +56,7 @@
 "dialog_reconnect_title" = "Reconectarle...";
 "dialog_reconnect_cancel" = "Cancelar";
 
+// Waittime Keys
 "waitingRoom_waittime_virtual_NAP" = "Uno de nuestros proveedores de atención médica se reunirá con usted aquí tan pronto como esté disponible";
 "waitingRoom_waittime_virtual_5" = "Debido al gran número de pacientes, tenemos tiempos de espera más largos de lo normal. Su proveedor estará con usted lo más pronto posible";
 "waitingRoom_waittime_virtual_10" = "Debido al gran número de pacientes, tenemos tiempos de espera más largos de lo normal. Su proveedor estará con usted lo más pronto posible";

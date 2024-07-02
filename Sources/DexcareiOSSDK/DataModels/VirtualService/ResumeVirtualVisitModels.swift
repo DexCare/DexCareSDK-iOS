@@ -1,9 +1,10 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 
 struct VisitSummary: Decodable, Equatable {
     let visitId: String
+    let practiceId: String
     let userId: String
     let status: VisitStatus
     let tokBoxVisit: TokBoxVisit?
@@ -14,6 +15,7 @@ struct VisitSummary: Decodable, Equatable {
     
     enum CodingKeys: String, CodingKey {
         case visitId
+        case practiceId
         case userId
         case status
         case isTokBox
@@ -27,6 +29,7 @@ struct VisitSummary: Decodable, Equatable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
          
         visitId = try container.decode(String.self, forKey: .visitId)
+        practiceId = try container.decode(String.self, forKey: .practiceId)
         userId = try container.decode(String.self, forKey: .userId)
         status = try container.decode(VisitStatus.self, forKey: .status)
         tokBoxVisit = try? container.decode(TokBoxVisit.self, forKey: .tokBoxVisit)
@@ -44,6 +47,7 @@ struct VisitSummary: Decodable, Equatable {
 
     init(
         visitId: String,
+        practiceId: String,
         userId: String,
         status: VisitStatus,
         tokBoxVisit: TokBoxVisit?,
@@ -51,6 +55,7 @@ struct VisitSummary: Decodable, Equatable {
         modality: VirtualVisitModality?
     ) {
         self.visitId = visitId
+        self.practiceId = practiceId
         self.userId = userId
         self.status = status
         self.tokBoxVisit = tokBoxVisit
@@ -86,7 +91,13 @@ public struct VisitStatus: RawRepresentable, Codable, Equatable {
     /// visit was declined by the staff before seeing a provider
     public static let staffDeclined = VisitStatus(rawValue: "staffdeclined")
     @available(*, unavailable, renamed: "staffDeclined")
-    public static let staffdeclined = VisitStatus(rawValue: "staffdeclined")
+    public static let staffdeclined = VisitStatus(rawValue: "old staffdeclined")
+    
+    /// The patient is waiting offline for a notification before rejoining the visit
+    public static let waitOffline = VisitStatus(rawValue: "waitoffline")
+    
+    /// A caregiver is already assigned and is ready to start a visit immediately
+    public static let caregiverAssigned = VisitStatus(rawValue: "caregiverassigned")
     
     public init(rawValue: Self.RawValue) {
         self.rawValue = rawValue
@@ -98,10 +109,10 @@ public struct VisitStatus: RawRepresentable, Codable, Equatable {
         switch self {
         case VisitStatus.done, VisitStatus.cancelled, VisitStatus.staffDeclined:
             return false
-        case VisitStatus.requested, VisitStatus.inVisit, VisitStatus.waitingRoom:
+        case VisitStatus.caregiverAssigned, VisitStatus.requested, VisitStatus.inVisit, VisitStatus.waitingRoom, VisitStatus.waitOffline:
             return true
         default:
-            return false
+            return true
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 
 import Foundation
 /// A structure containing information about a patient's name

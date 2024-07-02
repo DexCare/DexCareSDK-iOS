@@ -1,4 +1,4 @@
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 
 /// A struct representing an EHRSystem + identifier
 public struct Identifier: Equatable, Codable {

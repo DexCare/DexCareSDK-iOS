@@ -1,5 +1,39 @@
 # Release Notes
 
+## 9.2.0
+### New
+This version of the SDK adds support for wait offline. This gives the patient the option to close the app, remain in the wait queue, and be notified when their provider is ready for them. To accomplish this, we've added a number of things:
+- New localizable strings:
+  | localizable.strings key | Usage|
+  |---|---|
+  |waitingRoom_link_waitOffline| CTA to enter the wait offline state |
+  |waitingRoom_message_waitOfflinePrompt| Prompt to explain the wait offline CTA |
+  |waitingRoom_waitOffline_title| Title shown when the patient successfully enters the wait offline state |
+  |waitingRoom_waitOffline_message| Message shown when the patient successfully enters the wait offline state |
+  |dialog_waitOffline_title| Title for the wait offline confirmation dialog |
+  |dialog_waitOffline_message| Message for the wait offline confirmation dialog |
+  |dialog_waitOffline_stay| Dialog action to not enter wait offline and remain in the waiting room |
+  |dialog_waitOffline_stay| Dialog action to enter the wait offline state and come back later |
+  |dialog_waitingRoom_button_confirm| Replaces `dialog_waitingRoomCancelConfirm_button_confirm` as the generic confirm action in dialogs |
+- New `VisitStatus.waitOffline` case: Indicates that the patient is waiting offline and waiting for a notification to rejoin the visit.
+- New `VisitCompletionReason.waitOffline` case: Used in the visit completion block to indicate the user chose to wait offline and close the visit for now.
+
+### Changes
+- New `VisitStatus.caregiverAssigned` case: Indicates that a caregiver was assigned to the visit and that the visit is ready to start.
+- Gave the alerts shown by the SDK a facelift to provide better extensibility options in the future.
+- Updated the `dialog_waitingRoomCancelConfirm_button_confirm` localizable strings key to `Cancel visit and leave`
+- Added a Privacy manifest file `PrivacyInfo.xcprivacy` to the SDK. The SDK privacy manifest file does not include Nutrition Labels as these entries will depend on which API you are using. Refer to the README.md file for more information.
+
+### Bug fixes
+- Fixed issue where the Chat View back button was not visible when the Navigation Bar global tint color was white.
+
+### Breaking
+
+- `WaitTimeFailedReason.regionUnavailable` enum case was replaced by: 
+   - `WaitTimeFailedReason.regionBusy`: Returned when region is experiencing high demand.
+   - `WaitTimeFailedReason.offHours`: Returned when the region is off hours / closed.
+- New `WaitTimeFailedReason.visitNotFound` case: Returned when the given `visitId` is not found. 
+
 ## 9.1.1
 ### Bug Fixes
 - Fixed virtual visit crash when integrating the SDK using Service Package Manager (SPM).
@@ -11,7 +45,7 @@
 ### New
 This version of the SDK adds support for virtual visit transfers between providers. To accomplish this we've added a number of things:
 
-- Localizable strings:
+- New Localizable strings:
 
   | localizable.strings key                                     | Usage|
   |-------------------------------------------------------------|---|

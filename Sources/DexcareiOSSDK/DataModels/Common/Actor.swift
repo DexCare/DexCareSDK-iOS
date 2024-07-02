@@ -3,7 +3,7 @@
 // DexcareSDK
 //
 // Created by Barry on 4/22/20.
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 //
 
 struct Actor: Encodable, Equatable {
