@@ -32,15 +32,20 @@ Cocoapods will install the following dependencies
   'FittedSheets' - Controls the presentation of the virtual visits
 ```
 
-## Swift/Xcode
+## Privacy Manifest
 
-Starting with v6.0 will no longer work on Xcode 11 and you must upgrade to Xcode 12+ in order to use it. With this change, the framework has been upgraded to use the new `.xcframework` style of distribution. This will allow us to be more backwards compatible on swift versions going forward.
+Apple requires all apps and SDKs to provide a [privacy manifest file](https://developer.apple.com/documentation/bundleresources/privacy_manifest_files). The DexCare SDK contains multiple APIs, making it hard for us to create a manifest file with all the "Privacy Nutrition Label Types" as it depends on which APIs you will use. If you want to see an example of a manifest file, please look at our [SampleApp](https://github.com/DexCare/DexCareSDK.iOS.SampleApp).  
 
+Here is the data we collect as part of our booking processes (Virtual, Provider, or Retail):
+- **Name**: Used to book a visit.
+- **Email Address**: Used to book a visit.
+- **Phone Number**: Used to book a visit.
+- **Physical Address**: Used to book a visit.
+- **Other Diagnostic Data**: Used to help troubleshoot issues that could arise while using any of our APIs.
 
-
-
+If you still have questions or need clarifications, please contact your implementation team. 
 
 ## Changelog
 
-Latest can be found on the [Changelog](changelog.md)
+Latest changes can be found in the [Changelog](changelog.md)
 

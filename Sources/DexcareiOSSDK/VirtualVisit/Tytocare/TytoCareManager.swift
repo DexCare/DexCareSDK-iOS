@@ -145,13 +145,13 @@ class TytoCareManager: NSObject, TytoCareManagerType {
     
     func showErrorAlert() {
         navigator?.displayAlert(title: "Unexpected Error", message: "There was an error processing your device pairing request. Please check your network connection and try again.", actions: [
-            AlertAction(title: localizeString("dialog.button.ok"), style: .cancel, handler: nil)
+            VirtualVisitAlertAction(title: localizeString("dialog.button.ok"), style: .cancel, handler: nil)
         ])
     }
     
     func showUnder18Alert() {
         navigator?.displayAlert(title: "Unable to create TytoCare account", message: "You must be 18 years or older to create a TytoCare account.", actions: [
-            AlertAction(title: localizeString("dialog.button.ok"), style: .cancel, handler: nil)
+            VirtualVisitAlertAction(title: localizeString("dialog.button.ok"), style: .cancel, handler: nil)
         ])
     }
     

@@ -3,7 +3,7 @@
 // DexcareSDK
 //
 // Created by Matt Kiazyk on 2021-01-11.
-// Copyright © 2021 Providence. All rights reserved.
+// Copyright © 2021 DexCare. All rights reserved.
 //
 
 import Foundation
@@ -42,7 +42,7 @@ public struct ProviderVisitType: Codable, Equatable {
     /// If available, more information about a Visit Type
     public let description: String?
     
-    internal init(
+    public init(
         visitTypeId: String, 
         name: String, 
         shortName: VisitTypeShortName?, 

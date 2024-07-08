@@ -1,9 +1,9 @@
 //
 // AppVersion.swift
-// ProvidenceVideo
+// DexcareAppVersion
 //
 // Created by Reuben Lee on 2018-01-24.
-// Copyright © 2018 Providence. All rights reserved.
+// Copyright © 2018 DexCare. All rights reserved.
 //
 
 import Foundation

@@ -1,17 +1,10 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 import MBProgressHUD
 import UIKit
 
-typealias AlertActionHandler = (UIAlertAction) -> Void
 typealias PresentingCompletion = () -> Void
-
-struct AlertAction {
-    let title: String
-    let style: UIAlertAction.Style
-    let handler: AlertActionHandler?
-}
 
 protocol VirtualVisitNavigatorType {
     func closeVisit()
@@ -20,7 +13,9 @@ protocol VirtualVisitNavigatorType {
     func showVisit(completion: PresentingCompletion?) -> VisitView?
     func showWaitingRoom(completion: PresentingCompletion?) -> WaitingRoomView?
     func showChat(manager: VirtualVisitManagerType, serverLogger: LoggingService?) -> ChatView?
-    func displayAlert(title: String, message: String, actions: [AlertAction])
+    func showWaitOfflineLanding(completion: PresentingCompletion?) -> WaitingRoomWaitOfflineViewController?
+    func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction])
+    func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction], footer: VirtualVisitAlertFooter?)
     func showHud()
     func hideHud()
 }
@@ -65,7 +60,9 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
     }
     
     func closeVisit() {
-        presentingViewController.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.presentingViewController.dismiss(animated: true, completion: nil)
+        }
     }
     
     func reconnecting(didCancel: @escaping () -> ()) {
@@ -140,11 +137,20 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         return chatViewController
     }
     
-    func displayAlert(title: String, message: String, actions: [AlertAction]) {
-        let controller = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        actions.forEach { action in
-            controller.addAction(UIAlertAction(title: action.title, style: action.style, handler: action.handler))
-        }
+    func showWaitOfflineLanding(completion: PresentingCompletion?) -> WaitingRoomWaitOfflineViewController? {
+        let existingNavigationController = presentedNavigationController(completion: completion)
+        let waitOfflineLandingViewController = WaitingRoomWaitOfflineViewController()
+        
+        existingNavigationController.setViewControllers([waitOfflineLandingViewController], animated: true)
+        return waitOfflineLandingViewController
+    }
+    
+    func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction]) {
+        displayAlert(title: title, message: message, actions: actions, footer: nil)
+    }
+    
+    func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction], footer: VirtualVisitAlertFooter?) {
+        let controller = VirtualVisitAlertViewController(title: title, message: message, actions: actions, footer: footer)
         navigationController?.present(controller, animated: true, completion: nil)
     }
     

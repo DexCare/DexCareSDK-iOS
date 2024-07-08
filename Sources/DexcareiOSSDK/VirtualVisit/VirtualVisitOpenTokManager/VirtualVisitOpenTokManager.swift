@@ -1,4 +1,4 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 import OpenTok
@@ -12,6 +12,12 @@ enum VisitSessionState: String, Equatable {
     case failed
 }
 
+enum VisitInitialState {
+    case waitingRoom
+    case inVisit
+    case waitOffline
+}
+
 protocol VirtualVisitManagerType: AnyObject {
     var visitId: String { get }
     var userId: String { get }
@@ -21,6 +27,7 @@ protocol VirtualVisitManagerType: AnyObject {
     var virtualService: InternalVirtualService? { get }
     var waitTimeWorkItem: DispatchWorkItem? { get set }
     var inWaitingRoom: Bool { get }
+    var forceWaitOfflineHidden: Bool { get set }
     
     var networkStats: VideoCallStatistics? { get }
     
@@ -31,8 +38,11 @@ protocol VirtualVisitManagerType: AnyObject {
     func sendChatMessage(_ message: String)
     func hangup()
     func cancel()
+    func cancelFromWaitOffline()
     func leave()
     func loadWaitTime()
+    func showWaitOfflineAlert()
+    func waitOffline()
     
     func toggleCameraPosition()
 }
@@ -40,13 +50,16 @@ protocol VirtualVisitManagerType: AnyObject {
 class VirtualVisitOpenTokManager: NSObject {
     let displayName: String
     let visitId: String
+    let practiceId: String
     let userId: String
     let apiKey: String
     let videoSessionId: String
     let waitingRoomSessionId: String
     let videoToken: String
     let waitingRoomToken: String
-    var inVisitOnResume: Bool
+    var initialState: VisitInitialState
+    var minimumWaitTimeForWaitOffline: Int
+    var forceWaitOfflineHidden = false
     
     lazy var waitingRoomSession: SessionType? = OTSession(apiKey: apiKey, sessionId: waitingRoomSessionId, delegate: self)
     lazy var videoConferenceSession: SessionType? = OTSession(apiKey: apiKey, sessionId: videoSessionId, delegate: self)
@@ -134,7 +147,8 @@ class VirtualVisitOpenTokManager: NSObject {
         // Waiting Room Cancel
         static let cancelTitle = localizeString("dialog_waitingRoomCancelConfirm_title_cancelCall")
         static let cancelMessage = localizeString("dialog_waitingRoomCancelConfirm_message_cancelCallConfirmation")
-        static let confirmAction = localizeString("dialog_waitingRoomCancelConfirm_button_confirm")
+        static let cancelVisitAction = localizeString("dialog_waitingRoomCancelConfirm_button_confirm")
+        static let confirmAction = localizeString("dialog_waitingRoom_button_confirm")
         static let cancelAbort = localizeString("dialog_waitingRoomCancelConfirm_button_cancel")
         
         // Waiting Room Leave
@@ -152,6 +166,13 @@ class VirtualVisitOpenTokManager: NSObject {
         static let cancelReconnectMessage = localizeString("dialog_cancelReconnect_message")
         static let cancelReconnectCancel = localizeString("dialog_cancelReconnect_cancel")
         static let cancelReconnectKeepTrying = localizeString("dialog_cancelReconnect_confirm")
+        
+        // Wait offline
+        static let waitOfflineTitle = localizeString("dialog_waitOffline_title")
+        static let waitOfflineMessage = localizeString("dialog_waitOffline_message")
+        static let waitOfflineStay = localizeString("dialog_waitOffline_stay")
+        static let waitOfflineLeave = localizeString("dialog_waitOffline_leave")
+        static let waitOfflineCancelTitle = localizeString("dialog_waitOffline_cancelTitle")
     }
     
     private enum Images {
@@ -167,13 +188,15 @@ class VirtualVisitOpenTokManager: NSObject {
         virtualService: InternalVirtualService,
         displayName: String,
         visitId: String,
+        practiceId: String,
         userId: String,
         apiKey: String,
         waitingRoomSessionId: String,
         videoSessionId: String,
         waitingRoomToken: String,
         videoToken: String,
-        inVisitOnResume: Bool,
+        initialState: VisitInitialState,
+        minimumWaitTimeForWaitOffline: Int,
         navigator: VirtualVisitNavigatorType,
         customization: CustomizationOptions?,
         tytoCare: TytoCareResponse,
@@ -184,13 +207,15 @@ class VirtualVisitOpenTokManager: NSObject {
         self.virtualService = virtualService
         self.displayName = displayName
         self.visitId = visitId
+        self.practiceId = practiceId
         self.userId = userId
         self.apiKey = apiKey
         self.waitingRoomSessionId = waitingRoomSessionId
         self.videoSessionId = videoSessionId
         self.waitingRoomToken = waitingRoomToken
         self.videoToken = videoToken
-        self.inVisitOnResume = inVisitOnResume
+        self.initialState = initialState
+        self.minimumWaitTimeForWaitOffline = minimumWaitTimeForWaitOffline
         self.navigator = navigator
         self.completion = completion
         self.logger = logger
@@ -300,14 +325,14 @@ class VirtualVisitOpenTokManager: NSObject {
             title: Strings.permissionTitle,
             message: Strings.permissionMessage,
             actions: [
-                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
+                VirtualVisitAlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] in
                     guard let strongSelf = self else { return }
                     Task {
                         try await strongSelf.virtualService?.cancelVirtualVisit(visitId: strongSelf.visitId)
                     }
                     strongSelf.endConference(reason: .canceled)
                 }),
-                AlertAction(title: Strings.openSettingsTitle, style: .cancel, handler: { _ in
+                VirtualVisitAlertAction(title: Strings.openSettingsTitle, style: .cancel, handler: {
                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                         return
                     }
@@ -350,7 +375,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
     var chatDisplayName: String {
         return displayName
     }
-
+    
     func openChat() {
         switch visitState {
         case .visit:
@@ -376,7 +401,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
     func setMicIsEnabled(_ enabled: Bool) {
         videoPublisher.publishAudio = enabled
     }
-
+    
     func toggleCamera() {
         videoPublisher.publishVideo = !videoPublisher.publishVideo
         visitView?.cameraButtonImage = videoPublisher.publishVideo ? Images.cameraEnabled : Images.cameraDisabled
@@ -398,7 +423,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             assertionFailure("unable to send typing state to session. \(String(describing: error))")
             return
         }
-
+        
         switch visitState {
         case .visit:
             do {
@@ -408,20 +433,20 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             }
             
         case .waitingRoom:
-       
+            
             do {
                 try waitingRoomSession?.signal(type: SignalMessageType.typingStateMessage.rawValue, string: json, connection: nil)
             } catch {
                 self.processError(error: error, isFatal: false, message: "Unable to send waiting room typing state")
             }
-        
+            
         default: break
         }
         
         lastTypingState = isTyping
     }
     
-    func sendChatMessage(_ message: String) {        
+    func sendChatMessage(_ message: String) {
         let instantMessage = SignalInstantMessage(
             fromParticipant: displayName,
             senderId: userId,
@@ -438,10 +463,10 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             assertionFailure("unable to send typing state to session. \(String(describing: error))")
             return
         }
-
+        
         switch visitState {
         case .visit:
-         
+            
             do {
                 try videoConferenceSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
             } catch {
@@ -451,7 +476,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             postChatMessage(sessionId: videoSessionId, instantMessage: instantMessage)
             logger?.log(.visitVideoInstantMessageSent)
         case .waitingRoom:
-       
+            
             do {
                 try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
             } catch {
@@ -460,14 +485,13 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             
             logger?.log(.visitWaitingRoomInstantMessageSent)
             postChatMessage(sessionId: waitingRoomSessionId, instantMessage: instantMessage)
-           
+            
         default: break
         }
     }
- 
+    
     private func postChatMessage(sessionId: String, instantMessage: SignalInstantMessage) {
         // Post the message to lion tower for chat persistence
-        
         guard let virtualService = self.virtualService else {
             return
         }
@@ -486,9 +510,9 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             title: Strings.hangupTitle,
             message: Strings.hangupMessage,
             actions: [
-                AlertAction(title: Strings.hangupConfirm, style: .default, handler: { [weak self] _ in
+                VirtualVisitAlertAction(title: Strings.hangupConfirm, style: .default, handler: { [weak self] in
                     guard let strongSelf = self else { return }
-                
+                    
                     do {
                         try strongSelf.waitingRoomSession?.signal(type: SignalMessageType.participantLeft.rawValue, string: nil, connection: nil)
                         try strongSelf.videoConferenceSession?.signal(type: SignalMessageType.participantLeft.rawValue, string: nil, connection: nil)
@@ -499,7 +523,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
                     }
                     
                 }),
-                AlertAction(title: Strings.hangupAbort, style: .cancel, handler: nil)
+                VirtualVisitAlertAction(title: Strings.hangupAbort, style: .cancel, handler: nil)
             ]
         )
     }
@@ -509,23 +533,24 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             title: Strings.cancelTitle,
             message: Strings.cancelMessage,
             actions: [
-                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
-                    guard let strongSelf = self else { return }
-                    strongSelf.navigator.showHud()
-                    Task {
-                        do {
-                            try await strongSelf.virtualService?.cancelVirtualVisit(visitId: strongSelf.visitId)
-                        } catch {
-                            // we aren't handling errors
-                        }
-                    }
-                    strongSelf.navigator.hideHud()
-                    strongSelf.logger?.log(.visitCancelled)
-                    strongSelf.virtualService?.virtualEventDelegate?.onVirtualVisitCancelledByUser()
-                    strongSelf.endConference(reason: .canceled)
+                VirtualVisitAlertAction(title: Strings.cancelVisitAction, style: .default, handler: { [weak self] in
+                    self?.cancelVisit()
                 }),
-                AlertAction(title: Strings.cancelAbort, style: .cancel, handler: nil)
+                VirtualVisitAlertAction(title: Strings.cancelAbort, style: .cancel, handler: nil)
             ]
+        )
+    }
+    
+    func cancelFromWaitOffline() {
+        navigator.displayAlert(
+            title: Strings.waitOfflineTitle,
+            message: Strings.waitOfflineMessage,
+            actions: [
+                VirtualVisitAlertAction(title: Strings.waitOfflineStay, style: .cancel, handler: nil)
+            ],
+            footer: .init(title: Strings.waitOfflineCancelTitle, action: .init(title: Strings.cancelVisitAction, style: .default, handler: { [weak self] in
+                self?.cancelVisit()
+            }))
         )
     }
     
@@ -534,17 +559,28 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             title: Strings.leaveTitle,
             message: Strings.leaveMessage,
             actions: [
-                AlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] _ in
-                    self?.navigator.showHud()
-                    try? self?.waitingRoomSession?.signal(type: SignalMessageType.participantLeft.rawValue, string: nil, connection: nil)
-                    self?.navigator.hideHud()
-                    self?.logger?.log(.visitLeft)
-                    self?.virtualService?.virtualEventDelegate?.onVirtualVisitCancelledByUser()
-                    self?.endConference(reason: .left)
+                VirtualVisitAlertAction(title: Strings.confirmAction, style: .destructive, handler: { [weak self] in
+                    self?.leaveVisit()
                 }),
-                AlertAction(title: Strings.cancelAbort, style: .cancel, handler: nil)
+                VirtualVisitAlertAction(title: Strings.cancelAbort, style: .cancel, handler: nil)
             ]
         )
+    }
+    
+    func showWaitOfflineAlert() {
+        navigator.displayAlert(
+            title: Strings.waitOfflineTitle,
+            message: Strings.waitOfflineMessage,
+            actions: [
+                VirtualVisitAlertAction(title: Strings.waitOfflineLeave, style: .default, handler: { [weak self] in
+                    self?.tryToWaitOffline()
+                }),
+                VirtualVisitAlertAction(title: Strings.waitOfflineStay, style: .cancel, handler: nil)
+            ])
+    }
+    
+    func waitOffline() {
+        endConference(reason: .waitOffline)
     }
     
     func cancelReconnectionAlert() {
@@ -552,14 +588,51 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             title: Strings.cancelReconnectTitle,
             message: Strings.cancelReconnectMessage,
             actions: [
-                AlertAction(title: Strings.cancelReconnectCancel, style: .destructive, handler: { [weak self] _ in
-                    guard let strongSelf = self else { return }
-                    strongSelf.cancelReconnectionWorkItem()
-                    strongSelf.endConference(reason: .exceededReconnectAttempt)
+                VirtualVisitAlertAction(title: Strings.cancelReconnectCancel, style: .destructive, handler: { [weak self] in
+                    self?.cancelReconnectionWorkItem()
+                    self?.endConference(reason: .exceededReconnectAttempt)
                 }),
-                AlertAction(title: Strings.cancelReconnectKeepTrying, style: .cancel, handler: nil)
+                VirtualVisitAlertAction(title: Strings.cancelReconnectKeepTrying, style: .cancel, handler: nil)
             ]
         )
+    }
+    
+    func showWaitOfflineErrorAlert() {
+        navigator.hideHud()
+        navigator.displayAlert(title: "Unable to wait offline", message: nil, actions: [.init(title: "Ok", style: .default, handler: nil)])
+    }
+    
+    private func cancelVisit() {
+        navigator.showHud()
+        Task {
+            do {
+                try await virtualService?.cancelVirtualVisit(visitId: visitId)
+            } catch {
+                // we aren't handling errors
+            }
+            logger?.log(.visitCancelled)
+            virtualService?.virtualEventDelegate?.onVirtualVisitCancelledByUser()
+            endConference(reason: .canceled)
+        }
+    }
+    
+    private func leaveVisit() {
+        navigator.showHud()
+        try? waitingRoomSession?.signal(type: SignalMessageType.participantLeft.rawValue, string: nil, connection: nil)
+        logger?.log(.visitLeft)
+        virtualService?.virtualEventDelegate?.onVirtualVisitCancelledByUser()
+        endConference(reason: .left)
+    }
+    
+    private func tryToWaitOffline() {
+        navigator.showHud()
+        Task {
+            do {
+                try await virtualService?.attemptToWaitOffline(visitId: visitId, practiceId: practiceId, sessionId: waitingRoomSessionId)
+            } catch {
+                showWaitOfflineErrorAlert()
+            }
+        }
     }
     
     func toggleCameraPosition() {

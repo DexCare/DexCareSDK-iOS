@@ -3,7 +3,7 @@
 // DexcareSDK
 //
 // Created by Reuben Lee on 2020-01-23.
-// Copyright © 2020 Providence. All rights reserved.
+// Copyright © 2020 DexCare. All rights reserved.
 //
 
 import Foundation
@@ -16,17 +16,27 @@ enum OpenTokError: Error {
 // MARK: - SessionType delegate callbacks
 extension VirtualVisitOpenTokManager: SessionTypeDelegate {
     func sessionDidConnect(_ session: SessionType) {
-        if visitState == .waitingRoom && waitingRoomView == nil && !inVisitOnResume {
-            waitingRoomView = navigator.showWaitingRoom { [weak self] in
-                guard let self else { return }
-                self.virtualService?.onVisitSuccess(visitId: self.visitId)
-            }
-            waitingRoomView?.manager = self
-            waitingRoomView?.tytoCareManager = self.tytoCareManager
-            virtualService?.virtualEventDelegate?.onWaitingRoomLaunched()
-            virtualService?.sendWaitingRoomEvents(visitId: self.visitId, permissions: nil)
-        } else if session.sessionId == videoSessionId && inVisitOnResume {
+        if session.sessionId == videoSessionId && initialState == .inVisit {
             navigateToVisitView()
+        } else if session.sessionId == waitingRoomSessionId {
+            if initialState == .waitOffline {
+                let waitOfflineView = navigator.showWaitOfflineLanding { [weak self] in
+                    guard let self else { return }
+                    self.virtualService?.onVisitSuccess(visitId: self.visitId)
+                }
+                waitOfflineView?.manager = self
+                virtualService?.virtualEventDelegate?.onWaitingRoomLaunched()
+                virtualService?.sendWaitingRoomEvents(visitId: self.visitId, permissions: nil)
+            } else if initialState == .waitingRoom {
+                waitingRoomView = navigator.showWaitingRoom { [weak self] in
+                    guard let self else { return }
+                    self.virtualService?.onVisitSuccess(visitId: self.visitId)
+                }
+                waitingRoomView?.manager = self
+                waitingRoomView?.tytoCareManager = self.tytoCareManager
+                virtualService?.virtualEventDelegate?.onWaitingRoomLaunched()
+                virtualService?.sendWaitingRoomEvents(visitId: self.visitId, permissions: nil)
+            }
         }
         
         switch session.sessionId {
@@ -217,7 +227,10 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
     func session(_ session: SessionType, receivedSignalType type: String?, from connection: OTConnection?, with string: String?) {
         guard
             let messageType = SignalMessageType(rawValue: type ?? "")
-        else { return }
+        else {
+            serverLogger?.postMessage(message: "OpenTok Signal: Ingnoring '\(type ?? "")'")
+            return
+        }
         
         let isWaitingRoomConnection = connection?.connectionId == waitingRoomSession?.connection?.connectionId
         let isVideoConnection = connection?.connectionId == videoConferenceSession?.connection?.connectionId
@@ -225,6 +238,7 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         
         switch messageType {
         case .participantLeft:
+            logSignalToServer(messageType)
             if notMyOwnConnection {
                 endConference(reason: .completed)
             }
@@ -233,17 +247,38 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         case .typingStateMessage:
             processTypingStateMessage(sessionId: session.sessionId, from: connection, with: string)
         case .error:
+            logSignalToServer(messageType, extraInfo: string)
             processErrorMessage(with: string)
         case .statusChange:
+            logSignalToServer(messageType, extraInfo: string)
             processStatusChange(with: string)
         case .endCallAndTransfer:
+            logSignalToServer(messageType)
             processTransfer()
+        case .patientEnterWaitOfflineError:
+            logSignalToServer(messageType)
+            showWaitOfflineErrorAlert()
+        case .patientEnterWaitOfflineSuccess:
+            logSignalToServer(messageType)
+            navigator.showWaitOfflineLanding(completion: nil)?.manager = self
         }
     }
     
+    private func logSignalToServer(_ messageType: SignalMessageType, extraInfo: String? = nil) {
+        var message = "OpenTok Signal: \(messageType.rawValue)"
+        if let extraInfo {
+            message += " - \(extraInfo)"
+        }
+        logger?.log(message, level: .debug)
+        serverLogger?.postMessage(message: message)
+    }
+    
     private func processTransfer() {
+        forceWaitOfflineHidden = true
         waitingRoomView?.prepareForTransfer()
         waitingRoomView = navigator.showWaitingRoom(completion: nil)
+        waitingRoomView?.manager = self
+        waitingRoomView?.tytoCareManager = self.tytoCareManager
         try? cleanupSubscriber()
         virtualService?.virtualEventDelegate?.onWaitingRoomTransferred()
     }
@@ -270,7 +305,7 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
                 guard !waitingRoomChatMessages.contains(where: { $0.messageId == chatMessage.messageId }) else { return }
                 waitingRoomChatMessages.append(chatMessage)
                 waitingRoomChatMessages.sort { $0.sentDate < $1.sentDate }
-                if visitState == .waitingRoom && !inVisitOnResume {
+                if visitState == .waitingRoom && initialState != .inVisit {
                     openChat()
                 }
                 logger?.log(.visitWaitingRoomInstantMessageReceived)
@@ -343,6 +378,9 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
                 virtualService?.virtualEventDelegate?.onVirtualVisitDeclinedByProvider()
                 endConference(reason: .staffDeclined)
                 logger?.log("staff declined virtual visit")
+            } else if statusMessage.status == "caregiverassigned" {
+                waitingRoomView?.hideWaitOffline()
+                forceWaitOfflineHidden = true
             } else {
                 logger?.log("unknown status change message: \(statusMessage.status)")
             }

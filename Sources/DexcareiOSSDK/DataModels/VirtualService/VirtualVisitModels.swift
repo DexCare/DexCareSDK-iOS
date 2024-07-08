@@ -1,4 +1,4 @@
-// Copyright © 2019 Providence. All rights reserved.
+// Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
 // Based on https://github.com/providenceinnovation/visit-service/blob/master/app/api/Liontower.VisitService.v6.yaml
