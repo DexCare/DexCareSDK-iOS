@@ -27,6 +27,8 @@ class ChatViewController: MessagesViewController, ChatView {
     // Add a small (but not too big) delay on when to refresh the collection view or typing state
     // We cancel any previous request if the next one comes in before the delay
     // We do need it to be quick enough so we get some immediate feedback when typing in a new message
+    // This delay has been added to throttle the cascade of messages that are received when a user resumes a visits
+    // Since only the last message is needed in that scenario
     lazy var workItemDelay = 0.1
     var typingIndicatorWorkItem: DispatchWorkItem?
     var refreshWorkItem: DispatchWorkItem?
@@ -248,11 +250,16 @@ extension ChatViewController: MessagesDataSource {
         /// We added extra logs to track the issue and help us reproduce it.
         ///
         /// Internal Issue: ENG-11367
+        ///
+        /// Update July 22, 2024
+        /// The above issue is caused when the user has minimized the app and is receiving messages.
+        /// The issue can also be resolved by removing workItemDelay mechanism or revamping the chat throttling mechanism.
+        /// Simply returning a empty chat message appears to have no ill effects (the empty chat mesasges do not appear).
         if let message = messages[safe: indexPath.section] {
             return message
         }
-        serverLogger?.postMessage(message: "ChatViewController::messageForItem(at \(indexPath.section)) does not exist. Total number of sections = \(messages.count).")
-        return messages[indexPath.section]
+        serverLogger?.postMessage(message: "ChatViewController::messageForItem(at \(indexPath.section)) is out of range")
+        return ChatMessage.empty
     }
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
@@ -354,6 +361,8 @@ extension ChatViewController: MessagesDisplayDelegate {
 }
 
 struct ChatMessage: MessageType {
+    static var empty: Self = ChatMessage(sender: ChatSender(id: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(""))
+    
     var sender: SenderType
     var messageId: String
     var sentDate: Date
