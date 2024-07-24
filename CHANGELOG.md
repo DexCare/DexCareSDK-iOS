@@ -1,5 +1,9 @@
 # Release Notes
 
+## 9.2.1
+### Bug Fixes
+- Fixed issue where app would crash when receiving chat messages while backgrounded
+
 ## 9.2.0
 ### New
 This version of the SDK adds support for wait offline. This gives the patient the option to close the app, remain in the wait queue, and be notified when their provider is ready for them. To accomplish this, we've added a number of things:
