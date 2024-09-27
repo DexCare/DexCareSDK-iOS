@@ -20,12 +20,12 @@ public struct Address: Codable, Equatable {
     public var state: String
     /// Zip Code of the address - usually in 5 digit form
     public var postalCode: String
-    
+
     public init(
-        line1: String, 
-        line2: String?, 
-        city: String, 
-        state: String, 
+        line1: String,
+        line2: String?,
+        city: String,
+        state: String,
         postalCode: String
     ) {
         self.line1 = line1
@@ -37,7 +37,7 @@ public struct Address: Codable, Equatable {
 }
 
 extension Address {
-    internal func validate() throws {
+    func validate() throws {
         if !ZipCodeValidator.isValid(zipCode: self.postalCode) {
             throw "invalid postal code"
         }

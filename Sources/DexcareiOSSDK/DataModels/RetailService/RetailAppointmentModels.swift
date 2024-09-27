@@ -10,7 +10,7 @@ struct CancelRetailAppointmentRequestNew: Codable {
 
 enum ResourceType: String, Codable {
     case appointment = "Appointment"
-    
+
     init(from decoder: Decoder) throws {
         self = try ResourceType(rawValue: decoder.singleValueContainer().decode(String.self)) ?? .appointment
     }
@@ -22,7 +22,7 @@ enum ReferenceType: String, Codable {
     case healthCareService = "HealthCareService"
     case patient = "Patient"
     case unknown = "Unknown"
-    
+
     init(from decoder: Decoder) throws {
         self = try ReferenceType(rawValue: decoder.singleValueContainer().decode(String.self)) ?? .unknown
     }

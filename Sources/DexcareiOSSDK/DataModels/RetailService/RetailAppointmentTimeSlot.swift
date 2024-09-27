@@ -17,5 +17,4 @@ public struct RetailAppointmentTimeSlot: Equatable, Codable {
     public let timezone: String
     /// An array of ScheduleDay objects, each representing all time slots for a particular day
     public let scheduleDays: [ScheduleDay]
-    
 }

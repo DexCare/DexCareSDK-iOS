@@ -10,7 +10,7 @@ public struct DexcareStatus: Codable {
     public let description: String
     /// Last date time the status was updated
     public let updatedAt: Date
-    
+
     /// An array of `DexcareIncident` that are currently active
     public let incidents: [DexcareIncident]
     /// An array of `DexcareIncident` that are currently scheduled
@@ -24,10 +24,10 @@ public struct DexcareStatus: Codable {
         case incidents
         case scheduledMaintenances = "scheduled_maintenances"
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         let dateString = try values.decode(String.self, forKey: CodingKeys.updatedAt)
         // We're reusing Schedule Day for Retail and Providers
         // Both endpoints come back with different date formats
@@ -36,7 +36,7 @@ public struct DexcareStatus: Codable {
         } else {
             throw "Invalid date format for DexcareStatus.updatedAt"
         }
-        
+
         self.name = try values.decode(String.self, forKey: CodingKeys.name)
         self.impact = try values.decode(IncidentImpact.self, forKey: CodingKeys.impact)
         self.description = try values.decode(String.self, forKey: CodingKeys.description)
@@ -63,7 +63,7 @@ public struct DexcareIncident: Codable {
     public let scheduledUntil: Date?
     /// The individual parts of the DexCare Platform that this incident is affecting.
     public let components: [DexcareComponent]
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case body
@@ -74,7 +74,7 @@ public struct DexcareIncident: Codable {
         case scheduledUntil = "scheduled_until"
         case components
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -83,14 +83,14 @@ public struct DexcareIncident: Codable {
         self.status = try values.decode(IncidentStatus.self, forKey: CodingKeys.status)
         self.impact = try values.decode(IncidentImpact.self, forKey: CodingKeys.impact)
         self.components = try values.decode([DexcareComponent].self, forKey: CodingKeys.components)
-        
+
         let dateString = try values.decode(String.self, forKey: CodingKeys.updatedAt)
         if let dateTime = DateFormatter.iso8601.date(from: dateString) {
             self.updatedAt = dateTime
         } else {
             throw "Invalid date format for DexcareIncident.updatedAt"
         }
-        
+
         if let dateString = try values.decodeIfPresent(String.self, forKey: CodingKeys.scheduledFor) {
             if let dateTime = DateFormatter.iso8601.date(from: dateString) {
                 self.scheduledFor = dateTime
@@ -100,7 +100,7 @@ public struct DexcareIncident: Codable {
         } else {
             self.scheduledFor = nil
         }
-        
+
         if let dateString = try values.decodeIfPresent(String.self, forKey: CodingKeys.scheduledUntil) {
             if let dateTime = DateFormatter.iso8601.date(from: dateString) {
                 self.scheduledUntil = dateTime
@@ -111,7 +111,6 @@ public struct DexcareIncident: Codable {
             self.scheduledUntil = nil
         }
     }
-        
 }
 
 /// The various stages of progress towards resolution that a `DexcareIncident` could be at.
@@ -154,14 +153,14 @@ public enum IncidentImpact: String, Codable {
 public struct DexcareComponent: Codable {
     // not sure if we need this yet. Depending how how status page is grouped, this can be used to get a status of a group of components
     let groupId: String?
-    
+
     /// The name of the component. ie. `Acme Express Care - Retail`
     public let name: String
     /// The status of of the component. During an incident or a scheduled maintenance, this will be updated. Regular operations, these will be set to `DexcareComponentStatus.operational`
     public let status: DexcareComponentStatus
     /// The type of DexCare service component. See `DexcareComponentType` for a list of components
     public let type: DexcareComponentType
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case groupId = "group_id"
@@ -169,6 +168,7 @@ public struct DexcareComponent: Codable {
         case type
     }
 }
+
 /// An enum representing the DexCare service component. During incidents and scheduled maintenances, multiple components may be effected
 public enum DexcareComponentType: String, Codable {
     /// The connection to Epic and Interconnect

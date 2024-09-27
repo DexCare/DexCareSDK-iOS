@@ -18,31 +18,31 @@ public struct WaitTimeLocalizationInfo: Decodable, Equatable {
     public var timeMinSeconds: Int?
     /// An optional returned estimated maximum amount of seconds for a visit
     public var timeMaxSeconds: Int?
-    
+
     enum CodingKeys: String, CodingKey {
         case modality
         case waitTimeMapKey
         case timeMinSeconds
         case timeMaxSeconds
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         if let modalityString = try? container.decode(String.self, forKey: .modality) {
             modality = VirtualVisitModality(rawValue: modalityString)
         } else {
             modality = VirtualVisitModality(rawValue: "unknown")
         }
-        
+
         self.waitTimeMapKey = try container.decode(String.self, forKey: .waitTimeMapKey)
-        
+
         self.timeMinSeconds = try? container.decodeIfPresent(Int.self, forKey: .timeMinSeconds)
         self.timeMaxSeconds = try? container.decodeIfPresent(Int.self, forKey: .timeMaxSeconds)
     }
-    
+
     // Initializer used only for stubbing tests
-    internal init(
+    init(
         modality: VirtualVisitModality,
         waitTimeMapKey: String,
         timeMinSeconds: Int?,
@@ -53,12 +53,11 @@ public struct WaitTimeLocalizationInfo: Decodable, Equatable {
         self.timeMinSeconds = timeMinSeconds
         self.timeMaxSeconds = timeMaxSeconds
     }
-
 }
 
-extension WaitTimeLocalizationInfo {
+public extension WaitTimeLocalizationInfo {
     /// key to look up values in the localization strings file
-    public var localizationKey: String {
+    var localizationKey: String {
         return "waitingRoom_waittime_\(modality.rawValue)_\(waitTimeMapKey)"
     }
 }

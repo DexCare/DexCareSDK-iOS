@@ -19,7 +19,7 @@ public struct ProviderTimeSlot: Equatable, Codable {
     public var timeZone: TimeZone? {
         return TimeZone(identifier: timezoneString)
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case providerNationalId
         case startDate
@@ -27,9 +27,9 @@ public struct ProviderTimeSlot: Equatable, Codable {
         case timezoneString = "timezone"
         case scheduleDays
     }
-    
+
     // Initializer used only for stubbing tests
-    internal init(
+    init(
         providerNationalId: String,
         startDate: Date,
         endDate: Date,
@@ -42,22 +42,22 @@ public struct ProviderTimeSlot: Equatable, Codable {
         self.timezoneString = timezoneString
         self.scheduleDays = scheduleDays
     }
-    
+
     /// An internal decoder to handle dates.
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.providerNationalId = try values.decode(String.self, forKey: CodingKeys.providerNationalId)
         self.timezoneString = try values.decode(String.self, forKey: CodingKeys.timezoneString)
         self.scheduleDays = try values.decode([ScheduleDay].self, forKey: CodingKeys.scheduleDays)
-        
+
         let startDateTimeString = try values.decode(String.self, forKey: CodingKeys.startDate)
         if let startDateTime = DateFormatter.yearMonthDay.date(from: startDateTimeString) {
             self.startDate = startDateTime
         } else {
             throw "Invalid startDate format"
         }
-        
+
         let endDateTimeString = try values.decode(String.self, forKey: CodingKeys.endDate)
         if let endDateTime = DateFormatter.yearMonthDay.date(from: endDateTimeString) {
             self.endDate = endDateTime

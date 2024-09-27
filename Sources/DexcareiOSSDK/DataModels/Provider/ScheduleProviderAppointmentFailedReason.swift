@@ -15,7 +15,7 @@ public enum ScheduleProviderAppointmentFailedReason: Error, FailedReasonType {
     case failed(reason: FailedReason)
     /// Provider requires that the patient be on their panel before booking
     case patientNotOnPhysicalPanel
-    
+
     static func from(error: Error) -> ScheduleProviderAppointmentFailedReason {
         if case let NetworkError.non200StatusCode(statusCode, data) = error {
             // Convert the response data to utf8 text
@@ -44,7 +44,7 @@ public enum ScheduleProviderAppointmentFailedReason: Error, FailedReasonType {
             return .failed(reason: FailedReason.from(error: error))
         }
     }
-    
+
     public func failedReason() -> FailedReason? {
         if case let .failed(reason) = self {
             return reason

@@ -1,3 +1,5 @@
+"dialog_convertToPhone_success_message"="Su proveedor de atención ha convertido su visita en una visita telefónica. Espere una llamada nuestra en breve.\n\nAhora puede cerrar la aplicación.";
+"dialog_convertToPhone_success_title"="Esta visita se ha convertido en una visita telefónica.";
 "dialog_reconnectError_button_confirm"="De acuerdo";
 "dialog_declinedVisit_button_confirm"="De acuerdo";
 "waitingRoom_subtitle_providerWaitTime"="Uno de nuestros proveedores médicos se reunirá con usted aquí tan pronto como esté disponible";
@@ -69,3 +71,10 @@
 "waitingRoom_waittime_virtual_youre_next" = "¡Usted es el siguiente! Uno de nuestros proveedores de atención médica se reunirá con usted aquí en unos minutos";
 "waitingRoom_waittime_virtual_unknown" = "No se pudo calcular el tiempo de espera";
 "waitingRoom_waittime_virtual_declined" = "Su visita ha sido rechazada";
+
+// Cancel visit confirmation dialogue
+"cancelVisit_confirmation_title" = "Tu lugar en la fila está reservado.";
+"cancelVisit_confirmation_subtitle1" = "Si cancelas ahora, serás eliminado de la fila y tu visita será cancelada.";
+"cancelVisit_confirmation_subtitle2" = "Si aún necesitas cancelar, selecciona el motivo de la lista a continuación.";
+"cancelVisit_confirmation_confirm_button" = "CANCELAR VISITA";
+"cancelVisit_confirmation_cancel_button" = "CERRAR";

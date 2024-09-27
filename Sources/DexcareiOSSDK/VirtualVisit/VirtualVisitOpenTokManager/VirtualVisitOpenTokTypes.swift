@@ -1,5 +1,5 @@
 //
-// VirtualVisitOpenTokProtocol.swift
+// VirtualVisitOpenTokTypes.swift
 // DexcareSDK
 //
 // Created by Reuben Lee on 2020-01-22.
@@ -30,7 +30,7 @@ extension OTSession: SessionType {
         }
         publish(publisher, error: error)
     }
-    
+
     func unpublish(publisher: PublisherType, error: AutoreleasingUnsafeMutablePointer<OTError?>?) {
         guard let publisher = publisher as? OTPublisher else {
             assertionFailure("Unable to get OTPublisher")
@@ -38,7 +38,7 @@ extension OTSession: SessionType {
         }
         unpublish(publisher, error: error)
     }
-    
+
     func subscribe(subscriber: SubscriberType, error: AutoreleasingUnsafeMutablePointer<OTError?>?) {
         guard let subscriber = subscriber as? OTSubscriber else {
             assertionFailure("Unable to get OTSubscriber")
@@ -46,7 +46,7 @@ extension OTSession: SessionType {
         }
         subscribe(subscriber, error: error)
     }
-    
+
     func unsubscribe(subscriber: SubscriberType, error: AutoreleasingUnsafeMutablePointer<OTError?>?) {
         guard let subscriber = subscriber as? OTSubscriber else {
             assertionFailure("Unable to get OTSubscriber")
@@ -64,13 +64,13 @@ protocol PublisherType {
     var cameraCapturePosition: AVCaptureDevice.Position { get set }
     var networkStatsPublisherDelegate: NetworkStatsPublisherDelegate? { get set }
     var rtcStatsPublisherDelegate: RTCStatsPublisherDelegate? { get set }
-    
+
     func getPublisherRTCStats()
 }
 
 // For the ease of mocking for the delegate calls which takes OTPublisherKit
 // We need to manually convert OTPublisherKit back to OTPublisher to get the correct property
-// If we need to use another OTPublisher property, make sure to add it with a different name. 
+// If we need to use another OTPublisher property, make sure to add it with a different name.
 extension OTPublisherKit: PublisherType {
     var publishView: UIView? {
         if let publisher = self as? OTPublisher {
@@ -78,7 +78,7 @@ extension OTPublisherKit: PublisherType {
         }
         return UIView()
     }
-    
+
     var cameraCapturePosition: AVCaptureDevice.Position {
         get {
             if let publisher = self as? OTPublisher {
@@ -92,7 +92,7 @@ extension OTPublisherKit: PublisherType {
             }
         }
     }
-    
+
     var networkStatsPublisherDelegate: NetworkStatsPublisherDelegate? {
         get {
             return self.networkStatsDelegate as? NetworkStatsPublisherDelegate
@@ -101,7 +101,7 @@ extension OTPublisherKit: PublisherType {
             self.networkStatsDelegate = newValue
         }
     }
-    
+
     var rtcStatsPublisherDelegate: RTCStatsPublisherDelegate? {
         get {
             return self.rtcStatsReportDelegate as? RTCStatsPublisherDelegate
@@ -110,7 +110,7 @@ extension OTPublisherKit: PublisherType {
             self.rtcStatsReportDelegate = newValue
         }
     }
-    
+
     func getPublisherRTCStats() {
         self.getRtcStatsReport()
     }
@@ -122,7 +122,7 @@ protocol SubscriberType {
     var streamId: String? { get }
     var networkStatsSubscriberDelegate: NetworkStatsSubscriberDelegate? { get set }
     var rtcStatsSubscriberDelegate: RTCStatsSubscriberDelegate? { get set }
-    
+
     func getSubscriberRTCStats()
 }
 
@@ -133,11 +133,11 @@ extension OTSubscriberKit: SubscriberType {
         }
         return UIView()
     }
-    
+
     var streamId: String? {
         return self.stream?.streamId
     }
-    
+
     var networkStatsSubscriberDelegate: NetworkStatsSubscriberDelegate? {
         get {
             return self.networkStatsDelegate as? NetworkStatsSubscriberDelegate
@@ -146,7 +146,7 @@ extension OTSubscriberKit: SubscriberType {
             self.networkStatsDelegate = newValue
         }
     }
-    
+
     var rtcStatsSubscriberDelegate: RTCStatsSubscriberDelegate? {
         get {
             return self.rtcStatsReportDelegate as? RTCStatsSubscriberDelegate
@@ -155,7 +155,7 @@ extension OTSubscriberKit: SubscriberType {
             self.rtcStatsReportDelegate = newValue
         }
     }
-    
+
     func getSubscriberRTCStats() {
         self.getRtcStatsReport()
     }
@@ -196,7 +196,7 @@ extension OTConnection {
         guard
             let jsonData = data?.data(using: .utf8)
         else { return nil }
-        
+
         return try? ConnectionData(jsonData: jsonData)
     }
 }
@@ -212,7 +212,7 @@ protocol NetworkStatsSubscriberDelegate: OTSubscriberKitNetworkStatsDelegate {
      * packets received for the subscriber.
      */
     func subscriber(_ subscriber: SubscriberType, videoNetworkStatsUpdated stats: OTSubscriberKitVideoNetworkStats)
-    
+
     /**
      * Sent periodically to report audio statistics for the subscriber.
      *
@@ -263,7 +263,7 @@ extension SessionType {
             withToken: token,
             error: &error
         )
-        
+
         if let error = error {
             throw error
         }
@@ -301,7 +301,6 @@ extension SessionType {
         if let error = error {
             throw error
         }
-    
     }
     func unpublish(publisher: PublisherType) throws {
         var error: OTError?

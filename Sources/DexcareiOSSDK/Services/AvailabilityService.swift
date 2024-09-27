@@ -5,7 +5,6 @@ import Foundation
 
 /// Base Protocol to create, setup, cancel Virtual Visits
 public protocol AvailabilityService {
-    
     /// Search for available providers
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability on
@@ -13,7 +12,7 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderAvailabilityResults` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
-    
+
     /// Search for available providers
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability on
@@ -21,7 +20,7 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderAvailabilityResults`
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult
-    
+
     /// Search for available providers
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -31,7 +30,7 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderAvailabilityResults` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
-    
+
     /// Search for available providers
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -41,7 +40,7 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderAvailabilityResults`
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult
-    
+
     /// Search for available providers
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -50,7 +49,7 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderAvailabilityResults` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
-    
+
     /// Search for available providers
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -59,8 +58,9 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderAvailabilityResults`
     func getProviderAvailability(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult
-    
+
     // MARK: AvailabilitySlots
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability slots on
@@ -68,7 +68,7 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
-    
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability slots on
@@ -76,7 +76,7 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderSlotAvailability` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void)
-    
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -85,7 +85,7 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
-    
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -94,7 +94,7 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderSlotAvailability` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void)
-    
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -104,7 +104,7 @@ public protocol AvailabilityService {
     /// - Throws: `FailedReason`
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
-    
+
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -114,40 +114,40 @@ public protocol AvailabilityService {
     /// - success: A closure called with a `ProviderSlotAvailability` object
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailabilitySlots(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void)
-    
 }
 
 class AvailabilityServiceSDK: AvailabilityService {
     let dexcareConfiguration: DexcareConfiguration
-    
+
     let routes: Routes
     var asyncNetworkService: AsyncNetworkService
-        
+
     var asyncErrorHandlers: [AsyncNetworkErrorHandler] = [] {
         didSet {
-             self.asyncNetworkService.asyncErrorHandlers = asyncErrorHandlers
+            self.asyncNetworkService.asyncErrorHandlers = asyncErrorHandlers
         }
     }
-    
+
     struct Routes {
         let dexcareRoute: DexcareRoute
-                
+
         func getProviderAvailability() -> URLRequest {
             return dexcareRoute.fhirBuilder.post("/v1/availability/providers")
         }
-        
+
         func getProviderAvailabilitySlots() -> URLRequest {
             return dexcareRoute.fhirBuilder.post("/v1/availability/slots")
         }
     }
-    
+
     init(configuration: DexcareConfiguration, requestModifiers: [NetworkRequestModifier]) {
         self.dexcareConfiguration = configuration
         self.routes = Routes(dexcareRoute: DexcareRoute(environment: configuration.environment))
         self.asyncNetworkService = AsyncHTTPNetworkService(requestModifiers: requestModifiers)
     }
-    
+
     // MARK: Get Provider availability By Department
+
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
@@ -158,16 +158,15 @@ class AvailabilityServiceSDK: AvailabilityService {
             }
         }
     }
-    
+
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult {
-        
         let request = try ProviderAvailabilityRequest(departmentIds: departmentIds, options: options)
         return try await getProviderAvailability(providerAvailabilityRequest: request)
     }
-    
+
     // MARK: Get Provider availability By Lat/Lng
+
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void) {
-        
         Task { @MainActor in
             do {
                 let providerAvailability = try await getProviderAvailability(latitude: latitude, longitude: longitude, radius: radius, options: options)
@@ -177,16 +176,15 @@ class AvailabilityServiceSDK: AvailabilityService {
             }
         }
     }
-    
+
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult {
-     
         let request = try ProviderAvailabilityRequest(latitude: latitude, longitude: longitude, radius: radius, options: options)
         return try await getProviderAvailability(providerAvailabilityRequest: request)
     }
-    
+
     // MARK: Get Provider availability By ZipCode
+
     func getProviderAvailability(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void) {
-        
         Task { @MainActor in
             do {
                 let providerAvailability = try await getProviderAvailability(zipCode: zipCode, radius: radius, options: options)
@@ -196,15 +194,13 @@ class AvailabilityServiceSDK: AvailabilityService {
             }
         }
     }
-    
+
     func getProviderAvailability(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult {
-     
         let request = try ProviderAvailabilityRequest(postalCode: zipCode, radius: radius, options: options)
         return try await getProviderAvailability(providerAvailabilityRequest: request)
     }
-        
-    internal func getProviderAvailability(providerAvailabilityRequest: ProviderAvailabilityRequest) async throws -> ProviderAvailabilityResult {
-        
+
+    func getProviderAvailability(providerAvailabilityRequest: ProviderAvailabilityRequest) async throws -> ProviderAvailabilityResult {
         do {
             try providerAvailabilityRequest.isValid()
         } catch {
@@ -214,26 +210,27 @@ class AvailabilityServiceSDK: AvailabilityService {
                 throw FailedReason.from(error: error)
             }
         }
-        
+
         let urlRequest = routes.getProviderAvailability().body(json: providerAvailabilityRequest)
-        
+
         let requestTask = Task { () -> ProviderAvailabilityResult in
             return try await asyncNetworkService.requestObject(urlRequest)
         }
         let result = await requestTask.result
-        
+
         switch result {
-        case .failure(let error):
+        case let .failure(error):
             dexcareConfiguration.logger?.log("Could not search provider availability: \(error.localizedDescription)")
             dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: error)
             throw FailedReason.from(error: error)
-        case .success(let providerAvailability):
+        case let .success(providerAvailability):
             return providerAvailability
         }
     }
 }
 
 // MARK: GetProviderAvailabilitySlots
+
 extension AvailabilityServiceSDK {
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
@@ -245,12 +242,12 @@ extension AvailabilityServiceSDK {
             }
         }
     }
-    
+
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability {
         let request = try ProviderAvailabilityRequest(departmentIds: departmentIds, options: options)
         return try await getProviderAvailabilitySlots(providerAvailabilityRequest: request)
     }
-    
+
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
@@ -261,12 +258,12 @@ extension AvailabilityServiceSDK {
             }
         }
     }
-    
+
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability {
         let request = try ProviderAvailabilityRequest(postalCode: zipCode, radius: radius, options: options)
         return try await getProviderAvailabilitySlots(providerAvailabilityRequest: request)
     }
-    
+
     func getProviderAvailabilitySlots(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
@@ -277,14 +274,13 @@ extension AvailabilityServiceSDK {
             }
         }
     }
-    
+
     func getProviderAvailabilitySlots(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability {
         let request = try ProviderAvailabilityRequest(latitude: latitude, longitude: longitude, radius: radius, options: options)
         return try await getProviderAvailabilitySlots(providerAvailabilityRequest: request)
     }
-        
-    internal func getProviderAvailabilitySlots(providerAvailabilityRequest: ProviderAvailabilityRequest) async throws -> ProviderSlotAvailability {
-        
+
+    func getProviderAvailabilitySlots(providerAvailabilityRequest: ProviderAvailabilityRequest) async throws -> ProviderSlotAvailability {
         do {
             try providerAvailabilityRequest.isValid(forSlots: true)
         } catch {
@@ -294,23 +290,22 @@ extension AvailabilityServiceSDK {
                 throw FailedReason.from(error: error)
             }
         }
-        
+
         let urlRequest = routes.getProviderAvailabilitySlots().body(json: providerAvailabilityRequest)
-        
+
         let requestTask = Task { () -> SlotAvailabilityResponse in
             return try await asyncNetworkService.requestObject(urlRequest)
         }
         let result = await requestTask.result
-        
+
         switch result {
-        case .failure(let error):
+        case let .failure(error):
             dexcareConfiguration.logger?.log("Could not search provider slots: \(error.localizedDescription)")
             dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: error)
             throw FailedReason.from(error: error)
-        case .success(let providerAvailabilitySlots):
+        case let .success(providerAvailabilitySlots):
             let availability = ProviderSlotAvailability(withInternalResponse: providerAvailabilitySlots)
             return availability
         }
     }
-    
 }

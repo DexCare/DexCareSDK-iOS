@@ -1,12 +1,48 @@
 # Release Notes
 
+## 9.3.0
+### New
+
+- This version introduces the ability to convert a virtual visit to a phone visit. This functionality can be triggered by the care giver when the virtual visit is experiencing any technical issues.
+- When the patient closes the "Convert to Phone" CTA, the start or resume methods will return a `.phoneVisit` completion reason.
+- The `onVirtualVisitModalityChanged` method was added to the `VirtualEventDelegate`. This method is called when a virtual visit is converted to a phone visit.
+- New localizable strings:
+
+| localizable.strings key | Usage |
+|---|---|
+| dialog_convertToPhone_success_title | CTA Title when the virtual visit was successfully converted to a phone visit. |
+| dialog_convertToPhone_success_message | CTA Message when the virtual visit was successfully converted to a phone visit. |
+
+#### Visit cancellation reason
+- Cancelling a virtual visit will now require a reason to cancel the visit. Please work with your DexCare implementation team to learn how you can enable this feature for your organization.
+- VirtualService has a new function `cancelVideoVisit(visitId: String, reasonCode: String)` to cancel the video  visit. The SDK will also use this function internally if patients decide the cancel the visit from  the waiting room. The `reasonCode` should come from the list of `CancelReason` returned in the  `getVisitCancellationReasons()` function. Similarly, use `cancelPhoneVisit(visitId: String, reasonCode: String, patientEmail: String)` to cancel phone visit.
+- A new function `getVisitCancellationReasons()` is available in VirtualService. This function will return a list of `CancelReason` that can be presented to users to make a selection. A `CancelReason`  will have a display text that's user friendly and a code that needs to be sent back to the VirtualService to cancel the visit. `CancelReason` is localized as per device locale. Currently  supported languages are English and Spanish.
+
+#### Post visit survey
+- This version introduces a post visit survey that is seamlessly configurable. The SDK itself will present the UI to the patient once the visit is completed. The UI for the survey is configurable from the backend. The survey is not enabled by default when you update to this version. So please reach out to your DexCare implementation contact person for more details. However, please be aware of the breaking changes mentioned below for this version.
+
+### Deprecated
+- `getVirtualVisitStatus` in VirtualService is now deprecated in favor of new function  `getVirtualVisit`.
+   They both share the same implementation but the new function provides more detail about the visit.
+
+- `cancelVirtualVisit` function in VirtualService has been deprecated in favor of the new
+  `cancelVideoVisit`  and `cancelPhoneVisit` functions.
+
+### Breaking
+- With the introduction of new web based post visit survey, this version removes the support for `postFeedback` from `VirtualService`. This function is no longer needed and your app doesn't have to implement the UI for survey. DexCare SDK will display the survey after the visit is concluded. Please reach out to your DexCare contact to understand more on configuring the web based survey.
+
+### Bug fixes
+- Fixes issue where sdkVersion was returning nil when integrated via SPM
+- Fixes issue where chat message `creationDate` epoch timestamp contained decimal places
+
+   
 ## 9.2.1
 ### Bug Fixes
 - Fixed issue where app would crash when receiving chat messages while backgrounded
 
 ## 9.2.0
 ### New
-This version of the SDK adds support for wait offline. This gives the patient the option to close the app, remain in the wait queue, and be notified when their provider is ready for them. To accomplish this, we've added a number of things:
+- This version of the SDK adds support for wait offline. This gives the patient the option to close the app, remain in the wait queue, and be notified when their provider is ready for them. To accomplish this, we've added a number of things:
 - New localizable strings:
   | localizable.strings key | Usage|
   |---|---|

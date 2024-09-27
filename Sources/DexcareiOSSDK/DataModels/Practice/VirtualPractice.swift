@@ -1,5 +1,5 @@
 //
-// Practice.swift
+// VirtualPractice.swift
 // DexcareSDK
 //
 // Created by Matt Kiazyk on 2020-12-21.
@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 /// A structure representing a Virtual Practice to which you can book a virtual visit
 public struct VirtualPractice: Codable {
     /// A UUID for the Virtual Practice. This property will be needed to book Virtual Visits.
@@ -21,7 +22,7 @@ public struct VirtualPractice: Codable {
     public var epicBookingEnabled: Bool
     /// A list of `VirtualPracticeRegion` types where the practice is supported.
     public var practiceRegions: [VirtualPracticeRegion]
-    
+
     enum CodingKeys: String, CodingKey {
         case practiceId = "id"
         case displayName

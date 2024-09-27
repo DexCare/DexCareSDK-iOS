@@ -29,7 +29,7 @@ public struct ProviderAvailability: Codable, Equatable {
 }
 
 extension ProviderAvailability {
-    internal init(npi: String, provider: AvailabilityProviderResponse, department: AvailabilityDepartmentResponse) {
+    init(npi: String, provider: AvailabilityProviderResponse, department: AvailabilityDepartmentResponse) {
         self.npi = npi
         self.name = provider.name
         if let gender = provider.gender {

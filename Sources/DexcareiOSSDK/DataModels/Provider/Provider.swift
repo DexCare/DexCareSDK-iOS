@@ -14,7 +14,7 @@ public struct Provider: Codable {
     public let providerNationalId: String
     /// The full name of the `Provider`
     public let name: String
-    
+
     /// The qualification of this Provider, ex: "MD"
     public let credentials: String?
     /// The minimum age a patient must be in order to visit this Provider.
@@ -25,7 +25,7 @@ public struct Provider: Codable {
     public let brand: String?
     /// Whether or not a `Provider` is currently active.
     public let isActive: Bool?
-    
+
     /// A list of departments that a provider services in.
     public let departments: [ProviderDepartment]
     /// An array of `ProviderVisitTypes` that the provider supports
@@ -41,11 +41,11 @@ public struct ProviderVisitType: Codable, Equatable {
     public let shortName: VisitTypeShortName?
     /// If available, more information about a Visit Type
     public let description: String?
-    
+
     public init(
-        visitTypeId: String, 
-        name: String, 
-        shortName: VisitTypeShortName?, 
+        visitTypeId: String,
+        name: String,
+        shortName: VisitTypeShortName?,
         description: String?
     ) {
         self.visitTypeId = visitTypeId
@@ -63,7 +63,7 @@ public struct ProviderDepartment: Codable {
     public let ehrSystemName: String
     /// The name of this department
     public let name: String
-    
+
     // Optional properties
     /// If applicable, the medical center in which this department resides.
     public let center: String?
@@ -71,7 +71,7 @@ public struct ProviderDepartment: Codable {
     public let phone: String?
     /// The address if available.
     public let address: Address?
-    
+
     enum CodingKeys: String, CodingKey {
         case departmentId
         case ehrSystemName = "epicInstanceName"

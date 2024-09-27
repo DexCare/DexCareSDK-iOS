@@ -14,10 +14,10 @@ struct WaitOfflineRequest: Encodable {
         let practiceId: String
         let sessionId: String
     }
-    
+
     let action = "patientEnterWaitOffline"
     let data: WaitOfflineRequestBody
-    
+
     init(visitId: String, practiceId: String, sessionId: String) {
         data = WaitOfflineRequestBody(visitId: visitId, practiceId: practiceId, sessionId: sessionId)
     }

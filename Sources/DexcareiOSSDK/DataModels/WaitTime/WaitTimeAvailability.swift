@@ -21,7 +21,7 @@ public struct WaitTimeAvailability: Decodable, Equatable {
     public let assignmentQualifiers: [VirtualVisitAssignmentQualifier]
     /// The home market for a patient
     public let homeMarket: String?
-    
+
     /// Describes the reasons for a Region not being available
     public enum Reason: String, Codable {
         /// No regions have been set up
@@ -34,12 +34,12 @@ public struct WaitTimeAvailability: Decodable, Equatable {
         case noOnCallProviders = "NO_ONCALL_PROVIDERS"
         /// The region is currently experiencing high demand
         case regionBusy = "REGION_BUSY"
-        
+
         public init(from decoder: Decoder) throws {
             self = try WaitTimeAvailability.Reason(rawValue: decoder.singleValueContainer().decode(String.self)) ?? .noRegionsFound
         }
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case generatedAt = "estimateGeneratedAt"
         case estimatedWaitTimeSeconds
@@ -52,25 +52,25 @@ public struct WaitTimeAvailability: Decodable, Equatable {
         case assignmentQualifiers
         case homeMarket
     }
-    
+
     /// An internal decoder to handle dates.
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.estimatedWaitTimeSeconds = try? values.decodeIfPresent(Int.self, forKey: CodingKeys.estimatedWaitTimeSeconds)
         self.estimatedWaitTimeMessage = try? values.decodeIfPresent(String.self, forKey: CodingKeys.estimatedWaitTimeMessage)
         self.available = try values.decode(Bool.self, forKey: CodingKeys.available)
         self.reason = try? values.decodeIfPresent(Reason.self, forKey: CodingKeys.reason)
         self.regionCode = try values.decode(String.self, forKey: CodingKeys.regionCode)
         self.practiceId = try values.decode(String.self, forKey: CodingKeys.practiceId)
-        
+
         let visitTypeNameString = try values.decode(String.self, forKey: CodingKeys.visitTypeName)
         self.visitTypeName = VirtualVisitTypeName(rawValue: visitTypeNameString)
-        
+
         let assignmentQualifierString = try values.decode([String].self, forKey: CodingKeys.assignmentQualifiers)
         self.assignmentQualifiers = assignmentQualifierString.map { VirtualVisitAssignmentQualifier(rawValue: $0) }
         self.homeMarket = try? values.decodeIfPresent(String.self, forKey: CodingKeys.homeMarket)
-        
+
         let generatedAtString = try values.decode(String.self, forKey: CodingKeys.generatedAt)
         if let generatedAt = DateFormatter.iso8601Full.date(from: generatedAtString) {
             self.generatedAt = generatedAt

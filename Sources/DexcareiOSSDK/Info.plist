@@ -14,13 +14,7 @@
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>FMWK</string>
-	<key>CFBundleShortVersionString</key>
-	<string>9.2.1</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>NSCameraUsageDescription</key>
-	<string>This app will access your camera when you want to share images and video securely with us.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app will access your microphone to allow medical staff to talk with you in a secure way.</string>
 </dict>
 </plist>

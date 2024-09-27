@@ -7,13 +7,13 @@ struct ScheduleProviderAppointmentRequest: Encodable {
     let actor: Actor?
     let visitDetails: VisitDetails
     let billingInfo: BillingInformation
-       
+
     struct Patient: Encodable, Equatable {
         /// Patient GUID
         let patientGuid: String
         let address: Address
     }
-    
+
     struct VisitDetails: Encodable, Equatable {
         let ehrSystemName: String
         let departmentId: String

@@ -1,13 +1,12 @@
 // Copyright © 2019 DexCare. All rights reserved.
 
 struct Permissions: Equatable {
-    
     let camera: RequestedPermissionStatus
-    
+
     let microphone: RequestedPermissionStatus
-    
+
     let notifications: RequestedPermissionStatus
-    
+
     var granted: Bool {
         return camera == .granted && microphone == .granted // We shouldn't stop the user from entering a virtual visit if they deny notifications //&& notifications == .granted
     }
@@ -39,6 +38,6 @@ protocol PermissionChecking {
     func requestPermission() async -> RequestedPermissionStatus
 }
 
-protocol MicrophonePermissionChecking: PermissionChecking { }
-protocol VideoCameraPermissionChecking: PermissionChecking { }
-protocol NotificationPermissionChecking: PermissionChecking { }
+protocol MicrophonePermissionChecking: PermissionChecking {}
+protocol VideoCameraPermissionChecking: PermissionChecking {}
+protocol NotificationPermissionChecking: PermissionChecking {}

@@ -5,17 +5,16 @@ import Foundation
 /// The detail level of the logging
 @frozen
 public enum DexcareSDKLogLevel: Int {
-    
     /// Log everything
     case verbose,
-    /// helpful for developer debugging
-    debug,
-    /// general messages of events
-    info,
-    /// Something that is of concern
-    warning,
-    /// Something has gone wrong
-    error
+         /// helpful for developer debugging
+         debug,
+         /// general messages of events
+         info,
+         /// Something that is of concern
+         warning,
+         /// Something has gone wrong
+         error
 }
 
 /// A Protocol to inherit from in order to see logging information that the DexCareSDK emits.
@@ -23,9 +22,9 @@ public enum DexcareSDKLogLevel: Int {
  An example of a Logger that will log to the console. The DexCareSDK will use this logger calling the `log(message, level, sender)` function in this class with information.
  ~~~
  class ConsoleLogger: DexcareSDKLogger {
- 
+
     static var shared: ConsoleLogger = ConsoleLogger()
- 
+
     func log(_ message: String, level: DexcareSDKLogLevel, sender: String) {
         let emoji: String
         switch level {
@@ -39,13 +38,13 @@ public enum DexcareSDKLogLevel: Int {
     }
  }
  ~~~
- 
+
  This would show in the console as:
  ~~~
  ✳️ DexcareSDK: Response debug in 0.58s for: https://baseurl/v1/departments/epic.acme.one3511101000?byId=true&product=healthconnect-iOS - Status: 200 - Correlation: 16465A2F-69CE-4AF5-9FFA-827673AEF8F1
  ~~~
  The Correlation ID can help DexCare debug results.
- 
+
  */
 public protocol DexcareSDKLogger {
     /// The logging function
@@ -99,23 +98,23 @@ extension LogMessages {
     func connectionId(_ connectionId: String) -> String {
         return self.rawValue + " > connectionId: \(connectionId)"
     }
-    
+
     func sessionId(_ sessionId: String) -> String {
         return self.rawValue + " > sessionId: \(sessionId)"
     }
-    
+
     func sessionId(_ sessionId: String, error: Error) -> String {
         return self.rawValue + " > sessionId: \(sessionId), error: \(String(describing: error))"
     }
-    
+
     func reason(_ reason: VisitCompletionReason) -> String {
         return self.rawValue + " > reason: \(String(describing: reason))"
     }
-    
+
     func error(_ error: Error) -> String {
         return self.rawValue + " > error: \(String(describing: error))"
     }
-    
+
     func streamId(_ streamId: String) -> String {
         return self.rawValue + " > streamId: \(streamId)"
     }

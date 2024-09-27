@@ -24,12 +24,12 @@ public struct PatientDemographics: Codable, Equatable {
     public var last4SSN: String
     /// A optional home phone number if exits
     public var homePhone: String?
-    
+
     /// A mobile phone number if available
     public var mobilePhone: String?
     /// A work phone number if available
     public var workPhone: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case name
         case addresses
@@ -42,9 +42,9 @@ public struct PatientDemographics: Codable, Equatable {
         case mobilePhone
         case workPhone
     }
-    
+
     // Initializer used only for stubbing tests
-    internal init(
+    init(
         name: HumanName,
         addresses: [Address],
         birthdate: Date,
@@ -69,7 +69,7 @@ public struct PatientDemographics: Codable, Equatable {
         self.mobilePhone = mobilePhone
         self.workPhone = workPhone
     }
-    
+
     public init(name: HumanName, addresses: [Address], birthdate: Date, email: String, gender: Gender, ehrSystemName: String?, last4SSN: String, homePhone: String?, mobilePhone: String?, workPhone: String?) {
         self.name = name
         self.addresses = addresses
@@ -87,11 +87,11 @@ public struct PatientDemographics: Codable, Equatable {
             self.identifiers = []
         }
     }
-    
+
     /// a custom decoder used internally by DexcareSDK
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         self.name = try values.decode(HumanName.self, forKey: CodingKeys.name)
         self.addresses = try values.decode([Address].self, forKey: CodingKeys.addresses)
         let birthdateString = try values.decode(String.self, forKey: CodingKeys.birthdate)
@@ -102,21 +102,21 @@ public struct PatientDemographics: Codable, Equatable {
         }
         self.email = try values.decode(String.self, forKey: CodingKeys.email)
         self.gender = try values.decode(Gender.self, forKey: CodingKeys.gender)
-        
+
         let identifiersDecode = try values.decode([Identifier].self, forKey: CodingKeys.identifiers)
         self.identifiers = identifiersDecode
         self.ehrSystemName = identifiersDecode.first?.system
-        
+
         self.last4SSN = try values.decode(String.self, forKey: CodingKeys.last4SSN)
         self.homePhone = try? values.decode(String.self, forKey: CodingKeys.homePhone)
         self.mobilePhone = try? values.decode(String.self, forKey: CodingKeys.mobilePhone)
         self.workPhone = try? values.decode(String.self, forKey: CodingKeys.workPhone)
     }
-    
+
     /// a custom encoder used internally by DexcareSDK
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(name, forKey: CodingKeys.name)
         try container.encode(addresses, forKey: CodingKeys.addresses)
         try container.encode(DateFormatter.yearMonthDay.string(from: birthdate), forKey: CodingKeys.birthdate)
@@ -132,36 +132,36 @@ public struct PatientDemographics: Codable, Equatable {
         if let workPhone = workPhone {
             try? container.encode(workPhone, forKey: CodingKeys.workPhone)
         }
-        
+
         guard let ehrSystemName = ehrSystemName else {
-            throw("ehrSystemName is missing")
+            throw ("ehrSystemName is missing")
         }
-        
+
         let identifier = [Identifier(systemName: ehrSystemName)]
         try container.encode(identifier, forKey: CodingKeys.identifiers)
     }
 }
 
 extension PatientDemographics {
-    internal func validate() throws {
+    func validate() throws {
         if let homePhone = homePhone, !homePhone.isEmpty, !PhoneValidator.isValid(phoneNumber: homePhone) {
             throw "Invalid home phone number"
         }
         if let mobile = mobilePhone, !mobile.isEmpty, !PhoneValidator.isValid(phoneNumber: mobile) {
             throw "Invalid mobile phone number"
         }
-        
+
         if let work = workPhone, !work.isEmpty, !PhoneValidator.isValid(phoneNumber: work) {
             throw "Invalid work phone number"
         }
-        
+
         if self.birthdate > Date() {
             throw "birthdate must not be in the future"
         }
         if addresses.isEmpty {
             throw "missing address"
         }
-        
+
         try addresses.forEach { address in
             try address.validate()
         }

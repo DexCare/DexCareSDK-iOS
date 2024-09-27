@@ -24,28 +24,28 @@ public enum VirtualVisitFailedReason: Error, FailedReasonType {
     case visitTypeNotSupported
     /// The server returned an error. See message for details
     case invalidRequest(message: String)
-    
+
     public struct PermissionType: OptionSet {
         public let rawValue: UInt8
-        
+
         public init(rawValue: UInt8) {
             self.rawValue = rawValue
         }
-        
+
         public static let camera = PermissionType(rawValue: 1 << 0)
         public static let microphone = PermissionType(rawValue: 1 << 1)
         public static let notifications = PermissionType(rawValue: 1 << 2)
     }
-    
+
     static func from(error: Error) -> VirtualVisitFailedReason {
         switch error {
         case let reason as VirtualVisitFailedReason: return reason
-        case NetworkError.non200StatusCode(let statusCode, let data):
+        case let NetworkError.non200StatusCode(statusCode, data):
             // Convert the response data to utf8 text.
             let dataText = String(data: data ?? Data(), encoding: .utf8) ?? ""
             // FailureResponse is a newer way of return error codes.
             let errorResponse: FailureResponse? = try? FailureResponse(jsonData: data ?? Data())
-            
+
             switch statusCode {
             case 400 where dataText.contains("REGION_BUSY"):
                 return .regionBusy
@@ -60,7 +60,7 @@ public enum VirtualVisitFailedReason: Error, FailedReasonType {
             return .failed(reason: FailedReason.from(error: error))
         }
     }
-    
+
     public func failedReason() -> FailedReason? {
         if case let .failed(reason) = self {
             return reason
@@ -70,7 +70,7 @@ public enum VirtualVisitFailedReason: Error, FailedReasonType {
     }
 }
 
-internal struct FailureResponse: Codable {
+struct FailureResponse: Codable {
     let code: String
     let error: String?
 }

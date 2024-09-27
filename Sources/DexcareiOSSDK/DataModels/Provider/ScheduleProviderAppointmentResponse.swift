@@ -8,10 +8,9 @@ public struct ScheduledProviderVisit: Codable, Equatable {
     public let isVirtual: Bool
     /// Contains additional information about the visit when the visit is virtual.
     public let virtualMeetingInfo: VirtualMeetingInfo?
-    
+
     /// Contains additional information about a virtual Provider visit.
     public struct VirtualMeetingInfo: Codable, Equatable {
-        
         /// A URL that can be used to join the virtual visit in zoom/teams.
         public let joinUrl: URL?
         /// A shortened URL that acts the same as `joinUrl`
@@ -24,7 +23,7 @@ public struct ScheduledProviderVisit: Codable, Equatable {
         public let password: String?
         /// An enum representing the video conference service that will be used for this virtual visit.
         public let vendor: VirtualMeetingVendor?
-        
+
         enum CodingKeys: String, CodingKey {
             case joinUrl
             case joinUrlShort
@@ -33,11 +32,11 @@ public struct ScheduledProviderVisit: Codable, Equatable {
             case password
             case vendor
         }
-        
+
         /// An internal decoder to handle dates.
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-             
+
             if let joinUrlString = try? values.decodeIfPresent(String.self, forKey: .joinUrl) {
                 self.joinUrl = URL(string: joinUrlString)
             } else {
@@ -48,7 +47,7 @@ public struct ScheduledProviderVisit: Codable, Equatable {
             } else {
                 self.joinUrlShort = nil
             }
-            
+
             // Sometimes conferenceId comes down as a string, sometimes a number :(
             if let conferenceId = try? values.decodeIfPresent(String.self, forKey: .conferenceId) {
                 self.conferenceId = conferenceId
@@ -58,13 +57,13 @@ public struct ScheduledProviderVisit: Codable, Equatable {
                 self.conferenceId = nil
             }
             self.tollFreeNumber = try? values.decodeIfPresent(String.self, forKey: .tollFreeNumber)
-                       
+
             self.password = try? values.decodeIfPresent(String.self, forKey: .password)
             self.vendor = try? values.decodeIfPresent(VirtualMeetingVendor.self, forKey: .vendor)
         }
-        
+
         // Initializer used only for stubbing tests
-        internal init(
+        init(
             joinUrl: URL?,
             joinUrlShort: URL?,
             conferenceId: String?,
@@ -79,14 +78,15 @@ public struct ScheduledProviderVisit: Codable, Equatable {
             self.password = password
             self.vendor = vendor
         }
-        
+
         // MARK: VirtualMeetingVendor
+
         /// An enum of what types of Virtual Meetings are supported. `.none` typically a DexCareSDK Virtual Visit
         public enum VirtualMeetingVendor: String, Codable, Equatable {
             case teams
             case zoom
             case none
-            
+
             // translate unrecognized vendor values to .none
             public init(from decoder: Decoder) throws {
                 let container = try decoder.singleValueContainer()
@@ -94,6 +94,5 @@ public struct ScheduledProviderVisit: Codable, Equatable {
                 self = VirtualMeetingVendor(rawValue: vendorString) ?? .none
             }
         }
-
     }
 }

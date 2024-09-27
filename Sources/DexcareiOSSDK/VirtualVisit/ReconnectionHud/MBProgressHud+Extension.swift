@@ -3,7 +3,7 @@
 import Foundation
 import MBProgressHUD
 
-extension MBProgressHUD {    
+extension MBProgressHUD {
     enum Constants {
         static let backgroundGray = UIColor(white: 0.0, alpha: 0.2)
 
@@ -13,13 +13,13 @@ extension MBProgressHUD {
         /// Minimum time to show reconnection spinner
         static let reconnectionMinimumShowTime: TimeInterval = 0.75
     }
-    
-    static func showReconnectionHudAdded(to view: UIView, animated: Bool, didCancel: @escaping () -> ()) {
+
+    static func showReconnectionHudAdded(to view: UIView, animated: Bool, didCancel: @escaping () -> Void) {
         let hud = MBProgressHUD()
         hud.graceTime = Constants.reconnectionGraceTime
         hud.minShowTime = Constants.reconnectionMinimumShowTime
         let reconnectionHudView = VisitReconnectionHudView()
-        reconnectionHudView.didCancel = { () -> () in
+        reconnectionHudView.didCancel = { () in
             didCancel()
         }
         hud.backgroundView.style = .solidColor
@@ -30,9 +30,8 @@ extension MBProgressHUD {
         hud.bezelView.style = .solidColor
         hud.mode = .customView
         hud.isUserInteractionEnabled = true
-       
+
         view.addSubview(hud)
         hud.show(animated: animated)
     }
-    
 }

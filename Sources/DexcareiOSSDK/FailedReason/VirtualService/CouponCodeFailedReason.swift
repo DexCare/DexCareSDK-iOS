@@ -18,17 +18,17 @@ public enum CouponCodeFailedReason: Error, FailedReasonType {
 
     /// Coupon code is known to be inactive
     case inactive
-    
-    /// Some information is missing from the request. Check the message 
+
+    /// Some information is missing from the request. Check the message
     case missingInformation(message: String)
 
     /// Fallback failure case not matching any other expected failure
     case failed(reason: FailedReason)
-    
+
     static func from(error: Error) -> CouponCodeFailedReason {
         switch error {
         case let reason as CouponCodeFailedReason: return reason
-        case NetworkError.non200StatusCode(let statusCode, _):
+        case let NetworkError.non200StatusCode(statusCode, _):
             switch statusCode {
             case 401:
                 return .unauthorized
@@ -45,7 +45,7 @@ public enum CouponCodeFailedReason: Error, FailedReasonType {
             return .failed(reason: FailedReason.from(error: error))
         }
     }
-    
+
     public func failedReason() -> FailedReason? {
         if case let .failed(reason) = self {
             return reason

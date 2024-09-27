@@ -11,7 +11,7 @@ import Foundation
 struct PostChatRequest: Encodable {
     var type: String = SignalMessageType.instantMessage.rawValue
     var data: SignalInstantMessage
-    
+
     init(_ data: SignalInstantMessage) {
         self.data = data
     }

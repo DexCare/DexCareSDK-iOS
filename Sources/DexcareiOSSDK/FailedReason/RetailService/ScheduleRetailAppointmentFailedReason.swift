@@ -3,12 +3,12 @@
 import Foundation
 
 /*********
- Based on visit-service controller source code here:
- https://github.com/providenceinnovation/visit-service/blob/517f56d0aae74f7edf14db40a1d2007da1999a0a/app/src/controllers/retailvisitcontroller.ts#L323
- 
- Server-side unit tests:
- https://github.com/providenceinnovation/visit-service/blob/517f56d0aae74f7edf14db40a1d2007da1999a0a/app/test/unit/controllers/retailvisitcontroller.test.ts#L1726
-**********/
+  Based on visit-service controller source code here:
+  https://github.com/providenceinnovation/visit-service/blob/517f56d0aae74f7edf14db40a1d2007da1999a0a/app/src/controllers/retailvisitcontroller.ts#L323
+
+  Server-side unit tests:
+  https://github.com/providenceinnovation/visit-service/blob/517f56d0aae74f7edf14db40a1d2007da1999a0a/app/test/unit/controllers/retailvisitcontroller.test.ts#L1726
+ **********/
 
 /// An `Error` enum returned for ScheduledVisits
 public enum ScheduleRetailAppointmentFailedReason: Error, FailedReasonType {
@@ -30,9 +30,9 @@ public enum ScheduleRetailAppointmentFailedReason: Error, FailedReasonType {
     case missingInformation(message: String)
     /// A generic failure if we don't handle any specific schedule errors
     case failed(reason: FailedReason)
-    
+
     static func from(error: Error) -> ScheduleRetailAppointmentFailedReason {
-        if case NetworkError.non200StatusCode(let statusCode, let data) = error {
+        if case let NetworkError.non200StatusCode(statusCode, data) = error {
             // Convert the response data to utf8 text
             let dataText = String(data: data ?? Data(), encoding: .utf8) ?? ""
             switch statusCode {
@@ -57,7 +57,7 @@ public enum ScheduleRetailAppointmentFailedReason: Error, FailedReasonType {
             return .failed(reason: FailedReason.from(error: error))
         }
     }
-    
+
     public func failedReason() -> FailedReason? {
         if case let .failed(reason) = self {
             return reason

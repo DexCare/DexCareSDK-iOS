@@ -13,17 +13,17 @@ struct Actor: Encodable, Equatable {
     var phone: String
     var gender: Gender
     /// MM-dd-yyyy
-    var dateOfBirth: String 
+    var dateOfBirth: String
     /// Father, Mother, etc. based on brand configuration
     var relationshipToPatient: RelationshipToPatient? // optional because its currently used for retail/provider only.
-    
+
     init(
-        patientGuid: String?, 
-        firstName: String, 
-        lastName: String, 
-        phone: String, 
-        gender: Gender, 
-        dateOfBirth: String, 
+        patientGuid: String?,
+        firstName: String,
+        lastName: String,
+        phone: String,
+        gender: Gender,
+        dateOfBirth: String,
         relationshipToPatient: RelationshipToPatient?
     ) {
         self.patientGuid = patientGuid

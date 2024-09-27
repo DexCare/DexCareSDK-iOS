@@ -18,7 +18,7 @@ public enum PaymentMethod: Equatable {
     /// - Parameters:
     ///    - stripeToken: a generated Stripe Token used for payment
     case creditCard(stripeToken: String)
-    
+
     /// Payment by typing my own insurance information to form
     /// - Parameters:
     ///    - memberId: a user's unique id for their insurance provider
@@ -26,7 +26,7 @@ public enum PaymentMethod: Equatable {
     ///    - insuranceGroupNumber: an optional parameter to include group numbers
     ///    - payorName: an optional parameter to include the Insurance Provider/Payor name. The supported list can be retrieved by calling `VirtualService.getInsurancePayers`
     case insuranceSelf(memberId: String, payorId: String, insuranceGroupNumber: String? = nil, payorName: String? = nil)
-    
+
     /// Payment by typing someone else's insurance information into a form
     /// - Parameters:
     ///    - firstName: the given name of the insured person
@@ -96,17 +96,17 @@ struct BillingInformation: Equatable {
         case couponCode = "couponcode"
         case `self` = "self"
     }
+
     enum InsuranceType: String, Codable {
         /// manually entered into a form
         case manual = "manual"
         // "onfile" is supported on the server but not allowed from apps using the SDK at this time.
         // case onfile = "onfile"
-        
     }
-    
+
     /// Which form of payment will be used for this visit
     var paymentMethod: PaymentMethodInternal
-    
+
     /// For insurance payment the payment holder (guarantor) can be the logged in user ("self") or someone else ("other").
     var paymentHolderDeclaration: PaymentHolderDeclaration?
     /// firstName required when paymentMethod != .creditCard
@@ -153,17 +153,17 @@ extension BillingInformation: Encodable {
         case insurancePayorName = "insurancePayorName"
         case insuranceSubscriberId = "insuranceSubscriberId"
     }
-    
+
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(paymentMethod, forKey: CodingKeys.paymentMethod)
-        
+
         if let birthdate = dateOfBirth {
             let birthdateString = DateFormatter.yearMonthDay.string(from: birthdate) // yyyy-dd-mm
             try container.encode(birthdateString, forKey: CodingKeys.dateOfBirth)
         }
-        
+
         try container.encodeIfPresent(firstName, forKey: CodingKeys.firstName)
         try container.encodeIfPresent(lastName, forKey: CodingKeys.lastName)
         try container.encodeIfPresent(gender, forKey: CodingKeys.gender)

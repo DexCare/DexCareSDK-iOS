@@ -1,6 +1,7 @@
 // Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
+
 // Based on https://github.com/providenceinnovation/visit-service/blob/master/app/api/Liontower.VisitService.v6.yaml
 
 /// Specifies who is paying for the visit.
@@ -12,7 +13,7 @@ public enum PaymentHolderDeclaration: String {
     case other
 }
 
-extension PaymentHolderDeclaration: Codable { }
+extension PaymentHolderDeclaration: Codable {}
 
 struct ScheduleVirtualVisitResponse: Decodable, Equatable {
     let visitId: String?

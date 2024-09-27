@@ -9,29 +9,29 @@ public struct Clinic {}
 public struct RetailDepartment: Equatable, Codable {
     /// The brand that the retail department belongs to
     public let brandName: String
-    
+
     /// A name for the retail department
     public let displayName: String
     /// An Address object of the retail department
     public let address: Address
-    
+
     /// The retail department phone number
     public let phone: String
-    
+
     /// An image url that will return a jpg of the location
     public let smallImageUrl: URL
-    
+
     /// longitude of the physical location of the retail department
     public let longitude: Double
     /// latitude of the physical location of the retail department
     public let latitude: Double
-    
+
     /// The EHRSystemName of where the retail department belongs
     public let ehrSystemName: String
-    
+
     /// The unique name for a retail department . Previously `urlName`
     public let departmentName: String
-    
+
     /// Which timezone string the retail department is in.
     public let timezone: String
     /// The internal departmentId of the retail department
@@ -46,7 +46,7 @@ public struct RetailDepartment: Equatable, Codable {
     public let allowedVisitTypes: [AllowedVisitType]
     /// A list of days with times that the retail department is open
     public let openDays: [OpenDay]
-    
+
     // Codable
     enum CodingKeys: String, CodingKey {
         case brandName = "brandName"
@@ -83,7 +83,7 @@ public struct RetailDepartment: Equatable, Codable {
 public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
     public typealias RawValue = String
     public var rawValue: String
-    
+
     // DexCare Visit Types
     /// Visit Type of **Illness** shortName
     public static let illness = VisitTypeShortName(rawValue: "Illness")
@@ -91,7 +91,7 @@ public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
     public static let wellness = VisitTypeShortName(rawValue: "Wellness")
     /// Visit Type of **Virtual** shortName
     public static let virtual = VisitTypeShortName(rawValue: "Virtual")
-    
+
     // Provider Scheduling Visit Types
     /// Visit Type of **FollowUp** shortName
     public static let followUp = VisitTypeShortName(rawValue: "FollowUp")
@@ -105,7 +105,7 @@ public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
     public static let childPhysical = VisitTypeShortName(rawValue: "ChildPhysical")
     /// Visit Type of **NewSymptoms** shortName
     public static let newSymptoms = VisitTypeShortName(rawValue: "NewSymptoms")
-    
+
     public init(rawValue: Self.RawValue) {
         self.rawValue = rawValue
     }
@@ -115,10 +115,10 @@ public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
 public struct AllowedVisitType: Equatable, Codable {
     /// A string representing the internal id of the VisitType. Used in some SDK calls.
     public let visitTypeId: String
-    
+
     /// A string describing the Allowed Visit Type
     public let name: String
-    
+
     /// A `VisitType` describing the Allowed Visit Type in short form. Used in some SDK calls. `VisitType` is simply a string representation for easiness
     public let shortName: VisitTypeShortName
 }
@@ -137,7 +137,7 @@ public struct OpenHours: Equatable, Codable {
     public let startTimeString: String
     /// The time the clinic closes, in the format HH:mm:ss
     public let endTimeString: String
-    
+
     // Codable
     enum CodingKeys: String, CodingKey {
         case startTimeString = "startTime"

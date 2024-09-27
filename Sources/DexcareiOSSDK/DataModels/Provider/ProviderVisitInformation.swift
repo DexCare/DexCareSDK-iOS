@@ -17,33 +17,33 @@ public struct ProviderVisitInformation: Equatable, Codable {
     /// This should always be a non-empty email address which can be used to contact the app user.
     /// - Note: the patient email address as returned by Epic is not guaranteed to be present. For this reason, it is recommended to always collect this information from an alternative source, e.g. Auth0 email.
     public var userEmail: String
-    
+
     /// This should always be a non-empty 10 digit phone number which can be used to contact the app user.
     public var contactPhoneNumber: String
-    
+
     /// Set and used internally by the SDK.
     public var nationalProviderId: String
-    
+
     /// Set and used internally by the SDK.
     public var visitTypeId: String
-      
+
     /// Set and used internally by the SDK.
     public var ehrSystemName: String
-    
+
     /// This should always be filled in when booking a Visit for a dependent. When booking for self, this can be nil.
     public let actorRelationshipToPatient: RelationshipToPatient?
-    
+
     /// A generic Question + answer
     public var patientQuestions: [PatientQuestion]?
 
     public init(
-        visitReason: String, 
-        patientDeclaration: PatientDeclaration, 
-        userEmail: String, 
-        contactPhoneNumber: String, 
-        nationalProviderId: String, 
-        visitTypeId: String, 
-        ehrSystemName: String, 
+        visitReason: String,
+        patientDeclaration: PatientDeclaration,
+        userEmail: String,
+        contactPhoneNumber: String,
+        nationalProviderId: String,
+        visitTypeId: String,
+        ehrSystemName: String,
         actorRelationshipToPatient: RelationshipToPatient?,
         patientQuestions: [PatientQuestion]? = nil
     ) {
@@ -57,5 +57,4 @@ public struct ProviderVisitInformation: Equatable, Codable {
         self.actorRelationshipToPatient = actorRelationshipToPatient
         self.patientQuestions = patientQuestions
     }
-    
 }

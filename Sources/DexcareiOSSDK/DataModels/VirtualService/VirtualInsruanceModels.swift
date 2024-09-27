@@ -13,11 +13,11 @@ public struct InsurancePayer: Equatable, Codable {
 
 struct InsurancePayerResponse: Decodable, Equatable {
     var payers: [InsurancePayer]
-    
+
     enum CodingKeys: String, CodingKey {
         case insuranceIssuers
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if container.contains(.insuranceIssuers) {

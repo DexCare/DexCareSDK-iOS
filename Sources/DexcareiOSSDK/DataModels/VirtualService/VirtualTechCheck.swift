@@ -4,6 +4,7 @@ enum TechCheckValue: String, Codable {
     case pass
     case fail
 }
+
 /// A Struct to send up when the local device passes it's tech checks.
 struct VirtualTechCheck: Codable {
     let status: TechCheckValue
@@ -11,7 +12,7 @@ struct VirtualTechCheck: Codable {
     let micStatus: TechCheckValue
     let networkStatus: TechCheckValue
     let mediaPermissionStatus: TechCheckValue
-    
+
     init() {
         status = .pass
         camStatus = .pass
@@ -19,15 +20,15 @@ struct VirtualTechCheck: Codable {
         networkStatus = .pass
         mediaPermissionStatus = .pass
     }
-    
+
     init(withPermissions permissions: Permissions) {
         // assume true since we can't really check it.
         networkStatus = .pass
         mediaPermissionStatus = .pass
-        
+
         camStatus = (permissions.camera == .granted) ? .pass : .fail
         micStatus = (permissions.microphone == .granted) ? .pass : .fail
-        
+
         status = permissions.granted ? .pass : .fail
     }
 }

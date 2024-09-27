@@ -11,17 +11,17 @@ class UserInfoContainer<T> {
 
 class NotificationObserver {
     let observer: NSObjectProtocol
-    
-    init<T>(notification: NetworkNotification, block aBlock: @escaping (T) -> ()) {
+
+    init<T>(notification: NetworkNotification, block aBlock: @escaping (T) -> Void) {
         observer = NotificationCenter.default.addObserver(forName: notification.notificationName, object: nil, queue: nil) { note in
             if let value = (note.userInfo?["value"] as? UserInfoContainer<T>)?.rawValue {
                 aBlock(value)
             } else {
-                assert(false, "Couldn't understand user info")
+                assertionFailure("Couldn't understand user info")
             }
         }
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(observer)
     }

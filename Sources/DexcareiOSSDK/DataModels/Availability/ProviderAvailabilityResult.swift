@@ -6,5 +6,4 @@ public struct ProviderAvailabilityResult: Codable {
 
     /// Array of `ProviderAvailability` returned for the search
     public var results: [ProviderAvailability]
-
 }

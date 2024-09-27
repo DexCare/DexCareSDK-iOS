@@ -16,7 +16,9 @@ enum SignalMessageType: String {
          statusChange,
          endCallAndTransfer,
          patientEnterWaitOfflineSuccess,
-         patientEnterWaitOfflineError
+         patientEnterWaitOfflineError,
+         /// Indicates that the virtual visit was converted to another type. ie. a phone visit.
+         modalityConversion
 }
 
 struct SignalInstantMessage: Codable {
@@ -26,7 +28,7 @@ struct SignalInstantMessage: Codable {
     var uniqueId: String
     var message: String
     var isStaff: Bool?
-    
+
     enum CodingKeys: String, CodingKey {
         case fromParticipant
         case senderId
@@ -35,36 +37,36 @@ struct SignalInstantMessage: Codable {
         case message
         case isStaff
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         fromParticipant = try container.decode(String.self, forKey: .fromParticipant)
         senderId = try? container.decode(String.self, forKey: .senderId)
         uniqueId = try container.decode(String.self, forKey: .uniqueId)
         message = try container.decode(String.self, forKey: .message)
         isStaff = try container.decodeIfPresent(Bool.self, forKey: .isStaff)
-        
+
         let creationTimeText = try container.decode(String.self, forKey: .creationTime)
-        
+
         // Web uses epoch milliseconds so we need to convert it
         creationTime = Date(timeIntervalSince1970: (Double(creationTimeText) ?? 0) / 1000)
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(fromParticipant, forKey: .fromParticipant)
         try container.encode(uniqueId, forKey: .uniqueId)
         try container.encode(message, forKey: .message)
-        
+
         try container.encodeIfPresent(senderId, forKey: .senderId)
         try container.encodeIfPresent(isStaff, forKey: .isStaff)
 
         // Web uses epoch milliseconds so we need to convert it
-        try container.encode("\(creationTime.timeIntervalSince1970 * 1000.0)", forKey: .creationTime)
+        try container.encode("\(Int(creationTime.timeIntervalSince1970 * 1000))", forKey: .creationTime)
     }
-    
+
     init(
         fromParticipant: String,
         senderId: String?,

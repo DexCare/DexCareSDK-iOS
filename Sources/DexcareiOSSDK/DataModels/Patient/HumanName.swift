@@ -1,6 +1,7 @@
 // Copyright © 2020 DexCare. All rights reserved.
 
 import Foundation
+
 /// A structure containing information about a patient's name
 public struct HumanName: Codable, Equatable {
     /// Family name (often call surname or last name)
@@ -15,13 +16,13 @@ public struct HumanName: Codable, Equatable {
     public var suffix: String?
     /// String defining FHIR NameUse - eg usual | official | temp | nickname | anonymous | old | maiden
     public var use: String?
-    
+
     public init(
-        family: String, 
-        given: String, 
-        middle: String?, 
-        prefix: String?, 
-        suffix: String?, 
+        family: String,
+        given: String,
+        middle: String?,
+        prefix: String?,
+        suffix: String?,
         use: String?
     ) {
         self.family = family

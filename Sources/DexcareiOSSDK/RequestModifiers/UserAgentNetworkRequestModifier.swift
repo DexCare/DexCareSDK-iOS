@@ -4,7 +4,6 @@ import Foundation
 import UIKit
 
 class UserAgentNetworkRequestModifier: NetworkRequestModifier {
-
     /// User agent in the format: **App Name|App Version|Device Model|iOS Version|darwin**
     ///
     /// Example: `Swedish Mobile|6.0.0|iPhone|12.1|darwin`
@@ -15,13 +14,12 @@ class UserAgentNetworkRequestModifier: NetworkRequestModifier {
     ///  - `*darwin*`
     ///    - This was formerly used to differentiate iOS and Android devices, as the default iOS user agent includes `"darwin"`
     static func userAgentHeaderValue(_ userAgentName: String) -> String {
-
         let version = DexcareAppVersion.version ?? "0.0.0"
 
         let device = UIDevice.current
 
         let hardCodedDarwin = "darwin" // N.B. expected by some APIs
-        
+
         let sdkVersion = DexcareAppVersion.sdkVersion ?? "0.0.0"
         return [userAgentName, version, device.model, device.systemVersion, "iOSSDK", sdkVersion, hardCodedDarwin].joined(separator: "|") // N.B. order is intentional
     }

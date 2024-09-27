@@ -3,7 +3,6 @@
 import Foundation
 
 class BearerTokenRequestModifier: NetworkRequestModifier {
-
     private var authenticationToken: String
     init(authenticationToken: String) {
         self.authenticationToken = authenticationToken
@@ -15,5 +14,4 @@ class BearerTokenRequestModifier: NetworkRequestModifier {
         mutableRequest.setValue(bearerTokenHeader, forHTTPHeaderField: "Authorization")
         return mutableRequest
     }
-
 }
