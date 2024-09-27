@@ -11,7 +11,7 @@ extension Error {
         else {
             return false
         }
-        
+
         return true
     }
 }

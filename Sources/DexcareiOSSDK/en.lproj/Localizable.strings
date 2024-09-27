@@ -1,5 +1,9 @@
+"dialog_convertToPhone_success_message"="Your attending provider has converted your visit to a phone visit, please expect a call from us shortly.\n\nYou may now close the application.";
+"dialog_convertToPhone_success_title"="This visit has been converted to a phone visit";
+
 "dialog_reconnectError_button_confirm"="Ok";
 "dialog_declinedVisit_button_confirm"="Ok";
+"waitingRoom_link_cancelVisit"="Cancel this virtual visit";
 "waitingRoom_subtitle_providerWaitTime"="One of our healthcare providers will meet you here as soon as they become available";
 "waitingRoom_caption_estimatedTime"="Estimate as of";
 "waitingRoom_message_readyPhotoId"="Keep the app open, and when your provider is ready you'll be notified. Please have your photo ID ready.";
@@ -69,3 +73,10 @@
 "waitingRoom_waittime_virtual_youre_next" = "You're next! One of our healthcare providers will meet you here in a few minutes";
 "waitingRoom_waittime_virtual_unknown" = "Wait time could not be calculated";
 "waitingRoom_waittime_virtual_declined" = "Your visit has been declined";
+
+// Cancel visit confirmation dialogue
+"cancelVisit_confirmation_title" = "Your place in line is reserved.";
+"cancelVisit_confirmation_subtitle1" = "Cancelling now will remove you from the queue and your visit will be cancelled.";
+"cancelVisit_confirmation_subtitle2" = "If you still need to cancel, please select your reason from the list below.";
+"cancelVisit_confirmation_confirm_button" = "CANCEL VISIT";
+"cancelVisit_confirmation_cancel_button" = "CLOSE";

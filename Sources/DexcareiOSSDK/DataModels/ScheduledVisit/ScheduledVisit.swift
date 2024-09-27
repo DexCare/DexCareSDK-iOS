@@ -1,5 +1,5 @@
 //
-// ScheduledAppointment.swift
+// ScheduledVisit.swift
 // DexcareSDK
 //
 // Created by Matt Kiazyk on 2020-06-04.
@@ -36,14 +36,14 @@ public struct ScheduledVisit: Equatable, Codable {
     public let patientPhone: String?
     /// A `Timestamps` object containing specific dateTimes indicating when the visit was updated
     public let timestamps: Timestamps
-    
+
     /// A `RetailDepartment` containing information about the department where the visit was scheduled. Present only for Retail visit type, nil otherwise.
     public var retailDepartment: RetailDepartment?
-    
+
     func departmentURLKey() -> String {
         return ehrSystemName + "|" + departmentId
     }
-    
+
     // Codable
     enum CodingKeys: String, CodingKey {
         case id = "id"
@@ -60,7 +60,7 @@ public struct ScheduledVisit: Equatable, Codable {
         case patientPhone = "patientPhone"
         case timestamps = "timestamps"
     }
-    
+
     /// Additional details about the appointment
     public struct AppointmentDetails: Equatable, Codable {
         /// A unique id for the appointment
@@ -75,7 +75,7 @@ public struct ScheduledVisit: Equatable, Codable {
         public let endDateTime: Date
         /// The timezone string the appointment is scheduled in
         public let timezone: String
-        
+
         // Codable
         enum CodingKeys: String, CodingKey {
             case appointmentId = "appointmentId"
@@ -84,9 +84,9 @@ public struct ScheduledVisit: Equatable, Codable {
             case slotId = "slotId"
             case timezone = "timezone"
         }
-        
+
         // Initializer used only for stubbing tests
-        internal init(
+        init(
             appointmentId: String,
             slotId: String,
             startDateTime: Date,
@@ -100,7 +100,7 @@ public struct ScheduledVisit: Equatable, Codable {
             self.timezone = timezone
         }
     }
-    
+
     /// An struct representing various times at which a `ScheduledVisit` was updated
     public struct Timestamps: Equatable, Codable {
         /// The day and time at which the visit was cancelled. nil if not applicable
@@ -111,7 +111,7 @@ public struct ScheduledVisit: Equatable, Codable {
         public let requested: Date?
         /// The day and time at which the visit was staff declined. nil if not applicable
         public let staffDeclined: Date?
-        
+
         // Codable
         enum CodingKeys: String, CodingKey {
             case cancelled = "cancelled"
@@ -119,37 +119,37 @@ public struct ScheduledVisit: Equatable, Codable {
             case requested = "requested"
             case staffDeclined = "staffDeclined"
         }
-        
+
         public init(from decoder: Decoder) throws {
             let values = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             if let requestedText = try? values.decodeIfPresent(String.self, forKey: .requested) {
                 requested = DateFormatter.iso8601Full.date(from: requestedText)
             } else {
                 requested = nil
             }
-            
+
             if let cancelledText = try? values.decodeIfPresent(String.self, forKey: .cancelled) {
                 cancelled = DateFormatter.iso8601Full.date(from: cancelledText)
             } else {
                 cancelled = nil
             }
-            
+
             if let doneText = try? values.decodeIfPresent(String.self, forKey: .done) {
                 done = DateFormatter.iso8601Full.date(from: doneText)
             } else {
                 done = nil
             }
-            
+
             if let staffDeclinedText = try? values.decodeIfPresent(String.self, forKey: .staffDeclined) {
                 staffDeclined = DateFormatter.iso8601Full.date(from: staffDeclinedText)
             } else {
                 staffDeclined = nil
             }
         }
-        
+
         // Initializer used only for stubbing tests
-        internal init(
+        init(
             cancelled: Date?,
             done: Date?,
             requested: Date?,
@@ -171,7 +171,7 @@ public enum ScheduledVisitType: String, Codable, Equatable {
     case retail = "retail"
     case virtual = "virtual"
     case unknown = "unknown"
-    
+
     public init(from decoder: Decoder) throws {
         self = try ScheduledVisitType(rawValue: decoder.singleValueContainer().decode(String.self)) ?? .unknown
     }
@@ -191,7 +191,7 @@ public enum ScheduledVisitStatus: String, Codable, Equatable {
     case cancelled = "cancelled"
     case done = "done"
     case unknown = "unknown"
-    
+
     public init(from decoder: Decoder) throws {
         self = try ScheduledVisitStatus(rawValue: decoder.singleValueContainer().decode(String.self)) ?? .unknown
     }

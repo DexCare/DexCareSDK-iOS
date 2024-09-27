@@ -13,11 +13,11 @@ enum HUDVisibility {
 
 protocol HUDVisible {
     var currentHUDVisibility: HUDVisibility { get }
-    func updateHUD(desiredVisibility: DesiredHUDVisibility, didCancel: @escaping (() -> ()))
+    func updateHUD(desiredVisibility: DesiredHUDVisibility, didCancel: @escaping (() -> Void))
 }
 
 extension HUDVisible where Self: UIViewController {
-    func updateHUD(desiredVisibility: DesiredHUDVisibility, didCancel: @escaping (() -> ())) {
+    func updateHUD(desiredVisibility: DesiredHUDVisibility, didCancel: @escaping (() -> Void)) {
         switch (currentHUDVisibility, desiredVisibility) {
         case (.isNotVisible, .shouldBeVisible):
             showHUD(didCancel: didCancel)
@@ -27,16 +27,16 @@ extension HUDVisible where Self: UIViewController {
             break
         }
     }
-    
+
     var currentHUDVisibility: HUDVisibility {
         return (MBProgressHUD.forView(view) != nil) ? .isVisible : .isNotVisible
     }
-    
-    internal func showHUD(didCancel: @escaping () -> ()) {
+
+    func showHUD(didCancel: @escaping () -> Void) {
         MBProgressHUD.showReconnectionHudAdded(to: view, animated: true, didCancel: didCancel)
     }
-    
-    internal func hideHUD() {
+
+    func hideHUD() {
         MBProgressHUD.hide(for: view, animated: true)
     }
 }

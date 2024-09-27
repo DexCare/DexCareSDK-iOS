@@ -10,9 +10,8 @@ extension DexcarePatient {
     /// - Throws: A string error representing what value did not pass validation. ex: Missing address
     /// - Note: The SDK will check homePhone, mobilePhone, workPhone in that order. If none of those properties are set, function will throw
     static func createDexcareVirtualPatient(patientGuid: String, patientDemographics: PatientDemographics, relationshipToPatient: RelationshipToPatient? = nil) throws -> EhrPatient {
-    
         var phone: String?
-        
+
         if let homePhone = patientDemographics.homePhone {
             phone = homePhone
         } else if let mobilePhone = patientDemographics.mobilePhone {
@@ -20,7 +19,7 @@ extension DexcarePatient {
         } else if let workPhone = patientDemographics.workPhone {
             phone = workPhone
         }
-        
+
         guard let phone = phone else {
             throw "Missing homePhone, mobilePhone or workPhone"
         }
@@ -63,12 +62,12 @@ public struct EhrPatient: Codable, Equatable {
     public var email: String
     /// Address of the patient
     public var address: Address
-    
+
     // for DexcarePatients - internally we are using this to make a single "Patient"
-    internal var patientGuid: String?
+    var patientGuid: String?
     // internal as we are reusing EHRPatient for Actors on V9 Visit Requests
-    internal var relationshipToPatient: RelationshipToPatient?
-    
+    var relationshipToPatient: RelationshipToPatient?
+
     // for EHR Patients
     /// An identifier of the patient record in Epic.
     public var ehrIdentifier: String?
@@ -76,22 +75,22 @@ public struct EhrPatient: Codable, Equatable {
     public var ehrIdentifierType: String?
     /// Home EHR code
     public var homeEhr: String?
-    
+
     // Internal because we are asking clients to fill in through VirtualVisitDetails, as it's irrelevant to Patients, but the api is requiring it through patient property
     /// Home market, if applicable.
-    internal var homeMarket: String?
-    
+    var homeMarket: String?
+
     public init(
-        firstName: String, 
-        lastName: String, 
-        gender: Gender, 
-        dateOfBirth: Date, 
-        phone: String, 
-        email: String, 
+        firstName: String,
+        lastName: String,
+        gender: Gender,
+        dateOfBirth: Date,
+        phone: String,
+        email: String,
         address: Address,
-        ehrIdentifier: String?, 
-        ehrIdentifierType: String?, 
-        homeEhr: String?, 
+        ehrIdentifier: String?,
+        ehrIdentifierType: String?,
+        homeEhr: String?,
         homeMarket: String?
     ) {
         self.firstName = firstName
@@ -108,9 +107,9 @@ public struct EhrPatient: Codable, Equatable {
         self.homeEhr = homeEhr
         self.homeMarket = homeMarket
     }
-    
+
     // internal so we can reuse VirtualPatient for both DexcarePatient and EhrPatient
-    internal init(
+    init(
         firstName: String,
         lastName: String,
         gender: Gender,
@@ -139,7 +138,7 @@ public struct EhrPatient: Codable, Equatable {
         self.homeEhr = homeEhr
         self.homeMarket = homeMarket
     }
-    
+
     /// A helper method used internally by the SDK to perform minimal validation on the `VirtualPatient` before sending it to the server.
     /// This method checks the following in order:
     /// - firstName is not empty
@@ -153,21 +152,21 @@ public struct EhrPatient: Codable, Equatable {
         if firstName.isEmpty {
             throw "firstName must not be empty"
         }
-        
+
         if lastName.isEmpty {
             throw "lastName must not be empty"
         }
-        
+
         if phone.isEmpty {
             throw "phone must not be empty"
         }
-      
+
         if email.isEmpty {
             throw "email must not be empty"
         }
 
         try address.validate()
-            
+
         if (patientGuid ?? "").isEmpty {
             if (ehrIdentifier ?? "").isEmpty {
                 throw "ehrIdentifier must not be empty"
@@ -183,16 +182,16 @@ public struct EhrPatient: Codable, Equatable {
             }
         }
     }
-    
+
     /// Internal Helper function to display identifiers of patient.
-    internal var identifiers: [String: String] {
+    var identifiers: [String: String] {
         return ["PatientGuid": patientGuid ?? "", "EHRIdentifierType": ehrIdentifierType ?? "", "EHRIdentifier": ehrIdentifier ?? "", "homeEHR": homeEhr ?? "", "homeMarket": homeMarket ?? ""]
     }
-    
-    internal var displayName: String {
+
+    var displayName: String {
         return firstName + " " + lastName
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case firstName
         case lastName
@@ -208,11 +207,11 @@ public struct EhrPatient: Codable, Equatable {
         case patientGuid
         case relationshipToPatient
     }
-    
+
     /// a custom encoder used internally by DexcareSDK
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(firstName, forKey: CodingKeys.firstName)
         try container.encode(lastName, forKey: CodingKeys.lastName)
         try container.encode(DateFormatter.yearMonthDay.string(from: dateOfBirth), forKey: CodingKeys.dateOfBirth)
@@ -221,7 +220,7 @@ public struct EhrPatient: Codable, Equatable {
         try container.encode(phone, forKey: CodingKeys.phone)
         try container.encode(email, forKey: CodingKeys.email)
         try container.encode(address, forKey: CodingKeys.address)
-        
+
         try container.encodeIfPresent(ehrIdentifier, forKey: CodingKeys.ehrIdentifier)
         try container.encodeIfPresent(ehrIdentifierType, forKey: CodingKeys.ehrIdentifierType)
         try container.encodeIfPresent(homeEhr, forKey: CodingKeys.homeEhr)

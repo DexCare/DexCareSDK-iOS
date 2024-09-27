@@ -1,5 +1,5 @@
 //
-// AppVersion.swift
+// DexcareAppVersion.swift
 // DexcareAppVersion
 //
 // Created by Reuben Lee on 2018-01-24.
@@ -9,6 +9,15 @@
 import Foundation
 
 class DexcareAppVersion {
+    private static var dexcareSDKInfoPlist: NSDictionary = {
+        guard
+            let infoPlistPath = Bundle.dexcareSDK.path(forResource: "Dexcare-Info", ofType: "plist"),
+            let infoPlist = NSDictionary(contentsOfFile: infoPlistPath) else {
+            return .init()
+        }
+        return infoPlist
+    }()
+
     /// Returns the version and build number from the main bundle if it's available, as "1.2.3 (456)"
     static var versionWithBuild: String {
         let appVersion = versionAndBuildString(format: "%1$@ (%2$@)") ?? "N/A"
@@ -20,7 +29,7 @@ class DexcareAppVersion {
         var appVersion: String?
 
         if let version = version,
-            let build = build {
+           let build = build {
             appVersion = String(format: format, version, build)
         }
 
@@ -40,10 +49,7 @@ class DexcareAppVersion {
         let bundleBuild = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
         return bundleBuild
     }
-    
+
     /// SDK Version
-    static var sdkVersion: String? {
-        let bundleVersion = Bundle.init(for: DexcareAppVersion.self).object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        return bundleVersion
-    }
+    static var sdkVersion: String? = dexcareSDKInfoPlist["CFBundleShortVersionString"] as? String
 }

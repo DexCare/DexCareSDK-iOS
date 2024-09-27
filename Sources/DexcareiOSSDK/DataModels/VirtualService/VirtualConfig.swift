@@ -5,7 +5,7 @@ public struct VirtualConfig: Equatable {
     /// Whether or not to display a YouTube video on the virtual waiting room screen.
     /// Defaults to true
     public var showWaitingRoomVideo: Bool?
-    
+
     /**
      The local url for the video that is shown in the waiting room
      File must be a type that can be played with `AVPlayerItem`, usually mp4
@@ -14,10 +14,10 @@ public struct VirtualConfig: Equatable {
      // Load URL from an embedded mp4 file in your app
      videoURL = Bundle.main.url(forResource: "waitingRoom", withExtension: "mp4")
      ~~~
-     
+
      */
     public var waitingRoomVideoURL: URL?
-    
+
     /// Initializes the VirtualConfig options
     /// - Parameters:
     ///   - showWaitingRoomVideo: Shows the waiting room video at the top of the view. Defaults to **true**
@@ -26,5 +26,4 @@ public struct VirtualConfig: Equatable {
         self.showWaitingRoomVideo = showWaitingRoomVideo
         self.waitingRoomVideoURL = waitingRoomVideoURL
     }
-   
 }

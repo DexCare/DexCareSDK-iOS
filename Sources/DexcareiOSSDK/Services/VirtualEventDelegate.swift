@@ -4,7 +4,7 @@
 public protocol VirtualEventDelegate: AnyObject {
     /// Called when the virtual visit waiting room is first displayed to the user.
     func onWaitingRoomLaunched()
-    
+
     /// Called when the waiting room session is disconnected. SDK will return as a failure in the main closure
     func onWaitingRoomDisconnected()
     /// Called when the SDK attempts to reconnect to the waiting room session
@@ -13,7 +13,7 @@ public protocol VirtualEventDelegate: AnyObject {
     func onWaitingRoomReconnected()
     /// Called when the user is transferred back to the waiting from after already being in a visit
     func onWaitingRoomTransferred()
-    
+
     /// Called when the virtual visit session is disconnected. SDK will return as a failure in the main closure
     func onVirtualVisitDisconnected()
     /// Called when the SDK attempts to reconnect to the virtual visit session
@@ -24,9 +24,10 @@ public protocol VirtualEventDelegate: AnyObject {
     func onVirtualVisitStarted()
     /// Called when the visit is closed (successfully or not). See `VisitCompletionReason`
     func onVirtualVisitCompleted(reason: VisitCompletionReason)
-    
     /// Called when the user cancelled the visit from the waiting room.
     func onVirtualVisitCancelledByUser()
+    /// Called when the virtual visit is being converted to another type of visit.
+    func onVirtualVisitModalityChanged(to value: VirtualVisitModality)
     /// Called when the provider declines to see the patient.
     /// - Note: Patients are not charged for incomplete visits
     func onVirtualVisitDeclinedByProvider()
@@ -45,6 +46,7 @@ public enum VirtualVisitEventError: Error, Equatable {
     public static func == (lhs: VirtualVisitEventError, rhs: VirtualVisitEventError) -> Bool {
         String(reflecting: lhs) == String(reflecting: rhs)
     }
+
     /// The TokBox (aka OpenTok, aka Vonage) SDK encountered an error in the waiting room.
     case waitingRoomOpenTokError(Error)
     /// The TokBox (aka OpenTok, aka Vonage) SDK encountered an error in the video conference
@@ -59,7 +61,7 @@ public enum DevicePairError: Error, Equatable {
     public static func == (lhs: DevicePairError, rhs: DevicePairError) -> Bool {
         String(reflecting: lhs) == String(reflecting: rhs)
     }
-    
+
     /// A TytoCare device failed to pair.
     /// - Note: This is returned when the TytoCare account creation or device pairing fails.
     case tytoCarePairFailed(TytoCareFailedReason)

@@ -12,15 +12,14 @@ extension CanBeEmpty {
     }
 }
 
-extension String: CanBeEmpty { }
-extension Array: CanBeEmpty { }
+extension String: CanBeEmpty {}
+extension Array: CanBeEmpty {}
 
 extension Optional: CanBeEmpty {
-    
     var isEmpty: Bool {
         switch self {
         case .none: return true
-        case .some(let wrapped):
+        case let .some(wrapped):
             if let wrapped = wrapped as? CanBeEmpty {
                 return wrapped.isEmpty
             }

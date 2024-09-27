@@ -12,14 +12,13 @@ public enum Gender: String, Equatable {
 }
 
 public extension Gender {
-    
     /// Value sent in network requests
     var demographicStringValue: String {
         return self.rawValue
     }
-    
+
     static func fromDemographicsString(_ text: String?) -> Gender? {
-        guard let text = text else { return nil}
+        guard let text = text else { return nil }
         switch text.lowercased() {
         case Gender.male.demographicStringValue.lowercased(): return Gender.male
         case Gender.female.demographicStringValue.lowercased(): return Gender.female

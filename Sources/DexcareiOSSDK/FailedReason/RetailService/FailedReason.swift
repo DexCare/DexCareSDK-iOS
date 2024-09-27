@@ -20,8 +20,8 @@ public enum FailedReason: Error {
     /// All data is present but some property didn't pass a validation. Please check `message` property that is returned.
     /// ex: **startDate must be at least today**
     case invalidInput(message: String)
-    
-    static func from(error: Error) -> FailedReason {       
+
+    static func from(error: Error) -> FailedReason {
         if case let NetworkError.non200StatusCode(statusCode, _) = error {
             switch statusCode {
             case 400:
@@ -39,7 +39,6 @@ public enum FailedReason: Error {
             return .unknown(error: error)
         }
     }
-    
 }
 
 extension FailedReason: LocalizedError {
@@ -50,15 +49,15 @@ extension FailedReason: LocalizedError {
             return "Invalid token. Please log in again."
         case .notFound:
             return "Information does not exist"
-        case .unknown(let reason):
+        case let .unknown(reason):
             return "An error occurred: \(reason.localizedDescription)"
-        case .missingInformation(let message):
+        case let .missingInformation(message):
             return "Information that is required is missing: \(message)"
         case .badRequest:
             return "Server returned as a bad request. Please check your inputs."
-        case .badDexcareRequest(let info):
+        case let .badDexcareRequest(info):
             return "Server returned as a bad request - \(info.message). Error: \(info.errorCode)"
-        case .invalidInput(let message):
+        case let .invalidInput(message):
             return "Input is invalid: \(message)"
         }
     }

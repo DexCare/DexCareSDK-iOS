@@ -7,7 +7,7 @@ struct ScheduleRetailAppointmentRequest: Encodable {
     let actor: Actor?
     let visitDetails: VisitDetails
     let registrationModules: RegistrationModules
-    
+
     struct Patient: Encodable, Equatable {
         /// Patient GUID
         let identifier: String
@@ -15,7 +15,7 @@ struct ScheduleRetailAppointmentRequest: Encodable {
         let phone: String
         let email: String
     }
-    
+
     struct VisitDetails: Encodable, Equatable {
         let ehrSystemName: String
         let departmentId: String
@@ -26,7 +26,7 @@ struct ScheduleRetailAppointmentRequest: Encodable {
         let providerId: String
         let patientQuestions: [PatientQuestion]?
     }
-    
+
     struct RegistrationModules: Encodable, Equatable {
         let documentSigning: [DocumentSignature]
 
@@ -34,7 +34,7 @@ struct ScheduleRetailAppointmentRequest: Encodable {
             let name: String
             let signed: Bool
         }
-        
+
         let billingInfo: BillingInformation? // billingInfo is considered optional by the server even though the app requires it.
     }
 }

@@ -16,9 +16,9 @@ public struct AggregatedSlot: Codable, Equatable {
     public let slotDateTime: Date // 2022-10-18T16:20:00Z
     /// Department and Provider Information about the time slot
     public let providerOptions: [ProviderOptions]
-    
+
     public let visitTypeName: String
-  
+
     public init(slotDateTime: Date, providerOptions: [ProviderOptions], visitTypeName: String) {
         self.slotDateTime = slotDateTime
         self.providerOptions = providerOptions

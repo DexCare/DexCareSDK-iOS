@@ -10,10 +10,10 @@ public struct Environment {
     public let virtualVisitConfiguration: VirtualVisitConfiguration
     /// the api key used in api calls
     public let dexcareAPIKey: String
-    
+
     public init(
-        fhirOrchUrl: URL, 
-        virtualVisitConfiguration: VirtualVisitConfiguration, 
+        fhirOrchUrl: URL,
+        virtualVisitConfiguration: VirtualVisitConfiguration,
         dexcareAPIKey: String
     ) {
         self.fhirOrchUrl = fhirOrchUrl
@@ -30,10 +30,10 @@ public struct VirtualVisitConfiguration {
     public let pushNotificationPlatform: String
     /// The base url for the virtual visit service
     public let virtualVisitUrl: URL
-    
+
     public init(
-        pushNotificationAppId: String, 
-        pushNotificationPlatform: String, 
+        pushNotificationAppId: String,
+        pushNotificationPlatform: String,
         virtualVisitUrl: URL
     ) {
         self.pushNotificationAppId = pushNotificationAppId
@@ -51,14 +51,14 @@ public struct DexcareConfiguration {
     public let userAgent: String
     /// value added as the `domain` header on all api calls
     public let domain: String
-        
+
     /// Used to display information inside the console.
     public let logger: DexcareSDKLogger?
-    
+
     /// Used to log various info to the server on certain cases.
     // Keeping it in DexcareConfig so that it can be easier used across services.
-    internal var serverLogger: LoggingService?
-    
+    var serverLogger: LoggingService?
+
     public init(
         environment: Environment,
         userAgent: String,
@@ -70,7 +70,7 @@ public struct DexcareConfiguration {
         self.domain = domain
         self.logger = logger
     }
-    
+
     // for internal stubbing.
     init(
         environment: Environment,
@@ -89,55 +89,62 @@ public struct DexcareConfiguration {
 
 /// The main class to initialize to use the DexCare Mobile SDK.
 public class DexcareSDK {
-    
     /// An instance of the `PatientService` protocol
     public var patientService: PatientService {
         return internalPatientService
     }
-    internal var internalPatientService: PatientServiceSDK
-    
+
+    var internalPatientService: PatientServiceSDK
+
     /// An instance of the `AppointmentService` protocol
     public var appointmentService: AppointmentService {
         return internalAppointmentService
     }
-    internal var internalAppointmentService: AppointmentServiceSDK
-    
+
+    var internalAppointmentService: AppointmentServiceSDK
+
     /// An instance of the `VirtualService` protocol
     public var virtualService: VirtualService {
         return internalVirtualService
     }
-    internal var internalVirtualService: VirtualServiceSDK
-    
+
+    var internalVirtualService: VirtualServiceSDK
+
     /// An instance of the `RetailService` protocol
     public var retailService: RetailService {
         return internalRetailService
     }
-    internal var internalRetailService: RetailServiceSDK
-    
+
+    var internalRetailService: RetailServiceSDK
+
     /// An instance of the `PracticeService` protocol
     public var practiceService: PracticeService {
         return internalPracticeService
     }
-    internal var internalPracticeService: PracticeServiceSDK
-    
+
+    var internalPracticeService: PracticeServiceSDK
+
     /// An instance of the `ProviderService` protocol
     public var providerService: ProviderService {
         return internalProviderService
     }
-    internal var internalProviderService: ProviderServiceSDK
-    
+
+    var internalProviderService: ProviderServiceSDK
+
     /// An instance of the `PaymentService` protocol
     public var paymentService: PaymentService {
         return internalPaymentService
     }
-    internal var internalPaymentService: PaymentServiceSDK
-    
+
+    var internalPaymentService: PaymentServiceSDK
+
     /// An instance of the `AvailabilityService` protocol
     public var availabilityService: AvailabilityService {
         return internalAvailabilityService
     }
-    internal var internalAvailabilityService: AvailabilityServiceSDK
-    
+
+    var internalAvailabilityService: AvailabilityServiceSDK
+
     /// The object that acts as the refreshTokenDelegate of the DexcareSDK
     ///
     /// The refreshTokenDelegate must adopt the RefreshTokenDelegate protocol. The sdk maintains a weak reference to the refreshTokenDelegate object.
@@ -148,7 +155,7 @@ public class DexcareSDK {
             updateErrorHandlers()
         }
     }
-        
+
     /// A set of options used by the SDK for UI changes, integration setup, various config options.
     public var customizationOptions: CustomizationOptions? {
         didSet {
@@ -157,45 +164,46 @@ public class DexcareSDK {
             internalProviderService.customizationOptions = customizationOptions
         }
     }
-    
+
     private var networkObserver: NotificationObserver?
-    internal var configuration: DexcareConfiguration
-    
-    internal var pantryService: PantryService {
+    var configuration: DexcareConfiguration
+
+    var pantryService: PantryService {
         return internalPantryService
     }
-    internal var internalPantryService: PantryServiceSDK
-    
+
+    var internalPantryService: PantryServiceSDK
+
     public init(configuration: DexcareConfiguration) {
         let fhirOrchRequestModifiers = DexcareSDK.fhirOrchRequestModifiers(configuration: configuration)
         self.configuration = configuration
-        
+
         self.configuration.serverLogger = LoggingServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-        
+
         self.internalRetailService = RetailServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
         self.internalVirtualService = VirtualServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-         
+
         self.internalAppointmentService = AppointmentServiceSDK(
             configuration: self.configuration,
             requestModifiers: fhirOrchRequestModifiers
         )
         self.internalPatientService = PatientServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-        
+
         self.internalPracticeService = PracticeServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
         self.internalProviderService = ProviderServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
         self.internalPaymentService = PaymentServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-        
+
         self.internalPantryService = PantryServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-        
+
         self.internalAvailabilityService = AvailabilityServiceSDK(configuration: self.configuration, requestModifiers: fhirOrchRequestModifiers)
-        
+
         // setup Observers for network calls
         setupObservers()
-        
+
         // load any configs we need to from the server
         internalPantryService.getValidationConfigs()
     }
-    
+
     /// Sets the bearer token for the majority of subsequent calls to the dexcare platform.
     ///
     /// A valid 0Auth2 token is required for the majority of the SDK calls.
@@ -204,22 +212,22 @@ public class DexcareSDK {
     public func signIn(accessToken: String) {
         postNotification(notification: refreshTokenNotification, value: accessToken)
     }
-    
+
     /// Removes the bearer token for the calls.
     ///
     /// Removes any cached values
     /// A valid 0Auth2 token is required for the majority of the SDK calls.
     public func signOut() {
         postNotification(notification: refreshTokenNotification, value: "")
-        
+
         internalVirtualService.currentVirtualVisitId = nil
         internalVirtualService.currentVirtualPatientId = nil
         internalVirtualService.currentVirtualStartTime = nil
         internalVirtualService.currentVirtualEndTime = nil
-        
+
         internalVirtualService.virtualVisitManager = nil
     }
-    
+
     /// Gets the latest status of the DexCare services
     ///
     /// `DexcareStatus` can be used to block certain functions of your app if there is a major incident, or have warnings about possible issues. The DexcareSDK platform does not use this status for any blocking calls.
@@ -233,16 +241,16 @@ public class DexcareSDK {
     public func getDexcareStatus() async throws -> DexcareStatus {
         return try await pantryService.getStatusPage()
     }
-    
+
     //
     // Internal Functions
     //
 
-    internal func updateErrorHandlers() {
+    func updateErrorHandlers() {
         let tokenRefreshErrorHandlerAsync = AsyncTokenRefresher(delegate: refreshTokenDelegate, logger: configuration.logger) { [weak self] token in
             self?.signIn(accessToken: token)
         }
-        
+
         // Async Error Handlers
         internalPantryService.asyncErrorHandlers = [tokenRefreshErrorHandlerAsync]
         internalPracticeService.asyncErrorHandlers = [tokenRefreshErrorHandlerAsync]
@@ -254,17 +262,17 @@ public class DexcareSDK {
         internalVirtualService.asyncErrorHandlers = [tokenRefreshErrorHandlerAsync]
         internalAvailabilityService.asyncErrorHandlers = [tokenRefreshErrorHandlerAsync]
     }
-    
-    internal static func fhirOrchRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
+
+    static func fhirOrchRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
         var modifiers = standardRequestModifiers(configuration: configuration)
-        
+
         // Add a "x-api-key' to the header for FhirOrch calls
         modifiers.append(OrchestrationApiKeyRequestModifier(apiKey: configuration.environment.dexcareAPIKey))
-        
+
         return modifiers
     }
-    
-    internal static func standardRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
+
+    static func standardRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
         return [
             // Add a `User-Agent` header to identify brand, version, platform etc
             UserAgentNetworkRequestModifier(userAgentName: "\(configuration.userAgent)"),
@@ -273,11 +281,11 @@ public class DexcareSDK {
             // Add a `product` url parameter to identify platform
             ProductIdentifyingRequestModifier(),
             // Add a `CorrelationId` to header
-            CorrelationIdRequestModifier()
+            CorrelationIdRequestModifier(),
         ]
     }
-    
-    internal func setupObservers() {
+
+    func setupObservers() {
         networkObserver = NotificationObserver(notification: networkTaskDidCompleteNotification) { [weak self] (taskComplete: TaskComplete) in
             if let response = taskComplete.response {
                 var level = DexcareSDKLogLevel.debug
@@ -290,18 +298,17 @@ public class DexcareSDK {
                 } else {
                     correlationId = response.allHeaderFields[CorrelationIdRequestModifier.correlationIdField] as? String
                 }
-                
+
                 let durationString = String(format: "%.2f", taskComplete.elapsedTime ?? 0)
                 self?.configuration.logger?.log("Response \(level) in \(durationString)s for: \(response.url?.absoluteString ?? "") - Status: \(response.statusCode) - Correlation: \(correlationId ?? "")", level: level)
-                
+
                 self?.configuration.serverLogger?.lastCorrelationId = correlationId
             }
         }
- 
     }
 }
 
-public typealias TokenRequestCallback = ((String?) -> (Void))
+public typealias TokenRequestCallback = (String?) -> Void
 
 /// The RefreshTokenDelegate protocol defines methods that allow you to handle any 401 errors that may return from network calls.
 public protocol RefreshTokenDelegate: AnyObject {

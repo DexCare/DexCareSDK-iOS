@@ -7,5 +7,6 @@ protocol BearerTokenAware {
 }
 
 // MARK: - Refresh Token Notification
+
 /// A Dexcare.Notification type that is used to notify services of when a token has refreshed.
-let refreshTokenNotification: NetworkNotification = NetworkNotification()
+let refreshTokenNotification: NetworkNotification = .init()

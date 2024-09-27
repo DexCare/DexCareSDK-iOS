@@ -9,15 +9,15 @@ public struct ScheduleDay: Equatable, Codable {
     public let date: Date
     /// An array of time slots that are available
     public let timeSlots: [TimeSlot]
-    
+
     enum CodingKeys: String, CodingKey {
         case date
         case timeSlots
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        
+
         let dateString = try values.decode(String.self, forKey: CodingKeys.date)
         // We're reusing Schedule Day for Retail and Providers
         // Both endpoints come back with different date formats
@@ -28,9 +28,9 @@ public struct ScheduleDay: Equatable, Codable {
         }
         self.timeSlots = try values.decode([TimeSlot].self, forKey: CodingKeys.timeSlots)
     }
-    
+
     // Initializer used only for stubbing tests
-    internal init(
+    init(
         date: Date,
         timeSlots: [TimeSlot]
     ) {

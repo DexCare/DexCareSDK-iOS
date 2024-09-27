@@ -8,7 +8,7 @@ let moduleName = "DexcareiOSSDK"
 let package = Package(
     name: moduleName,
     defaultLocalization: "en",
-    platforms: [.iOS(.v13)],
+    platforms: [.iOS(.v14)],
     products: [
         .library(
             name: moduleName,
@@ -18,7 +18,7 @@ let package = Package(
         .package(url: "https://github.com/matej/MBProgressHUD", exact: "1.2.0"),
         .package(url: "https://github.com/MessageKit/MessageKit", exact: "3.8.0"),
         .package(url: "https://github.com/gordontucker/FittedSheets", exact: "2.6.1"),
-        .package(url: "https://github.com/opentok/vonage-client-sdk-video", exact: "2.26.2")
+        .package(url: "https://github.com/opentok/vonage-client-sdk-video", exact: "2.27.4")
     ],
     targets: [
         .target(name: moduleName,
@@ -28,7 +28,7 @@ let package = Package(
                     "FittedSheets",
                     .product(name: "VonageClientSDKVideo", package: "vonage-client-sdk-video")
                 ],
-                resources: [.process("PrivacyInfo.xcprivacy")]
+                resources: [.process("PrivacyInfo.xcprivacy"), .process("Dexcare-Info.plist")]
                )
     ]
 )

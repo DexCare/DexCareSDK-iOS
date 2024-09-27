@@ -1,23 +1,23 @@
-import Foundation
 import CoreLocation
+import Foundation
 
 class LocationPermissionChecker: NSObject, LocationPermissionChecking {
     var locationManager: CLLocationManager?
-    
+
     var callback: PermissionRequestCallback?
-    
+
     func requestPermission() async -> RequestedPermissionStatus {
         locationManager = CLLocationManager()
         locationManager?.delegate = self
         locationManager?.desiredAccuracy = kCLLocationAccuracyBest // For currentNetwork info we need Precise location
-        
-        return await withCheckedContinuation({ (continuation: CheckedContinuation<RequestedPermissionStatus, Never>) in
+
+        return await withCheckedContinuation { (continuation: CheckedContinuation<RequestedPermissionStatus, Never>) in
             checkStatusAndCallback { status in
                 continuation.resume(returning: status)
             }
-        })
+        }
     }
-    
+
     func checkStatusAndCallback(completion: @escaping PermissionRequestCallback) {
         var status: CLAuthorizationStatus?
         if #available(iOS 14.0, *) {
@@ -25,12 +25,12 @@ class LocationPermissionChecker: NSObject, LocationPermissionChecking {
         } else {
             status = CLLocationManager.authorizationStatus()
         }
-        
+
         switch status {
         case .notDetermined:
             callback = completion
             locationManager?.requestWhenInUseAuthorization()
-        case .authorizedWhenInUse, .authorizedAlways:            
+        case .authorizedWhenInUse, .authorizedAlways:
             // Wifi Check needs to have full accuracy. If the user denies precise, the wifi check won't work.
             if #available(iOS 14.0, *) {
                 var accuracy: CLAccuracyAuthorization?
@@ -57,7 +57,7 @@ extension LocationPermissionChecker: CLLocationManagerDelegate {
             checkStatusAndCallback(completion: callback)
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         if let callback = callback {
             checkStatusAndCallback(completion: callback)

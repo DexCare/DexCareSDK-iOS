@@ -2,36 +2,35 @@ import Foundation
 import OpenTok
 
 // how often we are saving the stats back to memory
-internal var TIMEWINDOW: Double = 3000
+var TIMEWINDOW: Double = 3000
 
 /// Contains any collected statistics from a Virtual Visit session.
 /// The data will only be populated when after a virtual visit conference has occurred in the current SDK session. This data is only persisted in memory.
 public struct VideoCallStatistics: Encodable {
-   
     /// Statistics about received video
     public var subscriberVideoStats: SubscriberNetworkStats
     /// Statistics about received audio
     public var subscriberAudioStats: SubscriberNetworkStats
-    
+
     /// Statistics about when you publish a video. ie have your camera on and a provider is watching
     public var publisherVideoStats: [PublisherNetworkStats]
     /// Statistics about when you publish your microphone and the provider is listening
     public var publisherAudioStats: [PublisherNetworkStats]
-    
+
     /// Contains Real Time Communication stats about the publisher (patient).
     /// - Note: See https://tokbox.com/developer/sdks/android/reference/com/opentok/android/SubscriberKit.SubscriberRtcStatsReportListener.html
     public var publisherRTCStats: [PublisherRtcStats]
     /// Statistics when in real time communication and you're listening to a session
     /// - Note: See `PublisherRtcStats.jsonArrayOfReports` for more info
     public var subscriberRTCStats: String
-    
+
     // Default init
     public init() {
         subscriberVideoStats = SubscriberNetworkStats()
         subscriberAudioStats = SubscriberNetworkStats()
         publisherVideoStats = []
         publisherAudioStats = []
-        
+
         publisherRTCStats = []
         subscriberRTCStats = ""
     }
@@ -44,12 +43,13 @@ public struct PublisherRtcStats: Encodable {
     /// A JSON array of RTC stats reports for the subscriber’s stream.
     /// - Note: https://tokbox.com/developer/sdks/ios/reference/Protocols/OTSubscriberKitRtcStatsReportDelegate.html#//api/name/subscriber:rtcStatsReport:
     public var jsonArrayOfReports: String
-    
+
     /// Default init
     public init() {
         connectionId = ""
         jsonArrayOfReports = ""
     }
+
     /// Initialize with connection and jsonArrayOfReports
     public init(connectionId: String, jsonArrayOfReports: String) {
         self.connectionId = connectionId
@@ -74,9 +74,9 @@ public struct SubscriberNetworkStats: Encodable {
     public var lastUpdated: Date {
         return Date(timeIntervalSince1970: timestamp / 1000) // divide by 1,000 as returns as linux epoch which is in milliseconds
     }
-    
-    internal var timestamp: Double
-    
+
+    var timestamp: Double
+
     enum CodingKeys: String, CodingKey {
         case packetsReceived
         case packetsLost
@@ -86,7 +86,7 @@ public struct SubscriberNetworkStats: Encodable {
         case lastUpdated
         case timestamp
     }
-    
+
     /// Default init
     public init() {
         packetsReceived = 0
@@ -96,8 +96,8 @@ public struct SubscriberNetworkStats: Encodable {
         packetLossRatio = 0
         timestamp = 0
     }
-    
-    internal mutating func updateWithVideoStats(stats: OTSubscriberKitVideoNetworkStats) {
+
+    mutating func updateWithVideoStats(stats: OTSubscriberKitVideoNetworkStats) {
         if timestamp == 0 {
             timestamp = stats.timestamp
             bytesReceived = stats.videoBytesReceived
@@ -105,10 +105,10 @@ public struct SubscriberNetworkStats: Encodable {
         if bytesReceived > stats.videoBytesReceived {
             bytesReceived = stats.videoBytesReceived
         }
-        
+
         if stats.timestamp - timestamp >= TIMEWINDOW {
             bandwidthBitsPerSecond = (8 * (stats.videoBytesReceived - bytesReceived)) / (UInt64(stats.timestamp - timestamp) / 1000)
-            
+
             if packetsReceived != 0 {
                 let pl = Double(stats.videoPacketsLost) - Double(packetsLost)
                 let pr = Double(stats.videoPacketsReceived) - Double(packetsReceived)
@@ -123,8 +123,8 @@ public struct SubscriberNetworkStats: Encodable {
             bytesReceived = stats.videoBytesReceived
         }
     }
-    
-    internal mutating func updateWithAudioStats(stats: OTSubscriberKitAudioNetworkStats) {
+
+    mutating func updateWithAudioStats(stats: OTSubscriberKitAudioNetworkStats) {
         if timestamp == 0 {
             timestamp = stats.timestamp
             bytesReceived = stats.audioBytesReceived
@@ -134,7 +134,7 @@ public struct SubscriberNetworkStats: Encodable {
         }
         if stats.timestamp - timestamp >= TIMEWINDOW {
             bandwidthBitsPerSecond = (8 * (stats.audioBytesReceived - bytesReceived)) / (UInt64(stats.timestamp - timestamp) / 1000)
-            
+
             if packetsReceived != 0 {
                 let pl = Double(stats.audioPacketsLost) - Double(packetsLost)
                 let pr = Double(stats.audioPacketsReceived) - Double(packetsReceived)
@@ -149,11 +149,11 @@ public struct SubscriberNetworkStats: Encodable {
             bytesReceived = stats.audioBytesReceived
         }
     }
-    
+
     /// Custom encoder for sending network stats
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(packetsReceived, forKey: .packetsReceived)
         try container.encode(packetsLost, forKey: .packetsLost)
         try container.encode(bytesReceived, forKey: .bytesReceived)
@@ -185,14 +185,15 @@ public struct PublisherNetworkStats: Encodable {
     public var lastUpdated: Date {
         return Date(timeIntervalSince1970: timestamp / 1000) // divide by 1,000 as returns as linux epoch which is in milliseconds
     }
+
     /// Start date time of the stats collection. In UTC:0
     public var startDateTime: Date {
         return Date(timeIntervalSince1970: startTime / 1000) // divide by 1,000 as returns as linux epoch which is in milliseconds
     }
-    
-    internal var timestamp: Double
-    internal var startTime: Double
-    
+
+    var timestamp: Double
+    var startTime: Double
+
     enum CodingKeys: String, CodingKey {
         case subscriberId
         case connectionid
@@ -204,7 +205,7 @@ public struct PublisherNetworkStats: Encodable {
         case lastUpdated
         case startDateTime
     }
-    
+
     /// Default init
     public init() {
         connectionId = ""
@@ -217,17 +218,17 @@ public struct PublisherNetworkStats: Encodable {
         timestamp = 0
         startTime = 0
     }
-    
-    internal mutating func updateWithVideoStats(stats: OTPublisherKitVideoNetworkStats) {
+
+    mutating func updateWithVideoStats(stats: OTPublisherKitVideoNetworkStats) {
         if timestamp == 0 {
             timestamp = stats.timestamp
             bytesSent = stats.videoBytesSent
             startTime = stats.startTime
         }
-        
+
         if stats.timestamp - timestamp >= TIMEWINDOW {
             bandwidthBitsPerSecond = (8 * (stats.videoBytesSent - bytesSent)) / (Int64(stats.timestamp - timestamp) / 1000)
-            
+
             if packetsSent != 0 {
                 let pl = stats.videoPacketsLost - packetsLost
                 let pr = stats.videoPacketsSent - packetsSent
@@ -242,17 +243,17 @@ public struct PublisherNetworkStats: Encodable {
             bytesSent = stats.videoBytesSent
         }
     }
-    
-    internal mutating func updateWithAudioStats(stats: OTPublisherKitAudioNetworkStats) {
+
+    mutating func updateWithAudioStats(stats: OTPublisherKitAudioNetworkStats) {
         if timestamp == 0 {
             timestamp = stats.timestamp
             bytesSent = stats.audioBytesSent
             startTime = stats.startTime
         }
-        
+
         if stats.timestamp - timestamp >= TIMEWINDOW {
             bandwidthBitsPerSecond = (8 * (stats.audioBytesSent - bytesSent)) / (Int64(stats.timestamp - timestamp) / 1000)
-            
+
             if packetsSent != 0 {
                 let pl = stats.audioPacketsLost - packetsLost
                 let pr = stats.audioPacketsSent - packetsSent
@@ -267,13 +268,13 @@ public struct PublisherNetworkStats: Encodable {
             bytesSent = stats.audioBytesSent
         }
     }
-        
+
     /// Custom encoder for sending network stats
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(subscriberId, forKey: .subscriberId)
         try container.encode(connectionId, forKey: .connectionid)
-        
+
         try container.encode(packetsSent, forKey: .packetsSent)
         try container.encode(packetsLost, forKey: .packetsLost)
         try container.encode(bytesSent, forKey: .bytesSent)

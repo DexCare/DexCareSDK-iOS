@@ -14,7 +14,7 @@ struct V9VirtualVisitRequest: Encodable, Equatable {
     var visitDetails: VirtualVisitDetails
     var billingInfo: BillingInformation
     var additionalDetails: AdditionalDetails?
-   
+
     enum CodingKeys: String, CodingKey {
         case patient
         case actor
@@ -22,18 +22,18 @@ struct V9VirtualVisitRequest: Encodable, Equatable {
         case billingInfo
         case additionalDetails
     }
-    
+
     /// custom encoder
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        
+
         try container.encode(patient, forKey: .patient)
         try container.encodeIfPresent(actor, forKey: .actor)
         try container.encode(visitDetails, forKey: .visitDetails)
         try container.encode(billingInfo, forKey: .billingInfo)
-        
+
         var extraDetails: [V9AdditionalDetails]? = []
-        
+
         additionalDetails?.forEach {
             extraDetails?.append(V9AdditionalDetails(key: $0.key, value: $0.value))
         }
@@ -46,4 +46,13 @@ struct V9VirtualVisitRequest: Encodable, Equatable {
 struct V9AdditionalDetails: Encodable {
     let key: String
     let value: String
+}
+
+struct CancelVideoRequest: Encodable {
+    let cancelReason: String
+}
+
+struct CancelPhoneRequest: Encodable {
+    let cancelReason: String
+    let patientEmail: String
 }
