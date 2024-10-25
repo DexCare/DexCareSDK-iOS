@@ -114,11 +114,17 @@ extension VirtualVisitOpenTokManager {
     func convertMinMaxTemplate(minSeconds: TimeInterval, maxSeconds: TimeInterval, templateKey: String) -> String? {
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .spellOut
+        formatter.unitsStyle = .full
         formatter.calendar = Calendar.current
 
-        if let minSecondsString = formatter.string(from: minSeconds), let maxSecondsString = formatter.string(from: maxSeconds) {
-            return String(format: localizeString(templateKey), minSecondsString, maxSecondsString)
+        let formatterMin = DateComponentsFormatter()
+        formatterMin.allowedUnits = [.hour, .minute]
+        formatterMin.unitsStyle = .short
+        formatter.calendar = Calendar.current
+
+        if let minSecondsString = formatterMin.string(from: minSeconds), let maxSecondsString = formatter.string(from: maxSeconds) {
+            let cleanMin = minSecondsString.filter { $0.isNumber }
+            return String(format: localizeString(templateKey), cleanMin, maxSecondsString)
         } else {
             return nil
         }

@@ -34,6 +34,7 @@
 ### Bug fixes
 - Fixes issue where sdkVersion was returning nil when integrated via SPM
 - Fixes issue where chat message `creationDate` epoch timestamp contained decimal places
+- Display number instead of words for wait time period in virtual visit waiting room
 
    
 ## 9.2.1
