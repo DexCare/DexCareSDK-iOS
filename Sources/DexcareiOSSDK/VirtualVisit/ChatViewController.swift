@@ -6,7 +6,7 @@ import MessageKit
 import UIKit
 
 protocol ExternalLinkHandler {
-    func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any], completionHandler completion: ((Bool) -> Void)?)
+    func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any], completionHandler completion: (@MainActor @Sendable (Bool) -> Void)?)
 }
 
 extension UIApplication: ExternalLinkHandler {}
