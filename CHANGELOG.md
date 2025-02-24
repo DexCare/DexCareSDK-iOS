@@ -1,5 +1,9 @@
 # Release Notes
 
+## 9.3.1
+### New
+- Made `CancelReason` initializer public again.
+
 ## 9.3.0
 ### New
 
