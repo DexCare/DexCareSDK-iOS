@@ -2,7 +2,6 @@
 
 import Foundation
 import MBProgressHUD
-import SwiftUI
 import UIKit
 
 typealias PresentingCompletion = () -> Void
@@ -11,7 +10,6 @@ protocol VirtualVisitNavigatorType {
     func closeVisit()
     func reconnecting(didCancel: @escaping () -> Void)
     func reconnected()
-    func showSurvey(request: URLRequest, onSurveyCompletion: PresentingCompletion?, completion: PresentingCompletion?) -> UIHostingController<SurveyWebView>?
     func showVisit(completion: PresentingCompletion?) -> VisitView?
     func showWaitingRoom(completion: PresentingCompletion?) -> WaitingRoomView?
     func showChat(manager: VirtualVisitManagerType, serverLogger: LoggingService?) -> ChatView?
@@ -97,27 +95,6 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
             onClose: onClose
         )
         existingNavigationController.setViewControllers([waitOfflineLandingViewController], animated: true)
-    }
-
-    func showSurvey(request: URLRequest, onSurveyCompletion: PresentingCompletion?, completion: PresentingCompletion?) -> UIHostingController<SurveyWebView>? {
-        let existingNavigationController = presentedNavigationController()
-
-        // Check to see if we have shown the survey already
-        guard !existingNavigationController.isViewControllerInStack(type: UIHostingController<SurveyWebView>.self) else {
-            existingNavigationController.pop(to: UIHostingController<SurveyWebView>.self, animated: true)
-            return existingNavigationController.viewControllers.last as? UIHostingController<SurveyWebView>
-        }
-
-        let surveyView = SurveyWebView(request: request) {
-            onSurveyCompletion?()
-        } didTapClose: {
-            onSurveyCompletion?()
-        }
-
-        let surveyVC = UIHostingController(rootView: surveyView)
-        existingNavigationController.pushViewController(surveyVC, animated: true)
-
-        return surveyVC
     }
 
     func showVisit(completion: PresentingCompletion?) -> VisitView? {

@@ -1,5 +1,9 @@
 # Release Notes
 
+## 9.3.2
+### New
+- Made `postFeedback` and feedback data models available again. 
+
 ## 9.3.1
 ### New
 - Made `CancelReason` initializer public again.
