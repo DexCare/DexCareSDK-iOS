@@ -49,22 +49,17 @@ public enum DexcareSDKLogLevel: Int {
 public protocol DexcareSDKLogger {
     /// The logging function
     func log(
-        // sourcery: SaveParameters
         _ message: String,
-        // sourcery: SaveParameters
         level: DexcareSDKLogLevel,
         sender: String
     )
 }
-// sourcery: AutoMockable
 extension DexcareSDKLogger {
-    // sourcery: NoMock
     func log(_ message: LogMessages, level: DexcareSDKLogLevel = .info, file: String = #file) {
         let filePath = (file as NSString).lastPathComponent.replacingOccurrences(of: "+", with: "_")
         log(message.rawValue, level: level, sender: "\((filePath as NSString).deletingPathExtension)")
     }
 
-    // sourcery: NoMock
     func log(_ message: String, level: DexcareSDKLogLevel = .info, file: String = #file) {
         let filePath = (file as NSString).lastPathComponent.replacingOccurrences(of: "+", with: "_")
         log(message, level: level, sender: "\((filePath as NSString).deletingPathExtension)")

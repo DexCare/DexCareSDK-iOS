@@ -8,7 +8,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// A generic structure of an address used in DexcareSDK
 public struct Address: Codable, Equatable {
     /// 1st line of an address
@@ -19,7 +18,6 @@ public struct Address: Codable, Equatable {
     public var city: String
     /// State of the address - usually in abbreviated form
     public var state: String
-    // sourcery: StubValue="90210"
     /// Zip Code of the address - usually in 5 digit form
     public var postalCode: String
 

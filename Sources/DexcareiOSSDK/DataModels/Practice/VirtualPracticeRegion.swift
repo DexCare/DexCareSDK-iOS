@@ -16,7 +16,6 @@ public struct VirtualPracticeRegion: Codable, Equatable {
     public var displayName: String
     /// A grandfathered unique string representing a region, used in `getCatchmentArea`. Typically a two-character string code
     public var regionCode: String
-    // sourcery: StubValue = true
     /// A boolean indicating whether or not this PracticeRegion is active.
     /// If a practice region is not active, you should indicate so in your UI.
     /// - Warning: Any Virtual Visits booked with an inactive practice region will be rejected
@@ -116,7 +115,6 @@ public struct PediatricsAgeRange: Codable, Equatable {
     }
 }
 
-// sourcery: StubValue = true
 /// Start and ending date times in UTC of a Practice Region
 public struct PracticeRegionAvailability: Codable, Equatable {
     /// Start of operating hours

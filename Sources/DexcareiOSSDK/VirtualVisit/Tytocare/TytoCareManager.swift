@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-// sourcery: AutoMockable
 protocol TytoCareManagerType: AnyObject {
     var currentWifiName: String? { get set }
     var currentWifiPassword: String? { get set }

@@ -21,7 +21,6 @@ enum SignalMessageType: String {
          modalityConversion
 }
 
-// sourcery: AutoStubbable
 struct SignalInstantMessage: Codable {
     var fromParticipant: String
     var senderId: String?

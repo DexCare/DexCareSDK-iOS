@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 
-// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol to get Payment Information
 public protocol PaymentService {
     /// Fetches the list of `InsurancePayer` associated with the tenant
@@ -19,7 +18,6 @@ public protocol PaymentService {
     func verifyCouponCode(couponCode: String, success: @escaping (Decimal) -> Void, failure: @escaping (CouponCodeFailedReason) -> Void)
 
     // Async Equivalents
-    // sourcery: StubName=getInsurancePayersAsync, SkipPromiseExtension
     /// Fetches the list of `InsurancePayer` associated with the tenant
     /// - Parameters:
     ///   - tenant: A string to indicate which tenant you want the list of `InsurancePayer` for
@@ -27,7 +25,6 @@ public protocol PaymentService {
     /// - Returns: An array of `InsurancePayer`
     func getInsurancePayers(tenant: String) async throws -> [InsurancePayer]
 
-    // sourcery: StubName=verifyCouponCodeAsync, SkipPromiseExtension
     /// Validates the coupon code (sometimes called service key) and returns the amount of the coupon
     /// - Parameters:
     ///   - couponCode: A string to indicate the coupon code (sometimes called service key) used for verification

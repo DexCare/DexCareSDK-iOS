@@ -1,7 +1,6 @@
 // Copyright © 2020 DexCare. All rights reserved.
 import Foundation
 
-// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol used to create patients, get patients
 public protocol PatientService {
     /// Returns the DexcarePatient that is available after setting the Authentication Token
@@ -58,21 +57,18 @@ public protocol PatientService {
     func deletePatientAccount(success: @escaping (() -> Void), failure: @escaping ((FailedReason) -> Void))
 
     // Async
-    // sourcery: StubName=getPatientAsync, SkipPromiseExtension
     /// Returns the DexcarePatient that is available after setting the Authentication Token
     /// - Throws:`FailedReason`
     /// - Returns: The `DexcarePatient` in the system
     /// - Precondition: `dexcareSDK.authentication.signIn()` must be set with a valid accessToken
     func getPatient() async throws -> DexcarePatient
 
-    // sourcery: StubName=getEMRPatientAsync, SkipPromiseExtension
     /// Returns the DexcarePatient from EMR that is available after setting the Authentication Token
     /// - Throws:`FailedReason`
     /// - Returns: The `DexcarePatient` in the system
     /// - Precondition: `dexcareSDK.authentication.signIn()` must be set with a valid accessToken from MyChart
     func getEMRPatient() async throws -> DexcarePatient
 
-    // sourcery: StubName=findOrCreatePatientAsync, SkipPromiseExtension
     /// The SDK will return the patient found in the requested EHR system. If no patient with the same patientGuid is found, the system will attempt to find a matching patient by fuzzy matching with the patient demographics passed in, link that EHR patient record with the DexcarePatient and return it. If no patient record can be found in the EHR system, a new one is created, linked to the DexcarePatient and returned.
     /// - Parameters:
     ///   - ehrSystem: The Ehr System name that will be used in creating the patient
@@ -82,7 +78,6 @@ public protocol PatientService {
     /// - Precondition: `dexcareSDK.authentication.signIn()` must be set with a valid accessToken
     func findOrCreatePatient(inEhrSystem: String, patientDemographics: PatientDemographics) async throws -> DexcarePatient
 
-    // sourcery: StubName=findOrCreateDependentPatientAsync, SkipPromiseExtension
     /// Creates a Dexcare dependent patient.
     ///
     /// This api will find or create a DexCare patient record for the patient, without linking it to the current authorized account.
@@ -94,7 +89,6 @@ public protocol PatientService {
     /// - Precondition: `dexcareSDK.authentication.signIn()` must be set with a valid accessToken
     func findOrCreateDependentPatient(inEhrSystem: String, dependentPatientDemographics: PatientDemographics) async throws -> DexcarePatient
 
-    // sourcery: StubName=getSuffixesAsync, SkipPromiseExtension
     /// Loads a list of suffixes from the server
     ///
     /// These can be used in a drop down for demographics. Changes to this list can be changed on the server only.
@@ -102,7 +96,6 @@ public protocol PatientService {
     /// - Returns:An array of Strings of suffixes. ie ["Dr", "Jr.", "III"]
     func getSuffixes() async throws -> [String]
 
-    // sourcery: StubName=deletePatientAccountAsync, SkipPromiseExtension
     /// Sends a request to delete the Patient Account at DexCare
     /// This does not delete any epic or other accounts. The request may not be instant and may take some time to fully delete.
     /// - Throws: `FailedReason`

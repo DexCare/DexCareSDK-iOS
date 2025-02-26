@@ -1,14 +1,11 @@
 import Foundation
 
-// sourcery: AutoMockable
 protocol LoggingService {
     var visitId: String? { get set }
     var lastCorrelationId: String? { get set }
-    // sourcery: StubName=postMessageWithData
     func postMessage(message: String, data: [String: String]?)
     func postMessage(message: String)
     func postErrorIfNeeded(error: Error)
-    // sourcery: StubName=postErrorIfNeededWithData
     func postErrorIfNeeded(error: Error, data: [String: String]?)
 }
 

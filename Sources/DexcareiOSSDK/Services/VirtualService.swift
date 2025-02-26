@@ -12,7 +12,6 @@ typealias VisitFailure = (VirtualVisitFailedReason) -> Void
 /// A dictionary of custom additional details that can be added to a visit.
 public typealias AdditionalDetails = [String: String]
 
-// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol to create, setup, cancel Virtual Visits
 public protocol VirtualService {
     /// Resumes a Virtual Visit
@@ -26,7 +25,6 @@ public protocol VirtualService {
     /// - Precondition: Must call `patientService.getPatient()` before calling this method
     func resumeVirtualVisit(visitId: String, presentingViewController: UIViewController, dexCarePatient: DexcarePatient, onCompletion: @escaping VisitCompletion, success: @escaping () -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: StubName=resumeVirtualVisitForEhrPatient
     /// Resumes a Virtual Visit
     /// - Parameters:
     ///   - visitId: An existing VisitId that is active
@@ -37,7 +35,6 @@ public protocol VirtualService {
     ///   - failure: A closure called if any VirtualVisitFailedReason errors are returned
     func resumeVirtualVisit(visitId: String, presentingViewController: UIViewController, ehrPatient: EhrPatient, onCompletion: @escaping VisitCompletion, success: @escaping () -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: SkipPromiseExtension
     /// Updates a push notification device token
     /// - Parameters:
     ///   - token: a device token that is returned by an iOS device in AppDelegate.application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
@@ -51,12 +48,10 @@ public protocol VirtualService {
     /// - Precondition: Must call `visitService.startVirtualVisit` or `visitService.resumeVirtualVisit` before calling this method
     func postFeedback(feedbacks: [VirtualFeedback], success: @escaping () -> Void, failure: @escaping (FailedReason) -> Void)
 
-    // sourcery: SkipPromiseExtension
     /// Sets the delegate to invoke various events allowing you to capture analytics.
     /// - Note: See `VirtualEventDelegate` for more information
     func setVirtualEventDelegate(delegate: VirtualEventDelegate?)
 
-    // sourcery: StubName=getEstimatedWaitTimePublic
     /// Fetches the estimated `WaitTime` for a virtual visit
     /// - Important: `WaitTime` is estimated and may change. The time returned should not be used as a definitive time when a Virtual Visit will begin.
     /// - Parameters:
@@ -65,7 +60,6 @@ public protocol VirtualService {
     ///   - failure: A closure called if any `WaitTimeFailedReason` errors are returned
     func getEstimatedWaitTime(visitId: String, success: @escaping (WaitTime) -> Void, failure: @escaping (WaitTimeFailedReason) -> Void)
 
-    // sourcery: SkipPromiseExtension
     /// Gets the statistics report from the OpenTok (Vonage) SDK from a virtual visit.
     /// Virtual Visit must have been started in the current app session, and the Provider must have started the visit for this method to return any results.
     /// These statistics are only stored in memory, and are cleared upon starting a new visit, calling DexCareSDK.signOut(), or by closing the app (since they're only in memory)
@@ -80,7 +74,6 @@ public protocol VirtualService {
     ///   - success: A closure called with a `VisitStatus` enum return value
     ///   - failure: A closure called if any `FailedReason` errors are returned
     @available(*, deprecated, message: "Use getVirtualVisit() instead to get visit status")
-    // sourcery: StubName=getVirtualVisitStatus, SkipPromiseExtension, SkipSourceryMock
     func getVirtualVisitStatus(visitId: String, success: @escaping (VisitStatus) -> Void, failure: @escaping (FailedReason) -> Void)
 
     /// Fetches the latest status for a virtual visit.
@@ -91,10 +84,8 @@ public protocol VirtualService {
     ///   - `FailedReason`
     /// - Returns: A `VisitStatus` containing the latest status of the virtual visit.
     @available(*, deprecated, message: "Use getVirtualVisit() instead to get visit status")
-    // sourcery: StubName=getVirtualVisitStatusAsync, SkipPromiseExtension, SkipSourceryMock
     func getVirtualVisitStatus(visitId: String) async throws -> VisitStatus
 
-    // sourcery: StubName=getVirtualVisitAsync, SkipPromiseExtension, SkipSourceryMock
     /// Retrieves more information about the scheduled virtual visit.
     ///
     /// - Parameters:
@@ -103,7 +94,6 @@ public protocol VirtualService {
     /// - Returns: A `VirtualVisit` containing more information about the visit.
     func getVirtualVisit(visitId: String) async throws -> VirtualVisit
 
-    // sourcery: StubName=getVirtualVisit, SkipPromiseExtension, SkipSourceryMock
     /// Retrieves more information about the scheduled virtual visit.
     ///
     /// - Parameters:
@@ -139,7 +129,6 @@ public protocol VirtualService {
     ///   - failure: A closure called if any `FailedReason` errors are returned
     func getModalities(success: @escaping ([VirtualVisitModality]) -> Void, failure: @escaping (FailedReason) -> Void)
 
-    // sourcery: StubName=startVirtualVisitV9Dexcare
     /// Starts or creates a virtual visit with a `DexcarePatient`
     ///
     /// Call this method to create a new virtual visit and show its full-screen user interface on the specified view controller.
@@ -159,7 +148,6 @@ public protocol VirtualService {
     /// - Important: If you pass up `VirtualVisitDetails.visitTypeName` of `.phone` the `onCompletion` closure will be called with a `VisitCompletionReason.phoneVisit`. This does not mean the visit is complete, but that you have successfully scheduled a visit and the provider will phone you. The full screen user interface will not show on a phone visit.
     func createVirtualVisit(presentingViewController: UIViewController, dexcarePatient: DexcarePatient, virtualVisitDetails: VirtualVisitDetails, paymentMethod: PaymentMethod, actor: DexcarePatient?, onCompletion: @escaping VisitCompletion, success: @escaping (String) -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: StubName=startVirtualVisitV9EHR
     /// Starts or creates a virtual visit with an `EhrPatient`
     ///
     /// Call this method to create a new virtual visit and show its full-screen user interface on the specified view controller.
@@ -176,7 +164,6 @@ public protocol VirtualService {
     /// - Important: If you pass up `VirtualVisitDetails.visitTypeName` of `.phone` the `onCompletion` closure will be called with a `VisitCompletionReason.phoneVisit`. This does not mean the visit is complete, but that you have successfully scheduled a visit and the provider will phone you. The full screen user interface will not show on a phone visit.
     func createVirtualVisit(presentingViewController: UIViewController, ehrPatient: EhrPatient, virtualVisitDetails: VirtualVisitDetails, paymentMethod: PaymentMethod, actor: EhrPatient?, onCompletion: @escaping VisitCompletion, success: @escaping (String) -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: StubName=fetchCancellationReasons, SkipPromiseExtension
     /// Returns supported `CancelReason` options used when canceling virtual visits (`cancelVideoVisit(visitId: String, reason: String)`)
     ///
     /// - Returns:`[CancelReason]` array if canceling with a reason is supported.
@@ -185,7 +172,6 @@ public protocol VirtualService {
 
     // MARK: ASYNC FUNCTIONS
 
-    // sourcery: StubName=postFeedbackAsync, SkipPromiseExtension
     /// Submit the patient feedback questions and answers for a virtual visit.
     ///
     /// - Parameters:
@@ -195,7 +181,6 @@ public protocol VirtualService {
     /// - Precondition: Must call `visitService.startVirtualVisit` or `visitService.resumeVirtualVisit` before calling this method
     func postFeedback(feedbacks: [VirtualFeedback]) async throws
 
-    // sourcery: StubName=cancelVideoVisitAsync, SkipPromiseExtension
     /// Cancels an existing valid virtual visit.
     /// - Parameters:
     ///   - visitId:The visitId that you wish to cancel
@@ -216,7 +201,6 @@ public protocol VirtualService {
     ///   - failure: closure when the cancel visit fails. If `VirtualVisitFailedReason.virtualVisitNotFound` is returned it means the visit no longer exists and `VirtualVisitFailedReason.missingInformation` is returned when visitId or reason code is an empty string.
     func cancelVideoVisit(visitId: String, reason: String, success: @escaping () -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: StubName=cancelPhoneVisitAsync, SkipPromiseExtension
     /// Cancels an existing valid phone visit.
     /// - Parameters:
     ///   - visitId:The visitId that you wish to cancel
@@ -240,10 +224,8 @@ public protocol VirtualService {
     ///     - `VirtualVisitFailedReason.virtualVisitNotFound`: Returned when the visit no longer exists.
     ///     - `VirtualVisitFailedReason.missingInformation`: Returned when the visitId or reason code is an empty string.
     @available(*, deprecated, message: "Use cancelPhoneVisit() or cancelVideoVisit instead to cancel visits")
-    // sourcery: StubName=cancelPhoneVisit, SkipPromiseExtension
     func cancelPhoneVisit(visitId: String, reason: String, email: String, success: @escaping () -> Void, failure: @escaping (VirtualVisitFailedReason) -> Void)
 
-    // sourcery: StubName=cancelVirtualVisitAsync, SkipPromiseExtension
     /// Cancels an existing valid virtual visit.
     /// - Parameters:
     ///   - visitId:The visitId that you wish to cancel
@@ -252,7 +234,6 @@ public protocol VirtualService {
     /// - Returns:When successfully cancelled
     func cancelVirtualVisit(visitId: String) async throws
 
-    // sourcery: StubName=getEstimatedWaitTimePublicAsync, SkipPromiseExtension
     /// Fetches the estimated `WaitTime` for a virtual visit
     /// - Important: `WaitTime` is estimated and may change. The time returned should not be used as a definitive time when a Virtual Visit will begin.
     /// - Parameters:
@@ -261,19 +242,16 @@ public protocol VirtualService {
     /// - Returns: `WaitTime` object
     func getEstimatedWaitTime(visitId: String) async throws -> WaitTime
 
-    // sourcery: StubName=getAssignmentQualifiersAsync, SkipPromiseExtension
     /// Fetches the supported `VirtualVisitAssignmentQualifier` objects that can be used to schedule a virtual visit and filter `WaitTimeAvailability`.
     /// - Throws:`FailedReason`
     /// - Returns:: A `VirtualVisitAssignmentQualifier` array
     func getAssignmentQualifiers() async throws -> [VirtualVisitAssignmentQualifier]
 
-    // sourcery: StubName=getModalitiesAsync, SkipPromiseExtension
     /// Fetches the supported `VirtualVisitModality` objects
     /// - Throws:`FailedReason`
     /// - Returns:`VirtualVisitModality` array
     func getModalities() async throws -> [VirtualVisitModality]
 
-    // sourcery: StubName=resumeVirtualVisitAsync, SkipPromiseExtension
     /// Resumes a Virtual Visit
     /// - Parameters:
     ///   - visitId: An existing VisitId that is active
@@ -285,7 +263,6 @@ public protocol VirtualService {
     /// - Precondition: Must call `patientService.getPatient()` before calling this method
     func resumeVirtualVisit(visitId: String, presentingViewController: UIViewController, dexCarePatient: DexcarePatient, onCompletion: @escaping VisitCompletion) async throws
 
-    // sourcery: StubName=resumeVirtualVisitForEhrPatientAsync, SkipPromiseExtension
     /// Resumes a Virtual Visit
     /// - Parameters:
     ///   - visitId: An existing VisitId that is active
@@ -296,7 +273,6 @@ public protocol VirtualService {
     /// - Returns: When a visit is successfully resumed
     func resumeVirtualVisit(visitId: String, presentingViewController: UIViewController, ehrPatient: EhrPatient, onCompletion: @escaping VisitCompletion) async throws
 
-    // sourcery: StubName=getWaitTimeAvailabilityAsync, SkipPromiseExtension
     /// Fetches the WaitTimes and Availabilities
     ///
     /// If no extra parameters are passed in to filter on, all `WaitTimeAvailability` are returned, including any that are currently not available.
@@ -311,7 +287,6 @@ public protocol VirtualService {
     func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability]
 }
 
-// sourcery: AutoMockable
 protocol InternalVirtualService: AnyObject {
     var virtualEventDelegate: VirtualEventDelegate? { get set }
     var virtualVisitManager: VirtualVisitManagerType? { get set }
@@ -327,10 +302,8 @@ protocol InternalVirtualService: AnyObject {
 
     func sendWaitingRoomEvents(visitId: String, permissions: Permissions?)
 
-    // sourcery: StubName=getEstimatedWaitTimeAsync,
     func getEstimatedWaitTime(visitId: String) async throws -> WaitTime
 
-    // sourcery: StubName=postChatMessageAsync
     func postChatMessage(visitId: String, sessionId: String, message: SignalInstantMessage) async throws
 
     func onVisitSuccess(visitId: String)
@@ -339,7 +312,6 @@ protocol InternalVirtualService: AnyObject {
     // Integrations: Tytocare
 
     /// Pairs a device. String returned will be used in the QR Code generation.
-    // sourcery: StubName=pairDeviceAsync
     func pairDevice(visitId: String) async throws -> String
 
     func fetchCancellationReasons() async -> [CancelReason]

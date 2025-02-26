@@ -3,7 +3,6 @@ import Foundation
 import MBProgressHUD
 import UIKit
 
-// sourcery: AutoMockable
 protocol TytoCareNavigatorType {
     func showTytoCareSetup()
     func showPermissionView()

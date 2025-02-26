@@ -8,9 +8,7 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 struct V9VirtualVisitRequest: Encodable, Equatable {
-    // sourcery: StubValue = EhrPatient.stub()
     var patient: EhrPatient
     var actor: EhrPatient?
     var visitDetails: VirtualVisitDetails

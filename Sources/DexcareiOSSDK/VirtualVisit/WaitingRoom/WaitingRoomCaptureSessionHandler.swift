@@ -8,7 +8,6 @@ enum SessionSetupResult {
     case configurationFailed
 }
 
-// sourcery: AutoMockable
 protocol CaptureSessionHandler: AnyObject {
     var captureSession: AVCaptureSession { get }
 

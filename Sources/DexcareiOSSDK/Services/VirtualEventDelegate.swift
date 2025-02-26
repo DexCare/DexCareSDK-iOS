@@ -1,4 +1,3 @@
-// sourcery: AutoMockable
 /// When set on the VirtualService, the delegate will invoke various events allowing you to capture analytics.
 /// - Important: all functions returned here for only for analytic purposes. Any errors returned in `onVirtualVisitError` are "soft" errors - meaning the virtual visit will still be running.
 /// - Note: All "hard" failures, should be caught inside the `failure` closure when starting or resume a virtual visit.

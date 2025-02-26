@@ -6,7 +6,6 @@ import UIKit
 
 typealias PresentingCompletion = () -> Void
 
-// sourcery: AutoMockable
 protocol VirtualVisitNavigatorType {
     func closeVisit()
     func reconnecting(didCancel: @escaping () -> Void)
@@ -17,7 +16,6 @@ protocol VirtualVisitNavigatorType {
     func showConvertToPhoneSuccessCTA(onClose: @escaping () -> Void, completion: PresentingCompletion?)
     func showWaitOfflineLanding(onCancel: @escaping () -> Void, onClose: @escaping () -> Void, completion: PresentingCompletion?)
     func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction])
-    // sourcery: StubName = displayAlertFooter
     func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction], footer: VirtualVisitAlertFooter?)
     func displayCancelVisitAlert(title: String, message: String?, reasons: [CancelReason], didSelectReason: ((CancelReason) -> Void)?)
     func showHud()

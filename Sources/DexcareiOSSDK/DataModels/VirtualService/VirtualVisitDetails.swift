@@ -1,7 +1,6 @@
 import Foundation
 
 // V9 Visit Details
-// sourcery: AutoStubbable
 /// An object containing additional information used to scheduled a virtual visit
 public struct VirtualVisitDetails: Encodable, Equatable {
     /// Whether or not the patient has accepted the terms of use. Patients cannot schedule a virtual visit without accepting terms
@@ -16,15 +15,12 @@ public struct VirtualVisitDetails: Encodable, Equatable {
     /// A short description describing the reason for scheduling the virtual visit.
     public var visitReason: String
 
-    // sourcery: StubValue = "VirtualVisitTypeName.virtual"
     /// The type of virtual visit to schedule. See static properties on `VirtualVisitType` for the default supported values.
     public var visitTypeName: VirtualVisitTypeName
 
-    // sourcery: StubValue = "useremail@domain.com"
     /// This should always be a non-empty email address which can be used to contact the app user.
     public var userEmail: String
 
-    // sourcery: StubValue = "2042323232"
     /// This should always be a non-empty 10 digit phone number which can be used to contact the app user.
     public var contactPhoneNumber: String
 
@@ -50,7 +46,6 @@ public struct VirtualVisitDetails: Encodable, Equatable {
     /// Home market of the region, if applicable.
     public var homeMarket: String?
 
-    // sourcery: StubValue = nil
     /// Sets the initial status of a virtual visit. If not set, ``VisitStatus.requested`` will be used.
     /// - Note: Some ``VisitStatus`` options may not be supported for initialStatus
     public var initialStatus: VisitStatus?
@@ -59,11 +54,9 @@ public struct VirtualVisitDetails: Encodable, Equatable {
     /// - Note: Your environment may not use this property. Leave nil otherwise.
     public var traveling: Bool?
 
-    // sourcery: StubValue = nil
     /// Set internally by the SDK with the device language. Used in reports.
     var detectedLanguage: String? = Locale.current.identifier
 
-    // sourcery: StubValue = nil
     /// Any additional meta data/information you wish to be saved with the visit.
     public var additionalDetails: AdditionalDetails?
 

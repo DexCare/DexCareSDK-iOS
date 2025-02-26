@@ -4,7 +4,6 @@ import AVKit
 import Foundation
 import UIKit
 
-// sourcery: AutoMockable
 protocol WaitingRoomView: AnyObject {
     var manager: VirtualVisitManagerType? { get set }
     var tytoCareManager: TytoCareManagerType? { get set }

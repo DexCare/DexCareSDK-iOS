@@ -18,22 +18,15 @@ enum VisitInitialState {
     case waitOffline
 }
 
-// sourcery: AutoMockable
 protocol VirtualVisitManagerType: AnyObject {
-    // sourcery: DefaultMockValue = .empty
     var visitId: String { get }
-    // sourcery: DefaultMockValue = .empty
     var userId: String { get }
-    // sourcery: DefaultMockValue = .empty
     var chatDisplayName: String { get }
 
     var waitingRoomView: WaitingRoomView? { get }
-    // sourcery: DefaultMockValue = InternalVirtualServiceMock()
     var virtualService: InternalVirtualService? { get }
     var waitTimeWorkItem: DispatchWorkItem? { get set }
-    // sourcery: DefaultMockValue = false
     var inWaitingRoom: Bool { get }
-    // sourcery: DefaultMockValue = false
     var forceWaitOfflineHidden: Bool { get set }
 
     var networkStats: VideoCallStatistics? { get }

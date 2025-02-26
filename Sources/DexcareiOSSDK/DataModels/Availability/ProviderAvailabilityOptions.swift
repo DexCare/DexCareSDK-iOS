@@ -2,7 +2,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// Options when searching for provider availability - `AvailabilityService.getProviderAvailability`
 public struct ProviderAvailabilityOptions: Encodable, Equatable {
     /// Health system defined visit type name filter.

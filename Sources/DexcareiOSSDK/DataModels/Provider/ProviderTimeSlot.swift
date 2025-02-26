@@ -1,7 +1,6 @@
 // Copyright © 2021 DexCare. All rights reserved.
 import UIKit
 
-// sourcery: AutoStubbable
 /// Represents a grouping of time slots for a particular `Provider`
 public struct ProviderTimeSlot: Equatable, Codable {
     /// The national identifier for this Provider

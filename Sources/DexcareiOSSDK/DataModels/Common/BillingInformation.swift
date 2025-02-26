@@ -89,7 +89,6 @@ extension BillingInformation {
     }
 }
 
-// sourcery: AutoStubbable
 struct BillingInformation: Equatable {
     enum PaymentMethodInternal: String, Codable {
         case creditCard = "creditcard"

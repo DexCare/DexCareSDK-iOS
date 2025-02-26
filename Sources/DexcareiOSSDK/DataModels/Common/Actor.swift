@@ -6,7 +6,6 @@
 // Copyright © 2020 DexCare. All rights reserved.
 //
 
-// sourcery: AutoStubbable
 struct Actor: Encodable, Equatable {
     var patientGuid: String?
     var firstName: String

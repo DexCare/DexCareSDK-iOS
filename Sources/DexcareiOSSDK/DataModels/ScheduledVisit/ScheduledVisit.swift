@@ -8,7 +8,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// Contains details about an upcoming scheduled visit
 public struct ScheduledVisit: Equatable, Codable {
     /// A unique identifier representing this visit
@@ -62,7 +61,6 @@ public struct ScheduledVisit: Equatable, Codable {
         case timestamps = "timestamps"
     }
 
-    // sourcery: AutoStubbable
     /// Additional details about the appointment
     public struct AppointmentDetails: Equatable, Codable {
         /// A unique id for the appointment
@@ -103,7 +101,6 @@ public struct ScheduledVisit: Equatable, Codable {
         }
     }
 
-    // sourcery: AutoStubbable
     /// An struct representing various times at which a `ScheduledVisit` was updated
     public struct Timestamps: Equatable, Codable {
         /// The day and time at which the visit was cancelled. nil if not applicable

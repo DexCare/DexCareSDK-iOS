@@ -2,7 +2,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// A structure containing information about a patient's name
 public struct HumanName: Codable, Equatable {
     /// Family name (often call surname or last name)

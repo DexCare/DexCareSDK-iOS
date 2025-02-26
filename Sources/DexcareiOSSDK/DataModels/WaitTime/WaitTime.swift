@@ -1,6 +1,5 @@
 import Foundation
 
-// sourcery: AutoStubbable
 /// WaitTime structure returns when loading `VirtualService.getEstimatedWaitTime`
 public struct WaitTime: Decodable, Equatable {
     /// Date at UTC of when the estimated time was generated. Estimates are cached and updated at various intervals.
@@ -9,7 +8,6 @@ public struct WaitTime: Decodable, Equatable {
     public var estimatedWaitTimeSeconds: Int
     /// Message that is shown in the waiting room.
     public var estimatedWaitTimeMessage: String?
-    // sourcery: StubValue = nil
     /// Information that allows localization of estimated wait time
     public var waitTimeLocalizationInfo: WaitTimeLocalizationInfo?
 

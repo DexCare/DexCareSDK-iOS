@@ -1,6 +1,5 @@
 // Copyright © 2020 DexCare. All rights reserved.
 
-// sourcery: AutoStubbable
 /// A struct representing an EHRSystem + identifier
 public struct Identifier: Equatable, Codable {
     /// The EHRSystem name of the id

@@ -8,7 +8,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// A structure representing a Virtual Practice to which you can book a virtual visit
 public struct VirtualPractice: Codable {
     /// A UUID for the Virtual Practice. This property will be needed to book Virtual Visits.
@@ -44,7 +43,6 @@ public enum PracticeCareMode: String, Codable {
     case chat
 }
 
-// sourcery: AutoStubbable
 /// A structure that represents what type of payments are supported in a Practice
 public struct PracticePaymentAvailability: Codable {
     /// Payment by insurance

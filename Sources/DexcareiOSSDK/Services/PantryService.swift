@@ -1,12 +1,10 @@
 import Foundation
 
-// sourcery: AutoMockable
 protocol PantryService {
     func getValidationConfigs()
 
     func getStatusPage(success: @escaping (DexcareStatus) -> Void, failure: @escaping (FailedReason) -> Void)
 
-    // sourcery: StubName=getStatusPageAsync
     func getStatusPage() async throws -> DexcareStatus
 }
 

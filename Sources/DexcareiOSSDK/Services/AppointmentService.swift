@@ -7,7 +7,6 @@
 
 import Foundation
 
-// sourcery: AutoMockable, ProtocolPromiseExtension
 /// The AppointmentService provides access to a list of scheduled appointments with the logged in user, as well as functions to create appointments
 public protocol AppointmentService {
     /// An asynchronous call to fetch a list of the patients retail visits that have been scheduled.
@@ -33,7 +32,6 @@ public protocol AppointmentService {
     func cancelRetailAppointment(visitId: String, cancelReason: CancelReason, success: @escaping () -> Void, failure: @escaping (FailedReason) -> Void)
 
     // Async
-    // sourcery: StubName=getRetailVisitsAsync, SkipPromiseExtension
     /// An asynchronous call to fetch a list of the patients retail visits that have been scheduled.
     ///
     /// Internally, this will filter the appointment based on status=requested
@@ -42,13 +40,11 @@ public protocol AppointmentService {
     /// - Note: The return array may be empty
     func getRetailVisits() async throws -> [ScheduledVisit]
 
-    // sourcery: StubName=getCancelReasonsAsync, SkipPromiseExtension
     /// Returns a list of CancellationReason objects that will be used in `cancelRetailAppointment` call
     /// - Throws: `FailedReason`
     /// - Returns: An array of `CancelReason` objects
     func getCancelReasons(brandName: String) async throws -> [CancelReason]
 
-    // sourcery: StubName=cancelRetailAppointmentAsync, SkipPromiseExtension
     /// Cancels an appointment
     /// - Parameters:
     ///   - visitId: The visit id of the `ScheduledVisit` to be cancelled

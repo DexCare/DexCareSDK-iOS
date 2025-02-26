@@ -2,9 +2,7 @@ import Foundation
 import UIKit
 
 /// A service that speaks to a remote resource via URL requests
-// sourcery: AutoMockable
 protocol AsyncNetworkService: AnyObject {
-    // sourcery: DefaultMockValue = .empty
     var authenticationToken: String { get set }
 
     /// If this is set, all network requests made through this service will have the modifier applied.
@@ -137,7 +135,6 @@ class AsyncHTTPNetworkService: AsyncNetworkService, BearerTokenAware {
 
 extension AsyncNetworkService {
     /// Requests a single object. That object must conform to `Decodable`. Will interpret the data received as JSON and attempt to decode the object in question from it.
-    // sourcery: NoMock
     func requestObject<ObjectType: Decodable>(_ request: ConvertsToURLRequest, validators: [ResponseValidator] = [statusCodeIsIn200s], jsonDecoder: JSONDecoder = JSONDecoder.networkJSONDecoder) async throws -> ObjectType {
         let requestTask = Task { () -> (Data, URLResponse) in
             return try await requestData(request, validators: validators)
@@ -159,7 +156,6 @@ extension AsyncNetworkService {
     }
 
     /// Requests a string from a network endpoint.
-    // sourcery: NoMock
     func requestString(_ request: ConvertsToURLRequest, encoding: String.Encoding = .utf8, validators: [ResponseValidator] = [statusCodeIsIn200s]) async throws -> String {
         let requestTask = Task { () -> (Data, URLResponse) in
             return try await requestData(request, validators: validators)
@@ -180,7 +176,6 @@ extension AsyncNetworkService {
     }
 
     /// Requests a network endpoint without any return
-    // sourcery: NoMock
     func requestVoid(_ request: ConvertsToURLRequest, validators: [ResponseValidator] = [statusCodeIsIn200s]) async throws {
         let requestTask = Task { () -> (Data, URLResponse) in
             return try await requestData(request, validators: validators)

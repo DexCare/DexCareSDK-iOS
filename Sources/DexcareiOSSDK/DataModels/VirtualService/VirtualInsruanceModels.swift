@@ -2,7 +2,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// A structure holding information about an Insurance Payer that the system supports
 public struct InsurancePayer: Equatable, Codable {
     /// A string representing the name of the Insurance Payer

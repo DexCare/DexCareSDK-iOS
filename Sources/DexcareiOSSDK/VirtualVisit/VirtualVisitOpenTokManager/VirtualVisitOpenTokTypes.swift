@@ -9,12 +9,9 @@
 import Foundation
 import OpenTok
 
-// sourcery: AutoMockable
 protocol SessionType {
-    // sourcery: DefaultMockValue = .empty
     var sessionId: String { get }
     var connection: OTConnection? { get }
-    // sourcery: DefaultMockValue = .notConnected
     var sessionConnectionStatus: OTSessionConnectionStatus { get }
     func connect(withToken token: String, error: AutoreleasingUnsafeMutablePointer<OTError?>?)
     func disconnect(_ error: AutoreleasingUnsafeMutablePointer<OTError?>?)
@@ -59,15 +56,11 @@ extension OTSession: SessionType {
     }
 }
 
-// sourcery: AutoMockable
 protocol PublisherType {
-    // sourcery: DefaultMockValue = false
     var publishVideo: Bool { get set }
-    // sourcery: DefaultMockValue = false
     var publishAudio: Bool { get set }
     var publishView: UIView? { get }
     var stream: OTStream? { get }
-    // sourcery: DefaultMockValue = .unspecified
     var cameraCapturePosition: AVCaptureDevice.Position { get set }
     var networkStatsPublisherDelegate: NetworkStatsPublisherDelegate? { get set }
     var rtcStatsPublisherDelegate: RTCStatsPublisherDelegate? { get set }
@@ -123,10 +116,8 @@ extension OTPublisherKit: PublisherType {
     }
 }
 
-// sourcery: AutoMockable
 protocol SubscriberType {
     var subscriberView: UIView? { get }
-    // sourcery: DefaultMockValue = .zero
     var preferredResolution: CGSize { get }
     var streamId: String? { get }
     var networkStatsSubscriberDelegate: NetworkStatsSubscriberDelegate? { get set }
@@ -170,7 +161,6 @@ extension OTSubscriberKit: SubscriberType {
     }
 }
 
-// sourcery: OpenTokDelegate = "OTSessionDelegate", OpenTokDelegateOrigClass = "OTSession", OpenTokDelegateReplacementClass = "SessionType"
 protocol SessionTypeDelegate: AnyObject {
     func sessionDidConnect(_ session: SessionType)
     func sessionDidDisconnect(_ session: SessionType)
@@ -184,14 +174,12 @@ protocol SessionTypeDelegate: AnyObject {
     func session(_ session: SessionType, receivedSignalType type: String?, from connection: OTConnection?, with string: String?)
 }
 
-// sourcery: OpenTokDelegate = "OTPublisherDelegate", OpenTokDelegateOrigClass = "OTPublisherKit", OpenTokDelegateReplacementClass = "PublisherType"
 protocol PublisherTypeDelegate: AnyObject {
     func publisher(_ publisher: PublisherType, streamCreated stream: OTStream)
     func publisher(_ publisher: PublisherType, streamDestroyed stream: OTStream)
     func publisher(_ publisher: PublisherType, didFailWithError error: OTError)
 }
 
-// sourcery: OpenTokDelegate = "OTSubscriberDelegate", OpenTokDelegateOrigClass = "OTSubscriberKit", OpenTokDelegateReplacementClass = "SubscriberType"
 protocol SubscriberTypeDelegate: AnyObject {
     func subscriberDidConnect(toStream subscriberKit: SubscriberType)
     func subscriberDidDisconnect(fromStream subscriber: SubscriberType)
@@ -213,7 +201,6 @@ extension OTConnection {
     }
 }
 
-// sourcery: OpenTokDelegate = "OTSubscriberKitNetworkStatsDelegate", OpenTokDelegateOrigClass = "OTSubscriberKit", OpenTokDelegateReplacementClass = "SubscriberType"
 protocol NetworkStatsSubscriberDelegate: OTSubscriberKitNetworkStatsDelegate {
     /**
      * Sent periodically to report audio statistics for the subscriber.
@@ -238,7 +225,6 @@ protocol NetworkStatsSubscriberDelegate: OTSubscriberKitNetworkStatsDelegate {
     func subscriber(_ subscriber: SubscriberType, audioNetworkStatsUpdated stats: OTSubscriberKitAudioNetworkStats)
 }
 
-// sourcery: OpenTokDelegate = "OTPublisherKitNetworkStatsDelegate", OpenTokDelegateOrigClass = "OTPublisherKit", OpenTokDelegateReplacementClass = "PublisherType"
 protocol NetworkStatsPublisherDelegate: OTPublisherKitNetworkStatsDelegate {
     /**
      * Sent periodically to report audio statistics for the publisher.
@@ -262,18 +248,15 @@ protocol NetworkStatsPublisherDelegate: OTPublisherKitNetworkStatsDelegate {
     func publisher(_ publisher: PublisherType, audioNetworkStatsUpdated stats: [OTPublisherKitAudioNetworkStats])
 }
 
-// sourcery: OpenTokDelegate = "OTPublisherKitRtcStatsReportDelegate", OpenTokDelegateOrigClass = "OTPublisherKit", OpenTokDelegateReplacementClass = "PublisherType"
 protocol RTCStatsPublisherDelegate: OTPublisherKitRtcStatsReportDelegate {
     func publisher(_ publisher: PublisherType, rtcStatsReport stats: [OTPublisherRtcStats])
 }
 
-// sourcery: OpenTokDelegate = "OTSubscriberKitRtcStatsReportDelegate", OpenTokDelegateOrigClass = "OTSubscriberKit", OpenTokDelegateReplacementClass = "SubscriberType"
 protocol RTCStatsSubscriberDelegate: OTSubscriberKitRtcStatsReportDelegate {
     func subscriber(_ subscriber: SubscriberType, rtcStatsReport jsonArrayOfReports: String)
 }
 
 extension SessionType {
-    // sourcery: NoMock
     func connect(token: String) throws {
         var error: OTError?
         connect(
@@ -285,7 +268,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func disconnect() throws {
         var error: OTError?
         disconnect(
@@ -296,7 +278,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func signal(type: String?, string: String?, connection: OTConnection?) throws {
         var error: OTError?
         signal(
@@ -310,7 +291,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func publish(publisher: PublisherType) throws {
         var error: OTError?
         publish(
@@ -322,7 +302,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func unpublish(publisher: PublisherType) throws {
         var error: OTError?
         unpublish(
@@ -334,7 +313,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func subscribe(subscriber: SubscriberType) throws {
         var error: OTError?
         subscribe(
@@ -346,7 +324,6 @@ extension SessionType {
             throw error
         }
     }
-    // sourcery: NoMock
     func unsubscribe(subscriber: SubscriberType) throws {
         var error: OTError?
         unsubscribe(

@@ -8,7 +8,6 @@
 
 import Foundation
 
-// sourcery: AutoStubbable
 /// A structure containing information about a health-care provider
 public struct Provider: Codable {
     /// The national identifier for this Provider
@@ -32,14 +31,12 @@ public struct Provider: Codable {
     /// An array of `ProviderVisitTypes` that the provider supports
     public let visitTypes: [ProviderVisitType]
 }
-// sourcery: AutoStubbable
 /// Represents a particular type of visit supported by a `Provider`
 public struct ProviderVisitType: Codable, Equatable {
     /// A unique key for the visit type. This property will be used for filtering and queries
     public let visitTypeId: String
     /// The name of the Visit Type
     public let name: String
-    // sourcery: StubValue = nil
     /// The shortName of the Visit Type
     public let shortName: VisitTypeShortName?
     /// If available, more information about a Visit Type
@@ -58,7 +55,6 @@ public struct ProviderVisitType: Codable, Equatable {
     }
 }
 
-// sourcery: AutoStubbable
 /// A physical building that provides service of one or more health-care providers.
 public struct ProviderDepartment: Codable {
     /// The unique key for this department

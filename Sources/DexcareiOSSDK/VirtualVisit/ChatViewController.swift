@@ -5,14 +5,12 @@ import InputBarAccessoryView
 import MessageKit
 import UIKit
 
-// sourcery:AutoMockable
 protocol ExternalLinkHandler {
     func open(_ url: URL, options: [UIApplication.OpenExternalURLOptionsKey: Any], completionHandler completion: (@MainActor @Sendable (Bool) -> Void)?)
 }
 
 extension UIApplication: ExternalLinkHandler {}
 
-// sourcery: AutoMockable
 protocol ChatView: AnyObject {
     var manager: VirtualVisitManagerType? { get set }
     var navigationTitle: String? { get set }
