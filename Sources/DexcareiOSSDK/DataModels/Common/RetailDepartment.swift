@@ -5,6 +5,7 @@ import Foundation
 @available(*, unavailable, renamed: "RetailDepartment")
 public struct Clinic {}
 
+// sourcery: AutoStubbable
 /// A struct to represent a RetailDepartment.. ex clinic
 public struct RetailDepartment: Equatable, Codable {
     /// The brand that the retail department belongs to
@@ -32,6 +33,7 @@ public struct RetailDepartment: Equatable, Codable {
     /// The unique name for a retail department . Previously `urlName`
     public let departmentName: String
 
+    // sourcery: StubValue = "America/Los_Angeles"
     /// Which timezone string the retail department is in.
     public let timezone: String
     /// The internal departmentId of the retail department
@@ -68,6 +70,7 @@ public struct RetailDepartment: Equatable, Codable {
     }
 }
 
+// sourcery: AutoStubbable
 /// A `RawRepresentable` structure representing a visit type that is supported by Epic.
 ///
 /// - Note: A `VisitType` in this context is simply a `String`. You can exchange a `VisitType` with a string without issue.
@@ -111,6 +114,7 @@ public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
     }
 }
 
+// sourcery: AutoStubbable
 /// A structure containing information about the visit type that is allowed on a clinic
 public struct AllowedVisitType: Equatable, Codable {
     /// A string representing the internal id of the VisitType. Used in some SDK calls.
@@ -119,10 +123,12 @@ public struct AllowedVisitType: Equatable, Codable {
     /// A string describing the Allowed Visit Type
     public let name: String
 
+    // sourcery: StubValue = VisitTypeShortName.illness
     /// A `VisitType` describing the Allowed Visit Type in short form. Used in some SDK calls. `VisitType` is simply a string representation for easiness
     public let shortName: VisitTypeShortName
 }
 
+// sourcery: AutoStubbable
 /// A structure containing a day string (Sunday, Monday, etc) and the start/end times of the day
 public struct OpenDay: Equatable, Codable {
     /// The day of the week in full string (Sunday, Monday, Tuesday)
@@ -131,6 +137,7 @@ public struct OpenDay: Equatable, Codable {
     public let openHours: OpenHours
 }
 
+// sourcery: AutoStubbable
 /// A structure containing information about the opening and closing times of a clinic.
 public struct OpenHours: Equatable, Codable {
     /// The time the clinic opens, in the format HH:mm:ss

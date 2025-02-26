@@ -3,8 +3,10 @@
 
 import Foundation
 
+// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol to create, setup, cancel Virtual Visits
 public protocol AvailabilityService {
+    // sourcery: StubName=getProviderAvailabilityByDepartmentIds, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability on
@@ -13,6 +15,7 @@ public protocol AvailabilityService {
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getProviderAvailabilityByDepartmentIdsAsync, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability on
@@ -21,6 +24,7 @@ public protocol AvailabilityService {
     /// - Returns: `ProviderAvailabilityResults`
     func getProviderAvailability(departmentIds: [String], options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult
 
+    // sourcery: StubName=getProviderAvailabilityByLatLng, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -31,6 +35,7 @@ public protocol AvailabilityService {
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getProviderAvailabilityByLatLngAsync, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -41,6 +46,7 @@ public protocol AvailabilityService {
     /// - Returns: `ProviderAvailabilityResults`
     func getProviderAvailability(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions?) async throws -> ProviderAvailabilityResult
 
+    // sourcery: StubName=getProviderAvailabilityByZipCode, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -50,6 +56,7 @@ public protocol AvailabilityService {
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailability(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions?, success: @escaping (ProviderAvailabilityResult) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getProviderAvailabilityByZipCodeAsync, SkipPromiseExtension
     /// Search for available providers
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -61,6 +68,7 @@ public protocol AvailabilityService {
 
     // MARK: AvailabilitySlots
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByDepartmentIdsAsync, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability slots on
@@ -69,6 +77,7 @@ public protocol AvailabilityService {
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByDepartmentIds, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - departmentIds: An array of department Identifiers to filter availability slots on
@@ -77,6 +86,7 @@ public protocol AvailabilityService {
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailabilitySlots(departmentIds: [String], options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByZipCodeAsync, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -86,6 +96,7 @@ public protocol AvailabilityService {
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByZipCode, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - zipCode: 5 digit zip code of the location you'd like to search
@@ -95,6 +106,7 @@ public protocol AvailabilityService {
     /// - failure: A closure called if any FailedReason errors are returned
     func getProviderAvailabilitySlots(zipCode: String, radius: Int?, options: ProviderAvailabilityOptions, success: @escaping (ProviderSlotAvailability) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByLatLngAsync, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search
@@ -105,6 +117,7 @@ public protocol AvailabilityService {
     /// - Returns: `ProviderSlotAvailability`
     func getProviderAvailabilitySlots(latitude: Double, longitude: Double, radius: Int?, options: ProviderAvailabilityOptions) async throws -> ProviderSlotAvailability
 
+    // sourcery: StubName=getProviderAvailabilitySlotsByLatLng, SkipPromiseExtension
     /// Search for provider aggregated time slots
     /// - Parameters:
     /// - latitude: Latitude of the location you would like to search

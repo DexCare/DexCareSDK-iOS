@@ -8,6 +8,7 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Contains details about a reason for a person to cancel an appointment. These are based on brand
 public struct CancelReason: Equatable, Hashable {
     /// A string that should be displayed to the user

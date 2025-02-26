@@ -3,14 +3,17 @@
 import Foundation
 import UIKit
 
+// sourcery: AutoMockable
 protocol VisitView: AnyObject {
     var manager: VirtualVisitManagerType? { get set }
     var tytoCareManager: TytoCareManagerType? { get set }
 
+    // sourcery: DefaultMockValue = true
     var enabledRemoteCamera: Bool { get set }
     var micButtonImage: UIImage? { get set }
     var cameraButtonImage: UIImage? { get set }
 
+    // sourcery: DefaultMockValue = false
     var showCameraPositionToggle: Bool { get set }
 
     func addLocalView(_ view: UIView, resolutionSize: CGSize)

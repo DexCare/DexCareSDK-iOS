@@ -18,15 +18,22 @@ enum VisitInitialState {
     case waitOffline
 }
 
+// sourcery: AutoMockable
 protocol VirtualVisitManagerType: AnyObject {
+    // sourcery: DefaultMockValue = .empty
     var visitId: String { get }
+    // sourcery: DefaultMockValue = .empty
     var userId: String { get }
+    // sourcery: DefaultMockValue = .empty
     var chatDisplayName: String { get }
 
     var waitingRoomView: WaitingRoomView? { get }
+    // sourcery: DefaultMockValue = InternalVirtualServiceMock()
     var virtualService: InternalVirtualService? { get }
     var waitTimeWorkItem: DispatchWorkItem? { get set }
+    // sourcery: DefaultMockValue = false
     var inWaitingRoom: Bool { get }
+    // sourcery: DefaultMockValue = false
     var forceWaitOfflineHidden: Bool { get set }
 
     var networkStats: VideoCallStatistics? { get }
@@ -104,7 +111,6 @@ class VirtualVisitOpenTokManager: NSObject {
     var sessionWaitingRoomFailedCount = 0
     var sessionVideoFailedCount = 0
     var statsRefreshTime: TimeInterval = 10.0
-    var surveyRequest: URLRequest?
 
     var visitState: VisitSessionState {
         guard
@@ -199,7 +205,6 @@ class VirtualVisitOpenTokManager: NSObject {
         navigator: VirtualVisitNavigatorType,
         customization: CustomizationOptions?,
         tytoCare: TytoCareResponse,
-        surveyRequest: URLRequest?,
         logger: DexcareSDKLogger?,
         serverLogger: LoggingService?,
         completion: @escaping VisitCompletion
@@ -216,7 +221,6 @@ class VirtualVisitOpenTokManager: NSObject {
         self.videoToken = videoToken
         self.initialState = initialState
         self.minimumWaitTimeForWaitOffline = minimumWaitTimeForWaitOffline
-        self.surveyRequest = surveyRequest
         self.navigator = navigator
         self.completion = completion
         self.logger = logger
@@ -280,23 +284,12 @@ class VirtualVisitOpenTokManager: NSObject {
         self.virtualService?.currentVirtualEndTime = Date()
 
         defer {
-            let dismissAndCleanup = { [weak self] in
-                guard let self = self else { return }
-                if dismissView {
-                    self.dismissVisitView(reason: reason)
-                }
-                self.isReconnecting = false
-                self.stopStatsCollection()
-                NotificationCenter.default.removeObserver(self)
+            if dismissView {
+                dismissVisitView(reason: reason)
             }
-
-            if let surveyRequest = surveyRequest, reason == .completed {
-                Task { @MainActor in
-                    let surveyViewController = navigator.showSurvey(request: surveyRequest, onSurveyCompletion: dismissAndCleanup, completion: nil)
-                }
-            } else {
-                dismissAndCleanup()
-            }
+            isReconnecting = false
+            stopStatsCollection()
+            NotificationCenter.default.removeObserver(self)
         }
 
         guard

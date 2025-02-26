@@ -497,6 +497,7 @@ extension VirtualVisitOpenTokManager: SubscriberTypeDelegate {
 
 // MARK: SubscriberFactory
 
+// sourcery: AutoMockable
 class SubscriberFactory {
     func subscriber(stream: OTStream, delegate: OTSubscriberKitDelegate?) -> SubscriberType? {
         return OTSubscriber(stream: stream, delegate: delegate)

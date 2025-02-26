@@ -3,6 +3,7 @@
 import Foundation
 import UIKit
 
+// sourcery: AutoMockable
 protocol PersistsDeviceToken {
     func persist(token: String)
     var persistedToken: String? { get }
@@ -27,6 +28,7 @@ class TokenPersister: PersistsDeviceToken {
     }
 }
 
+// sourcery: AutoMockable
 protocol RemoteNotificationAppRegistering {
     func registerForRemoteNotifications()
 }

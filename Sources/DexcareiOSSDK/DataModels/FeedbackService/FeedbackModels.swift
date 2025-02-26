@@ -43,7 +43,7 @@ public enum VirtualFeedback {
     /// A follow up boolean response
     /// The default question is `"May we contact you to follow-up on your experience?"` see `defaultQuestionString`
     case followUp(question: String?, answer: Bool)
-    
+
     /// The default questions that are used if no question is filled in each case
     public var defaultQuestionString: String {
         switch self {
@@ -55,8 +55,8 @@ public enum VirtualFeedback {
             return "May we contact you to follow-up on your experience?"
         }
     }
-    
-    internal var questionKey: String {
+
+    var questionKey: String {
         switch self {
         case .rating:
             return "rating"
@@ -66,8 +66,8 @@ public enum VirtualFeedback {
             return "followUp"
         }
     }
-    
-    internal var answerKey: String {
+
+    var answerKey: String {
         switch self {
         case .rating:
             return "ratingAnswer"
@@ -77,8 +77,8 @@ public enum VirtualFeedback {
             return "followUpAnswer"
         }
     }
-    
-    internal var type: String {
+
+    var type: String {
         switch self {
         case .rating:
             return "number"
@@ -88,41 +88,41 @@ public enum VirtualFeedback {
             return "boolean"
         }
     }
-    
-    internal var questionString: String {
+
+    var questionString: String {
         switch self {
-        case .rating(let question, _):
+        case let .rating(question, _):
             return question ?? defaultQuestionString
-        case .feedback(let question, _):
+        case let .feedback(question, _):
             return question ?? defaultQuestionString
-        case .followUp(let question, _):
+        case let .followUp(question, _):
             return question ?? defaultQuestionString
         }
     }
-    
-    internal var answerString: String {
+
+    var answerString: String {
         switch self {
-        case .rating( _, let rating):
+        case let .rating(_, rating):
             return "\(rating)"
-        case .feedback(_, let answer):
+        case let .feedback(_, answer):
             return answer
-        case .followUp(_, let answer):
+        case let .followUp(_, answer):
             return "\(answer ? "true" : "false")"
         }
     }
-    
-    internal func toVirtualFeedbackQuestion() -> VirtualFeedbackQuestion {
+
+    func toVirtualFeedbackQuestion() -> VirtualFeedbackQuestion {
         return VirtualFeedbackQuestion(id: self.questionKey, text: questionString, type: self.type, answers: [
-            VirtualFeedbackAnswer(id: self.answerKey, text: .empty, type: self.type, value: answerString)
+            VirtualFeedbackAnswer(id: self.answerKey, text: .empty, type: self.type, value: answerString),
         ])
     }
-    
-    internal func validate() throws {
-        guard case .rating(let question, let rating) = self else {
+
+    func validate() throws {
+        guard case let .rating(question, rating) = self else {
             // only handling rating
             return
         }
-        
+
         if (question ?? "empty").isEmpty {
             throw "Question is missing some text for rating"
         }
@@ -133,10 +133,9 @@ public enum VirtualFeedback {
 }
 
 extension VirtualFeedbackRequest {
-    
     init(patientId: String, startTime: Date?, endTime: Date?, feedbacks: [VirtualFeedback]) {
         let convertedFeedbacks = feedbacks.map { $0.toVirtualFeedbackQuestion() }
-        
+
         self.init(
             appId: Bundle.main.bundleIdentifier ?? "N/A",
             appVersion: DexcareAppVersion.versionWithBuild,
@@ -153,6 +152,5 @@ extension VirtualFeedbackRequest {
             endTime: endTime?.asUTCString() ?? .empty,
             feedbacks: convertedFeedbacks
         )
-        
     }
 }

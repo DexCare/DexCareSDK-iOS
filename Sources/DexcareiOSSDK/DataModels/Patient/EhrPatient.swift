@@ -44,6 +44,7 @@ extension DexcarePatient {
     }
 }
 
+// sourcery: AutoStubbable
 /// The base structure for an EHR Patient
 public struct EhrPatient: Codable, Equatable {
     /// First name of patient (often called Given Name)

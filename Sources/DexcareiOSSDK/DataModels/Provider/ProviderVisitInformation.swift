@@ -8,16 +8,19 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Contains additional information required to book a Provider visit.
 public struct ProviderVisitInformation: Equatable, Codable {
     /// A short description describing the reason for scheduling the provider visit.
     public var visitReason: String
     /// An enum used to determine who the visit should be scheduled for.
     public var patientDeclaration: PatientDeclaration
+    // sourcery: StubValue = "auserEmail@domain.com"
     /// This should always be a non-empty email address which can be used to contact the app user.
     /// - Note: the patient email address as returned by Epic is not guaranteed to be present. For this reason, it is recommended to always collect this information from an alternative source, e.g. Auth0 email.
     public var userEmail: String
 
+    // sourcery: StubValue = "2398432323"
     /// This should always be a non-empty 10 digit phone number which can be used to contact the app user.
     public var contactPhoneNumber: String
 
@@ -30,9 +33,11 @@ public struct ProviderVisitInformation: Equatable, Codable {
     /// Set and used internally by the SDK.
     public var ehrSystemName: String
 
+    // sourcery: StubValue = nil
     /// This should always be filled in when booking a Visit for a dependent. When booking for self, this can be nil.
     public let actorRelationshipToPatient: RelationshipToPatient?
 
+    // sourcery: StubValue = nil
     /// A generic Question + answer
     public var patientQuestions: [PatientQuestion]?
 

@@ -1,16 +1,22 @@
 import Foundation
 
+// sourcery: AutoStubbable
 struct TytoCarePermissions: Equatable {
+    // sourcery: StubValue = .denied
     let location: RequestedPermissionStatus
 
+    // sourcery: StubValue = .denied
     let wifi: RequestedPermissionStatus
 }
 
+// sourcery: AutoMockable
 protocol LocationPermissionChecking: PermissionChecking {}
+// sourcery: AutoMockable
 protocol WifiPermissionChecking: PermissionChecking {
     var currentWifiSSID: String? { get }
 }
 
+// sourcery: AutoMockable
 protocol TytoCarePermissionService {
     var currentWifiSSID: String? { get }
 

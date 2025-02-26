@@ -1,5 +1,6 @@
 import Foundation
 
+// sourcery: AutoStubbable
 /// Contains information about a scheduled Provider visit
 public struct ScheduledProviderVisit: Codable, Equatable {
     /// The identifier of the provider visit.
@@ -9,6 +10,7 @@ public struct ScheduledProviderVisit: Codable, Equatable {
     /// Contains additional information about the visit when the visit is virtual.
     public let virtualMeetingInfo: VirtualMeetingInfo?
 
+    // sourcery: AutoStubbable
     /// Contains additional information about a virtual Provider visit.
     public struct VirtualMeetingInfo: Codable, Equatable {
         /// A URL that can be used to join the virtual visit in zoom/teams.

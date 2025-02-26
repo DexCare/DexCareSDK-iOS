@@ -2,15 +2,19 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 struct VisitSummary: Decodable, Equatable {
     let visitId: String
     let practiceId: String
     let userId: String
+    // sourcery: StubValue = "VisitStatus.requested"
     let status: VisitStatus
+    // sourcery: StubValue = nil
     let tokBoxVisit: TokBoxVisit?
     let tytoCare: TytoCareResponse
 
     // v9
+    // sourcery: StubValue = VirtualVisitModality.virtual
     let modality: VirtualVisitModality? // should be not optional on v9 visits. But if looking up old visits, will be null
     let brand: String?
 
@@ -155,6 +159,7 @@ struct TokBoxTokenResponse: Decodable, Equatable {
     let token: String
 }
 
+// sourcery: AutoStubbable
 struct TytoCareResponse: Decodable, Equatable {
     let enabled: Bool
 }

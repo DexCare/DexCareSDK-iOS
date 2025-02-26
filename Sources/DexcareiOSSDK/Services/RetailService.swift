@@ -2,23 +2,28 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Information needed for scheduling a retail visit other than BillingInformation and RetailTimeSlot
 public struct RetailVisitInformation {
     /// The reason for the retail visit.
     public let visitReason: String
     /// Declares whether the patient being treated is the logged in user or another person.
     public let patientDeclaration: PatientDeclaration
+    // sourcery: StubValue = "auserEmail@domain.com"
     /// This should always be a non-empty email address which can be used to contact the app user.
     /// - Note: the patient email address as returned by Epic is not guaranteed to be present. For this reason, it is recommended to always collect this information from an alternative source, e.g. Auth0 email.
     public let userEmail: String
 
+    // sourcery: StubValue = "2032332323"
     /// This should always be a non-empty 10 digit phone number which can be used to contact the app user.
     public let contactPhoneNumber: String
 
+    // sourcery: StubValue = nil
     /// This should always be filled in when booking a Retail Visit for a dependent. When booking for self, this can be nil.
     /// - Note: This is to replace the `PatientDemographic.actorRelationshipToPatient`
     public var actorRelationshipToPatient: RelationshipToPatient?
 
+    // sourcery: StubValue = nil
     /// A generic Question + answer
     public var patientQuestions: [PatientQuestion]?
 
@@ -70,6 +75,7 @@ public enum RelationshipToPatient: String, Codable, Equatable {
 
 public typealias ScheduleRetailAppointmentFailure = (ScheduleRetailAppointmentFailedReason) -> Void
 
+// sourcery: AutoMockable, ProtocolPromiseExtension
 /// The main protocol used to call retail visit services
 public protocol RetailService {
     /// Returns a list of clinics that are associated with retail visits for the given brand
@@ -121,6 +127,7 @@ public protocol RetailService {
     )
 
     // Async Functions
+    // sourcery: StubName=getClinicsAsync, SkipPromiseExtension
     /// Returns a list of clinics that are associated with retail visits for the given brand
     /// - Parameters:
     ///    - brand: Brand name of clinics to request
@@ -128,6 +135,7 @@ public protocol RetailService {
     /// - Returns: An array of `Clinic` objects
     func getRetailDepartments(brand: String) async throws -> [RetailDepartment]
 
+    // sourcery: StubName=getTimeSlotsAsync, SkipPromiseExtension
     /// Returns a `ClinicTimeSlot` object that have information about a particular date range with `TimeSlot`
     /// - Parameters:
     ///    - departmentName: the `Clinic.departmentName` property that was retrieved with `func getRetailDepartments(brand: String, ...)`
@@ -136,6 +144,7 @@ public protocol RetailService {
     /// - Returns: a `ClinicTimeSlot` object
     func getTimeSlots(departmentName: String, visitTypeShortName: VisitTypeShortName?) async throws -> RetailAppointmentTimeSlot
 
+    // sourcery: StubName=scheduleRetailAppointmentAsync, SkipPromiseExtension
     /// Schedules an appointment for a retail visit.
     ///
     /// When scheduling for the logged-in user, the `actorDexCarePatient` can be nil. When scheduling for a dependent, the `actorDexCarePatient` must be the `DexcarePatient` object of the logged-in user, and the`patientDexCarePatient` must be the dependent. If you do not have a `DexcarePatient` object for the dependent, you can call, `PatientService.findOrCreateDependentPatient` to create one in the system first.
@@ -160,6 +169,7 @@ public protocol RetailService {
         actorDexCarePatient: DexcarePatient?
     ) async throws -> String
 
+    // sourcery: StubName=getRetailDepartmentAsync, SkipPromiseExtension
     /// Returns a list of clinics that are associated with retail visits for the given brand
     /// - Parameters:
     ///    - departmentName: `RetailDepartment.departmentName` value

@@ -5,6 +5,7 @@ import Foundation
 @available(*, unavailable, renamed: "RetailAppointmentTimeSlot")
 public struct ClinicTimeSlot {}
 
+// sourcery: AutoStubbable
 /// Represents a grouping of time slots for a particular Retail clinic
 public struct RetailAppointmentTimeSlot: Equatable, Codable {
     /// An identifier representing the Clinic for this time slot. Guaranteed to be unique in an ehr system, but not guaranteed to be unique across multiple ehr systems.

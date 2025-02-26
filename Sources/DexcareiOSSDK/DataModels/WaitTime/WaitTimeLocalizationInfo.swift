@@ -8,8 +8,10 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Information that allows to localize the estimated wait time
 public struct WaitTimeLocalizationInfo: Decodable, Equatable {
+    // sourcery: StubValue = .virtual
     /// The modality of the visit. Can be used to keep separate localization options per modality
     public var modality: VirtualVisitModality
     /// The key of a string in which the estimatedWaitTimeMessage is based on.

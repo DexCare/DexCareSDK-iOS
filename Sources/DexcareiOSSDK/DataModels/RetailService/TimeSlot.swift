@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Represents an available time for an appointment.
 public struct TimeSlot: Equatable, Codable {
     /// An unique identifier for this time slot

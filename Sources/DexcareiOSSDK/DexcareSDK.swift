@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// A structure defining a DexcareSDK Environment
 public struct Environment {
     /// the base url for any calls to the fhirOrch service
@@ -22,6 +23,7 @@ public struct Environment {
     }
 }
 
+// sourcery: AutoStubbable
 /// Information to set up the Virtual Visit Service
 public struct VirtualVisitConfiguration {
     /// AppId used to register for push notifications for the Virtual Visit Service
@@ -42,6 +44,7 @@ public struct VirtualVisitConfiguration {
     }
 }
 
+// sourcery: AutoStubbable
 /// The main configuration structure used in initializing the DexcareSDK
 public struct DexcareConfiguration {
     /// Specific URL's and Keys are setup here
@@ -53,10 +56,12 @@ public struct DexcareConfiguration {
     public let domain: String
 
     /// Used to display information inside the console.
+    // sourcery: StubValue = nil
     public let logger: DexcareSDKLogger?
 
     /// Used to log various info to the server on certain cases.
     // Keeping it in DexcareConfig so that it can be easier used across services.
+    // sourcery: StubValue = nil
     var serverLogger: LoggingService?
 
     public init(
@@ -87,8 +92,10 @@ public struct DexcareConfiguration {
     }
 }
 
+// sourcery: AutoMockable, MockInitializerBody = "super.init(configuration: .stub())"
 /// The main class to initialize to use the DexCare Mobile SDK.
 public class DexcareSDK {
+    // sourcery: MockProperty = PatientServiceMock()
     /// An instance of the `PatientService` protocol
     public var patientService: PatientService {
         return internalPatientService
@@ -96,6 +103,7 @@ public class DexcareSDK {
 
     var internalPatientService: PatientServiceSDK
 
+    // sourcery: MockProperty = AppointmentServiceMock()
     /// An instance of the `AppointmentService` protocol
     public var appointmentService: AppointmentService {
         return internalAppointmentService
@@ -103,6 +111,7 @@ public class DexcareSDK {
 
     var internalAppointmentService: AppointmentServiceSDK
 
+    // sourcery: MockProperty = VirtualServiceMock()
     /// An instance of the `VirtualService` protocol
     public var virtualService: VirtualService {
         return internalVirtualService
@@ -110,6 +119,7 @@ public class DexcareSDK {
 
     var internalVirtualService: VirtualServiceSDK
 
+    // sourcery: MockProperty = RetailServiceMock()
     /// An instance of the `RetailService` protocol
     public var retailService: RetailService {
         return internalRetailService
@@ -117,6 +127,7 @@ public class DexcareSDK {
 
     var internalRetailService: RetailServiceSDK
 
+    // sourcery: MockProperty = PracticeServiceMock()
     /// An instance of the `PracticeService` protocol
     public var practiceService: PracticeService {
         return internalPracticeService
@@ -124,6 +135,7 @@ public class DexcareSDK {
 
     var internalPracticeService: PracticeServiceSDK
 
+    // sourcery: MockProperty = ProviderServiceMock()
     /// An instance of the `ProviderService` protocol
     public var providerService: ProviderService {
         return internalProviderService
@@ -131,6 +143,7 @@ public class DexcareSDK {
 
     var internalProviderService: ProviderServiceSDK
 
+    // sourcery: MockProperty = PaymentServiceMock()
     /// An instance of the `PaymentService` protocol
     public var paymentService: PaymentService {
         return internalPaymentService
@@ -138,6 +151,7 @@ public class DexcareSDK {
 
     var internalPaymentService: PaymentServiceSDK
 
+    // sourcery: MockProperty = AvailabilityServiceMock()
     /// An instance of the `AvailabilityService` protocol
     public var availabilityService: AvailabilityService {
         return internalAvailabilityService
@@ -168,6 +182,7 @@ public class DexcareSDK {
     private var networkObserver: NotificationObserver?
     var configuration: DexcareConfiguration
 
+    // sourcery: MockProperty = PantryServiceMock()
     var pantryService: PantryService {
         return internalPantryService
     }
@@ -204,6 +219,7 @@ public class DexcareSDK {
         internalPantryService.getValidationConfigs()
     }
 
+    // sourcery: NoMock
     /// Sets the bearer token for the majority of subsequent calls to the dexcare platform.
     ///
     /// A valid 0Auth2 token is required for the majority of the SDK calls.
@@ -228,6 +244,7 @@ public class DexcareSDK {
         internalVirtualService.virtualVisitManager = nil
     }
 
+    // sourcery: NoMock
     /// Gets the latest status of the DexCare services
     ///
     /// `DexcareStatus` can be used to block certain functions of your app if there is a major incident, or have warnings about possible issues. The DexcareSDK platform does not use this status for any blocking calls.
@@ -238,6 +255,7 @@ public class DexcareSDK {
     public func getDexcareStatus(success: @escaping (DexcareStatus) -> Void, failure: @escaping (FailedReason) -> Void) {
         pantryService.getStatusPage(success: success, failure: failure)
     }
+    // sourcery: NoMock
     public func getDexcareStatus() async throws -> DexcareStatus {
         return try await pantryService.getStatusPage()
     }
@@ -263,6 +281,7 @@ public class DexcareSDK {
         internalAvailabilityService.asyncErrorHandlers = [tokenRefreshErrorHandlerAsync]
     }
 
+    // sourcery: NoMock
     static func fhirOrchRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
         var modifiers = standardRequestModifiers(configuration: configuration)
 
@@ -272,6 +291,7 @@ public class DexcareSDK {
         return modifiers
     }
 
+    // sourcery: NoMock
     static func standardRequestModifiers(configuration: DexcareConfiguration) -> [NetworkRequestModifier] {
         return [
             // Add a `User-Agent` header to identify brand, version, platform etc
@@ -310,6 +330,7 @@ public class DexcareSDK {
 
 public typealias TokenRequestCallback = (String?) -> Void
 
+// sourcery: AutoMockable
 /// The RefreshTokenDelegate protocol defines methods that allow you to handle any 401 errors that may return from network calls.
 public protocol RefreshTokenDelegate: AnyObject {
     /// Asks the refreshTokenDelegate for a new OAuth2 token

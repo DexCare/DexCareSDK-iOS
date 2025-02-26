@@ -2,10 +2,12 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// The basic information about a patient is stored in PatientDemographics
 public struct PatientDemographics: Codable, Equatable {
     /// Information about the patient name
     public var name: HumanName
+    // sourcery: StubValue=[Address.stub()]
     /// Addresses of the patient.
     public var addresses: [Address]
     /// The patient's birthdate
@@ -22,11 +24,14 @@ public struct PatientDemographics: Codable, Equatable {
     public var ehrSystemName: String?
     /// last 4 digits of ssn
     public var last4SSN: String
+    // sourcery: StubValue="2042323232"
     /// A optional home phone number if exits
     public var homePhone: String?
 
+    // sourcery: StubValue = "2042323232"
     /// A mobile phone number if available
     public var mobilePhone: String?
+    // sourcery: StubValue = "2042323232"
     /// A work phone number if available
     public var workPhone: String?
 

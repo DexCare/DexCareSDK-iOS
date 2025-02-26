@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// Represents a single day of available time slots.
 public struct ScheduleDay: Equatable, Codable {
     /// The date the time slots represent

@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol to get Virtual Practice Information
 public protocol PracticeService {
     /// Fetches the `VirtualPractice` information for a specific id
@@ -13,6 +14,7 @@ public protocol PracticeService {
     /// - Parameter failure: A closure called if any FailedReason errors are returned
     func getVirtualPractice(practiceId: String, success: @escaping (VirtualPractice) -> Void, failure: @escaping (FailedReason) -> Void)
 
+    // sourcery: StubName=getVirtualPracticeAsync, SkipPromiseExtension
     /// Fetches the `VirtualPractice` information for a specific id
     ///
     /// `VirtualPractices` replace `Regions` going forward.

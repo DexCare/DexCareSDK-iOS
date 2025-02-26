@@ -8,6 +8,7 @@
 
 import Foundation
 
+// sourcery: AutoMockable, ProtocolPromiseExtension
 /// Base Protocol to retrieve information about providers, and schedule provider visits
 public protocol ProviderService {
     /// Fetches information about a specified health-care provider.
@@ -25,6 +26,7 @@ public protocol ProviderService {
     /// - Parameter endDate - The end date for the range of time slots to return. **Note:** `endDate` must be at >= `startDate`. If nil is passed in, the SDK will default to Today + 7 days ahead
     /// - Parameter success: A closure called with the `ProviderTimeSlot` information
     /// - Parameter failure: A closure called if any FailedReason errors are returned
+    // sourcery: StubName=getProviderTimeSlots
     func getProviderTimeSlots(providerNationalId: String, visitTypeShortName: VisitTypeShortName, startDate: Date?, endDate: Date?, success: @escaping (ProviderTimeSlot) -> Void, failure: @escaping (FailedReason) -> Void)
 
     /// Fetches the maximum number of days beyond Today that `getProviderTimeSlots` can return results for.
@@ -48,6 +50,7 @@ public protocol ProviderService {
     func scheduleProviderVisit(paymentMethod: PaymentMethod, providerVisitInformation: ProviderVisitInformation, timeSlot: TimeSlot, ehrSystemName: String, patientDexCarePatient: DexcarePatient, actorDexCarePatient: DexcarePatient?, success: @escaping (ScheduledProviderVisit) -> Void, failure: @escaping (ScheduleProviderAppointmentFailedReason) -> Void)
 
     // Async
+    // sourcery: StubName=getProviderAsync, SkipPromiseExtension
     /// Fetches information about a specified health-care provider.
     ///
     /// - Parameter providerNationalId: The national identifier of the provider to retrieve information about. This identifier should be retrieved from a source external to DexCare, specific to your health system.
@@ -55,6 +58,7 @@ public protocol ProviderService {
     /// - Returns:`Provider` information
     func getProvider(providerNationalId: String) async throws -> Provider
 
+    // sourcery: StubName=getProviderTimeSlotsAsync, SkipPromiseExtension
     /// Fetches upcoming available time slots for a given provider.
     ///
     /// - Parameter providerNationalId: The national identifier of the provider to retrieve information about. This identifier should be retrieved from a source external to DexCare, specific to your health system.
@@ -65,6 +69,7 @@ public protocol ProviderService {
     /// - Returns:`ProviderTimeSlot` information
     func getProviderTimeSlots(providerNationalId: String, visitTypeShortName: VisitTypeShortName, startDate: Date?, endDate: Date?) async throws -> ProviderTimeSlot
 
+    // sourcery: StubName=getMaxLookaheadDaysAsync, SkipPromiseExtension
     /// Fetches the maximum number of days beyond Today that `getProviderTimeSlots` can return results for.
     ///
     /// - Parameter visitTypeShortName: The `shortName` of the `ProviderVisitType` to check the max lookahead days for.
@@ -73,6 +78,7 @@ public protocol ProviderService {
     /// - Returns: The maximum number of days beyond Today that `getProviderTimeSlots` can return results for. The SDK will not use this value internally, but is for you to use for the `endDate` property of `getProviderTimeSlots`.
     func getMaxLookaheadDays(visitTypeShortName: VisitTypeShortName, ehrSystemName: String) async throws -> Int
 
+    // sourcery: StubName=scheduleProviderVisitAsync, SkipPromiseExtension
     /// Schedules a visit with a Provider.
     ///
     /// - Parameters:

@@ -1,10 +1,14 @@
 // Copyright © 2019 DexCare. All rights reserved.
 
+// sourcery: AutoStubbable
 struct Permissions: Equatable {
+    // sourcery: StubValue = .denied
     let camera: RequestedPermissionStatus
 
+    // sourcery: StubValue = .denied
     let microphone: RequestedPermissionStatus
 
+    // sourcery: StubValue = .denied
     let notifications: RequestedPermissionStatus
 
     var granted: Bool {
@@ -34,10 +38,14 @@ enum RequestedPermissionStatus: Equatable {
 
 typealias PermissionRequestCallback = (RequestedPermissionStatus) -> Void
 
+// sourcery: AutoMockable
 protocol PermissionChecking {
     func requestPermission() async -> RequestedPermissionStatus
 }
 
+// sourcery: AutoMockable
 protocol MicrophonePermissionChecking: PermissionChecking {}
+// sourcery: AutoMockable
 protocol VideoCameraPermissionChecking: PermissionChecking {}
+// sourcery: AutoMockable
 protocol NotificationPermissionChecking: PermissionChecking {}

@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoStubbable
 /// The base structure for a Dexcare Patient
 public struct DexcarePatient: Codable, Equatable {
     /// A unique guid for a patient

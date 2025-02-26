@@ -16,10 +16,12 @@ enum Constants {
 }
 
 extension VirtualVisitOpenTokManager {
+    // sourcery: NoMock
     func loadWaitTime() {
         loadWaitTime(firstDelayInterval: Constants.firstDelayInterval)
     }
 
+    // sourcery: StubName = loadWaitTimeFirstDelayInterval
     func loadWaitTime(firstDelayInterval: TimeInterval) {
         waitingRoomView?.loadInitialWaitTime(waitTimeMessage: Constants.waitTimeDefaultMessage, estimateMessage: currentEstimateMessage)
 
@@ -29,6 +31,7 @@ extension VirtualVisitOpenTokManager {
         }
     }
 
+    // sourcery: DefaultMockValue = .empty
     private var currentEstimateMessage: String {
         return Constants.estimateMessage + " " + Date().asTimestampString()
     }

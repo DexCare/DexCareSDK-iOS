@@ -2,6 +2,7 @@
 
 import Foundation
 
+// sourcery: AutoMockable
 protocol DevicePermissionService {
     func requestPermissions(withVisitType visitType: VirtualVisitTypeName) async -> Permissions
 }
