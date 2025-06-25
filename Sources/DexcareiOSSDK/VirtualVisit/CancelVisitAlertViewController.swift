@@ -82,21 +82,11 @@ struct CancelVisitView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 
-            Picker("", selection: $selectedReason) {
-                ForEach(reasons, id: \.code) { reason in
-                    Text(reason.displayText).tag(reason)
-                }
+            if #available(iOS 14.0, *) {
+                reasonPickerWithMenuStyle
+            } else {
+                reasonPickerDefault
             }
-            .frame(maxWidth: .infinity)
-            .pickerStyle(MenuPickerStyle())
-            .padding(6)
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color(UIColor.buttonColor), lineWidth: 1)
-            )
-            .cornerRadius(10)
-            .foregroundColor(Color(UIColor.buttonColor))
-            .accentColor(Color(UIColor.buttonColor))
 
             Button(action: {
                 onReasonSelected(selectedReason)
@@ -126,5 +116,40 @@ struct CancelVisitView: View {
             Spacer()
         }
         .padding()
+    }
+    
+    private var reasonPickerWithMenuStyle: some View {
+        Picker("", selection: $selectedReason) {
+            ForEach(reasons, id: \.code) { reason in
+                Text(reason.displayText).tag(reason)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .pickerStyle(MenuPickerStyle())
+        .padding(6)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color(UIColor.buttonColor), lineWidth: 1)
+        )
+        .cornerRadius(10)
+        .foregroundColor(Color(UIColor.buttonColor))
+        .accentColor(Color(UIColor.buttonColor))
+    }
+
+    private var reasonPickerDefault: some View {
+        Picker("", selection: $selectedReason) {
+            ForEach(reasons, id: \.code) { reason in
+                Text(reason.displayText).tag(reason)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(6)
+        .overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color(UIColor.buttonColor), lineWidth: 1)
+        )
+        .cornerRadius(10)
+        .foregroundColor(Color(UIColor.buttonColor))
+        .accentColor(Color(UIColor.buttonColor))
     }
 }
