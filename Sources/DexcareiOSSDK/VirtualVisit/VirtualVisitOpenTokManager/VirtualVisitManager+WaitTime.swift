@@ -116,7 +116,7 @@ extension VirtualVisitOpenTokManager {
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .full
         formatter.calendar = Calendar.current
-
+        
         let formatterMin = DateComponentsFormatter()
         formatterMin.allowedUnits = [.hour, .minute]
         formatterMin.unitsStyle = .short

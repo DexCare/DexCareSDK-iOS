@@ -1,5 +1,9 @@
 # Release Notes
 
+## 9.3.3
+### Bug fixes
+- Fixed `MenuPickerStyle` being incompatible with iOS versions older than 14.0.
+
 ## 9.3.2
 ### New
 - Made `postFeedback` and feedback data models available again. 
