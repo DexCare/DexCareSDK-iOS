@@ -7,16 +7,16 @@ protocol VisitView: AnyObject {
     var manager: VirtualVisitManagerType? { get set }
     var tytoCareManager: TytoCareManagerType? { get set }
 
-    var enabledRemoteCamera: Bool { get set }
     var micButtonImage: UIImage? { get set }
     var cameraButtonImage: UIImage? { get set }
 
     var showCameraPositionToggle: Bool { get set }
 
     func addLocalView(_ view: UIView, resolutionSize: CGSize)
-    func addRemoteView(_ view: UIView, resolutionSize: CGSize)
+    func addRemoteView(_ view: UIView, _ label: UILabel, resolutionSize: CGSize)
     func removeLocalView()
     func removeRemoteView()
+    func removeSpecificRemoteView(_ view: UIView)
 }
 
 class VisitViewController: UIViewController, VisitView {
@@ -26,12 +26,11 @@ class VisitViewController: UIViewController, VisitView {
             setupTytoCare()
         }
     }
-
+    
     @IBOutlet weak var localViewContainer: UIView!
     @IBOutlet weak var localView: UIView!
-    @IBOutlet weak var remoteView: UIView!
-    @IBOutlet weak var remoteVideoDisabledLabel: UILabel!
     @IBOutlet weak var hangupButton: UIButton!
+    @IBOutlet weak var remoteStackView: UIStackView!
     @IBOutlet weak var micButton: UIButton!
     @IBOutlet weak var cameraButton: UIButton!
     @IBOutlet weak var chatButton: UIButton!
@@ -56,13 +55,6 @@ class VisitViewController: UIViewController, VisitView {
     private enum Constants {
         static var animationDuration = 0.25
         static var localViewWidth: CGFloat = 90.0
-    }
-
-    var enabledRemoteCamera: Bool = true {
-        didSet {
-            remoteVideoDisabledLabel.isHidden = enabledRemoteCamera
-            remoteView.isHidden = !enabledRemoteCamera
-        }
     }
 
     var micButtonImage: UIImage? {
@@ -125,7 +117,6 @@ class VisitViewController: UIViewController, VisitView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        enabledRemoteCamera = true
 
         micButton.backgroundColor = .buttonColor
         cameraButton.backgroundColor = .buttonColor
@@ -149,9 +140,37 @@ class VisitViewController: UIViewController, VisitView {
         resizeStream(size: resolutionSize, containerHeight: localViewContainer.bounds.height, widthConstraint: localWidthConstraint)
     }
 
-    func addRemoteView(_ view: UIView, resolutionSize: CGSize) {
-        view.addAndClampToEdges(of: remoteView)
-        resizeStream(size: resolutionSize, containerHeight: view.bounds.height, widthConstraint: remoteWidthConstraint)
+    func addRemoteView(_ view: UIView, _ label: UILabel, resolutionSize: CGSize) {
+        let container = UIView()
+        container.translatesAutoresizingMaskIntoConstraints = false
+        container.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: container.topAnchor),
+            view.bottomAnchor.constraint(equalTo: container.bottomAnchor),
+            view.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: container.trailingAnchor)
+        ])
+        label.text = "This user's video has been temporarily turned off."
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        label.textColor = .white
+        label.isHidden = true
+
+        container.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            label.centerYAnchor.constraint(equalTo: container.centerYAnchor)
+        ])
+
+        remoteStackView.addArrangedSubview(container)
+        
+        resizeStream(
+          size: resolutionSize,
+          containerHeight: view.bounds.height,
+          widthConstraint: remoteWidthConstraint
+        )
     }
 
     func removeLocalView() {
@@ -159,7 +178,16 @@ class VisitViewController: UIViewController, VisitView {
     }
 
     func removeRemoteView() {
-        remoteView.subviews.forEach { $0.removeFromSuperview() }
+        remoteStackView.arrangedSubviews.forEach {
+            remoteStackView.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        }
+    }
+    
+    func removeSpecificRemoteView(_ view: UIView) {
+        guard let stack = remoteStackView, let container = view.superview else { return }
+        stack.removeArrangedSubview(container)
+        container.removeFromSuperview()
     }
 
     func setupTytoCare() {

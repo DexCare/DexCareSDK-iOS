@@ -1,5 +1,7 @@
-// Generated using Sourcery 1.7.0 — https://github.com/krzysztofzablocki/Sourcery
+// Generated using Sourcery 2.2.5 — https://github.com/krzysztofzablocki/Sourcery
 // DO NOT EDIT
+
+
 
 // swiftlint:disable all
 import OpenTok
@@ -14,6 +16,7 @@ extension VirtualVisitOpenTokManager: OTPublisherKitNetworkStatsDelegate {
         let replacement: PublisherType = publisher
         self.publisher(replacement, audioNetworkStatsUpdated: stats)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTSubscriberKitNetworkStatsDelegate {
@@ -26,6 +29,7 @@ extension VirtualVisitOpenTokManager: OTSubscriberKitNetworkStatsDelegate {
         let replacement: SubscriberType = subscriber
         self.subscriber(replacement, audioNetworkStatsUpdated: stats)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTPublisherDelegate {
@@ -43,6 +47,7 @@ extension VirtualVisitOpenTokManager: OTPublisherDelegate {
         let replacement: PublisherType = publisher
         self.publisher(replacement, didFailWithError: error)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTPublisherKitRtcStatsReportDelegate {
@@ -50,6 +55,7 @@ extension VirtualVisitOpenTokManager: OTPublisherKitRtcStatsReportDelegate {
         let replacement: PublisherType = publisher
         self.publisher(replacement, rtcStatsReport: stats)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTSubscriberKitRtcStatsReportDelegate {
@@ -57,6 +63,7 @@ extension VirtualVisitOpenTokManager: OTSubscriberKitRtcStatsReportDelegate {
         let replacement: SubscriberType = subscriber
         self.subscriber(replacement, rtcStatsReport: jsonArrayOfReports)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTSessionDelegate {
@@ -109,6 +116,7 @@ extension VirtualVisitOpenTokManager: OTSessionDelegate {
         let replacement: SessionType = session
         self.session(replacement, receivedSignalType: type, from: connection, with: string)
     }
+
 }
 
 extension VirtualVisitOpenTokManager: OTSubscriberDelegate {
@@ -151,4 +159,6 @@ extension VirtualVisitOpenTokManager: OTSubscriberDelegate {
         let replacement: SubscriberType = subscriber
         self.subscriber(replacement, didFailWithError: error)
     }
+
 }
+

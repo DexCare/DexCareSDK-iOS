@@ -1,6 +1,7 @@
 // Copyright © 2019 DexCare. All rights reserved.
 
 import Foundation
+import SwiftUI
 import UIKit
 
 public typealias VisitCompletion = (VisitCompletionReason) -> Void
@@ -39,14 +40,6 @@ public protocol VirtualService {
     /// - Parameters:
     ///   - token: a device token that is returned by an iOS device in AppDelegate.application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data)
     func updatePushNotificationDeviceToken(token: Data)
-
-    /// Submit the patient feedback questions and answers for a virtual visit.
-    ///
-    /// - Parameter feedbacks: An array of `VirtualFeedback` enums, each representing a single feedback question and answer asked to the patient.
-    /// - Parameter success: closure when the feedback has been posted successfully
-    /// - Parameter failure: closure when the feedback posting failed
-    /// - Precondition: Must call `visitService.startVirtualVisit` or `visitService.resumeVirtualVisit` before calling this method
-    func postFeedback(feedbacks: [VirtualFeedback], success: @escaping () -> Void, failure: @escaping (FailedReason) -> Void)
 
     /// Sets the delegate to invoke various events allowing you to capture analytics.
     /// - Note: See `VirtualEventDelegate` for more information
@@ -172,15 +165,6 @@ public protocol VirtualService {
 
     // MARK: ASYNC FUNCTIONS
 
-    /// Submit the patient feedback questions and answers for a virtual visit.
-    ///
-    /// - Parameters:
-    /// - feedbacks: An array of `VirtualFeedback` enums, each representing a single feedback question and answer asked to the patient.
-    /// - Throws:`FailedReason`
-    /// - Returns:When the feedback has been posted successfully
-    /// - Precondition: Must call `visitService.startVirtualVisit` or `visitService.resumeVirtualVisit` before calling this method
-    func postFeedback(feedbacks: [VirtualFeedback]) async throws
-
     /// Cancels an existing valid virtual visit.
     /// - Parameters:
     ///   - visitId:The visitId that you wish to cancel
@@ -285,6 +269,7 @@ public protocol VirtualService {
     /// - Throws: `FailedReason`
     /// - Returns: `WaitTimeAvailability` array
     func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability]
+    
 }
 
 protocol InternalVirtualService: AnyObject {
@@ -468,12 +453,6 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
 
         func deviceNotificationUnregister(token: String, appId: String) -> URLRequest {
             return dexcareRoute.lionTowerBuilder.delete("/api/6/mobile/app/\(appId)/device/\(token)")
-        }
-
-        // MARK: - Feedback
-
-        func feedback(visitId: String) -> URLRequest {
-            return dexcareRoute.lionTowerBuilder.post("/api/6/visit/\(visitId)/feedback")
         }
 
         // MARK: Tytocare PairDevice
@@ -833,7 +812,7 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         do {
             waitingTokenResponse = try await asyncNetworkService.requestObject(waitingTokenURL)
             videoTokenResponse = try await asyncNetworkService.requestObject(videoTokenURL)
-            let blisseyConfigs: BlisseyConfigs? = try? await asyncNetworkService.requestObject(blisseyConfigsURL)
+            blisseyConfigs = try? await asyncNetworkService.requestObject(blisseyConfigsURL)
             minimumWaitTimeForWaitOffline = blisseyConfigs?.minimumWaitTimeForWaitOffline ?? .max
         } catch {
             throw VirtualVisitFailedReason.from(error: error)
@@ -864,6 +843,7 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
             ),
             customization: self.customizationOptions,
             tytoCare: tytoCare,
+            surveyRequest: createSurveyURLRequest(blisseyConfigs: blisseyConfigs, visitId: response.visitId, brand: response.brand),
             logger: self.dexcareConfiguration.logger,
             serverLogger: self.dexcareConfiguration.serverLogger,
             completion: { [weak self] reason in
@@ -873,11 +853,6 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
                     self?.currentVirtualPatientId = response.userId
                 }
                 self?.dexcareConfiguration.serverLogger?.visitId = nil
-
-                // send back on main thread
-                DispatchQueue.main.async {
-                    onCompletion(reason)
-                }
             }
         )
         self.virtualVisitManager?.forceWaitOfflineHidden = response.status == .caregiverAssigned
@@ -888,6 +863,25 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         self.setupNotificationDeviceToken(userId: response.userId)
 
         return (response.visitId, response.modality)
+    }
+
+    func createSurveyURLRequest(blisseyConfigs: BlisseyConfigs?, visitId: String, brand: String?) -> URLRequest? {
+        guard
+            let surveyURLString = blisseyConfigs?.blisseyPostConsultUrl,
+            let brand = brand,
+            brand.isNotEmpty
+        else {
+            return nil
+        }
+
+        let urlString = surveyURLString.replacingPlaceholders(with: ["visitId": visitId, "brand": brand])
+        guard let url = URL(string: urlString) else {
+            return nil
+        }
+
+        var request = URLRequest(url: url)
+        request.addValue("Bearer \(authenticationToken)", forHTTPHeaderField: "Authorization")
+        return request
     }
 
     func updatePushNotificationDeviceToken(_ token: String) {
@@ -910,56 +904,6 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         let tokenString = token.tokenHexStringValue
 
         updatePushNotificationDeviceToken(tokenString)
-    }
-
-    func postFeedback(feedbacks: [VirtualFeedback], success: @escaping () -> Void, failure: @escaping (FailedReason) -> Void) {
-        Task { @MainActor in
-            do {
-                try await postFeedback(feedbacks: feedbacks)
-                success()
-            } catch let error as FailedReason {
-                failure(error)
-            }
-        }
-    }
-
-    func postFeedback(feedbacks: [VirtualFeedback]) async throws {
-        guard let patientId = currentVirtualPatientId else {
-            let error = FailedReason.missingInformation(message: "Could not find existing patientId. You must have completed a successful virtual visit in order to post a feedback. Failed to post feedback")
-            dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: error)
-            throw error
-        }
-
-        guard let visitId = currentVirtualVisitId else {
-            let error = FailedReason.missingInformation(message: "Could not find previous virtual visit. You must have completed a successful virtual visit in order to post a feedback. Failed to post feedback")
-            dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: error)
-            throw error
-        }
-
-        do {
-            try feedbacks.forEach { feedback in
-                try feedback.validate()
-            }
-        } catch {
-            throw FailedReason.missingInformation(message: String(describing: error))
-        }
-
-        let feedbackData = VirtualFeedbackRequest(patientId: patientId, startTime: currentVirtualStartTime, endTime: currentVirtualEndTime, feedbacks: feedbacks)
-
-        let urlRequest = routes.feedback(visitId: visitId).body(json: feedbackData).token(authenticationToken)
-        let requestTask = Task { () in
-            return try await asyncNetworkService.requestVoid(urlRequest)
-        }
-        let result = await requestTask.result
-
-        switch result {
-        case let .failure(error):
-            dexcareConfiguration.logger?.log("Could not post feedback: \(error.localizedDescription)")
-            dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: error, data: ["visitId": visitId, "patientGuid": patientId])
-            throw FailedReason.from(error: error)
-        case .success:
-            return
-        }
     }
 
     func getEstimatedWaitTime(visitId: String, success: @escaping (WaitTime) -> Void, failure: @escaping (WaitTimeFailedReason) -> Void) {

@@ -80,7 +80,7 @@ class AppointmentServiceSDK: AppointmentService {
         let dexcareRoute: DexcareRoute
 
         func clinic(departmentName: String) -> URLRequest {
-            return dexcareRoute.fhirBuilder.get("/v1/departments/\(departmentName)")
+            return dexcareRoute.fhirBuilder.get("/v4/departments/\(departmentName)/departmentInfo")
         }
 
         // MARK: Appointments

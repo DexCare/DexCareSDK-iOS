@@ -46,6 +46,8 @@ public struct RetailDepartment: Equatable, Codable {
     public let allowedVisitTypes: [AllowedVisitType]
     /// A list of days with times that the retail department is open
     public let openDays: [OpenDay]
+    /// A list of providers associated with the department
+    public let providers: [RetailProvider]
 
     // Codable
     enum CodingKeys: String, CodingKey {
@@ -65,6 +67,7 @@ public struct RetailDepartment: Equatable, Codable {
         case instanceId = "instanceId"
         case allowedVisitTypes = "allowedVisitTypes"
         case openDays = "openDays"
+        case providers = "providers"
     }
 }
 
@@ -111,6 +114,12 @@ public struct VisitTypeShortName: RawRepresentable, Codable, Equatable {
     }
 }
 
+public enum AgeUnit: String, Codable, Equatable {
+    case year = "YEAR"
+    case month = "MONTH"
+    case day = "DAY"
+}
+
 /// A structure containing information about the visit type that is allowed on a clinic
 public struct AllowedVisitType: Equatable, Codable {
     /// A string representing the internal id of the VisitType. Used in some SDK calls.
@@ -121,6 +130,15 @@ public struct AllowedVisitType: Equatable, Codable {
 
     /// A `VisitType` describing the Allowed Visit Type in short form. Used in some SDK calls. `VisitType` is simply a string representation for easiness
     public let shortName: VisitTypeShortName
+    
+    /// Minimum age for visit measured in `ageUnit`
+    public let minAge: Int
+    
+    /// Maximum age for visit measured in `ageUnit`
+    public let maxAge: Int
+    
+    /// Unit for measurement of age (years, months or days)
+    public let ageUnit: AgeUnit
 }
 
 /// A structure containing a day string (Sunday, Monday, etc) and the start/end times of the day

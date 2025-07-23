@@ -1,5 +1,27 @@
 # Release Notes
 
+## 9.5.0
+### New
+
+- `WaitTimeAvailability` now has a new field `busyMessage` which will contain a display message that
+  explains why a practice region is busy. This is only defined when `reason` is `REGION_BUSY`.
+  This field is managed by feature flag in the backend. So if this property is not showing up in
+  result, please reach out to your DexCare implementation contact.
+- `AllowedVisitType` now has new fields minAge, maxAge and ageUnit as to represent an allowed age range for the visit.
+- `PracticeService` now has a new function `getRegionWaitTimeAvailability` which can be used to find
+  the wait-time for a particular region. You can use different filters to query wait-time based on 
+  criteria. For more information, see `PracticeService`.
+- `RetailService.getRetailDepartment()` has a new optional parameter (`includeProvider`) that can be used to fetch the list of providers associated with the RetailDepartment. The default value for `includeProvider` is false.  See `RetailProvider` for information that are available.
+- Chat View now contains a header message which can be edited through the localization key `chatView_header_text`.
+#### Multi-Participant Support
+- Virtual visits now support adding up to two other participants (translators/relatives).
+
+### Internal
+
+- Updated OpenTok to version 2.28.2
+- Updated MessageKit to version 4.3.0
+- RetailService now uses v4 APIs to fetch retail clinic information.
+
 ## 9.3.3
 ### Bug fixes
 - Fixed `MenuPickerStyle` being incompatible with iOS versions older than 14.0.

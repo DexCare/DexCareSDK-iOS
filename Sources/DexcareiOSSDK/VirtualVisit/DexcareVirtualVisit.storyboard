@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -376,19 +376,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="492-4r-mUO" userLabel="Remote Video View">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="u3a-O9-jJS" userLabel="Remote Video View">
                                 <rect key="frame" x="-253" y="0.0" width="896" height="844"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="896" id="j2d-dd-C71"/>
+                                    <constraint firstAttribute="width" constant="896" identifier="Remote Width Constraint" id="Nuk-Vo-fct"/>
                                 </constraints>
-                            </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The provider has temporarily disabled their video." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7uq-Bi-GxA">
-                                <rect key="frame" x="20" y="401.66666666666669" width="350" height="40.666666666666686"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </stackView>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eA7-EB-jyo" userLabel="Local Video Container">
                                 <rect key="frame" x="20" y="670" width="90" height="120"/>
                                 <subviews>
@@ -515,22 +508,18 @@
                         <viewLayoutGuide key="safeArea" id="oZa-Fl-Whk"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="492-4r-mUO" secondAttribute="bottom" id="2PU-FN-11G"/>
-                            <constraint firstItem="7uq-Bi-GxA" firstAttribute="leading" secondItem="FeP-YF-R2K" secondAttribute="leading" constant="20" id="68X-4g-pAx"/>
-                            <constraint firstItem="492-4r-mUO" firstAttribute="centerX" secondItem="FeP-YF-R2K" secondAttribute="centerX" id="8Xj-As-faL"/>
                             <constraint firstItem="oZa-Fl-Whk" firstAttribute="trailing" secondItem="xCd-Zq-Uds" secondAttribute="trailing" constant="20" id="AYf-4a-i2Z"/>
-                            <constraint firstItem="492-4r-mUO" firstAttribute="top" secondItem="FeP-YF-R2K" secondAttribute="top" id="Jkz-aq-oOa"/>
+                            <constraint firstItem="u3a-O9-jJS" firstAttribute="top" secondItem="FeP-YF-R2K" secondAttribute="top" id="Go2-oA-XLJ"/>
                             <constraint firstItem="oZa-Fl-Whk" firstAttribute="bottom" secondItem="vlA-yo-4Fu" secondAttribute="bottom" constant="20" id="KLW-oy-Lpv"/>
                             <constraint firstItem="oZa-Fl-Whk" firstAttribute="trailing" secondItem="vlA-yo-4Fu" secondAttribute="trailing" constant="20" id="KrC-iu-qmX"/>
                             <constraint firstItem="cuB-67-Rno" firstAttribute="bottom" secondItem="eA7-EB-jyo" secondAttribute="bottom" id="LBy-2E-EqD"/>
                             <constraint firstItem="vlA-yo-4Fu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="eA7-EB-jyo" secondAttribute="trailing" constant="10" id="Man-fa-kTI"/>
-                            <constraint firstAttribute="trailing" secondItem="7uq-Bi-GxA" secondAttribute="trailing" constant="20" id="OSH-Tv-057"/>
                             <constraint firstItem="vlA-yo-4Fu" firstAttribute="top" secondItem="xCd-Zq-Uds" secondAttribute="bottom" constant="15" id="WDn-Zf-0lz"/>
+                            <constraint firstItem="u3a-O9-jJS" firstAttribute="centerX" secondItem="FeP-YF-R2K" secondAttribute="centerX" id="Xla-6S-NSf"/>
                             <constraint firstItem="cuB-67-Rno" firstAttribute="leading" secondItem="eA7-EB-jyo" secondAttribute="leading" id="aob-i2-gSy"/>
-                            <constraint firstItem="7uq-Bi-GxA" firstAttribute="centerY" secondItem="FeP-YF-R2K" secondAttribute="centerY" id="bHg-3K-I4a"/>
+                            <constraint firstAttribute="bottom" secondItem="u3a-O9-jJS" secondAttribute="bottom" id="fNE-8M-Jsr"/>
                             <constraint firstItem="vlA-yo-4Fu" firstAttribute="bottom" secondItem="eA7-EB-jyo" secondAttribute="bottom" id="hWr-45-1U9"/>
                             <constraint firstItem="eA7-EB-jyo" firstAttribute="leading" secondItem="oZa-Fl-Whk" secondAttribute="leading" constant="20" id="ufl-bE-9iR"/>
-                            <constraint firstItem="7uq-Bi-GxA" firstAttribute="centerX" secondItem="FeP-YF-R2K" secondAttribute="centerX" id="wIE-um-77q"/>
                         </constraints>
                     </view>
                     <connections>
@@ -544,9 +533,8 @@
                         <outlet property="localWidthConstraint" destination="BKY-Vj-7pF" id="Sr3-fP-C4u"/>
                         <outlet property="micButton" destination="DGS-a2-au2" id="9vE-a6-wkR"/>
                         <outlet property="positionButton" destination="BKb-oq-pIq" id="5ZX-9Z-qlu"/>
-                        <outlet property="remoteVideoDisabledLabel" destination="7uq-Bi-GxA" id="16O-nb-q62"/>
-                        <outlet property="remoteView" destination="492-4r-mUO" id="8Ko-w0-gEb"/>
-                        <outlet property="remoteWidthConstraint" destination="j2d-dd-C71" id="UWE-q8-Feq"/>
+                        <outlet property="remoteStackView" destination="u3a-O9-jJS" id="Ko2-m2-bBH"/>
+                        <outlet property="remoteWidthConstraint" destination="Nuk-Vo-fct" id="kIz-jz-1BJ"/>
                         <outlet property="tytoCareButton" destination="xCd-Zq-Uds" id="5hE-yI-daW"/>
                         <outlet property="tytoWidthConstraint" destination="dPv-b0-xrX" id="w8W-EM-zU8"/>
                     </connections>
@@ -556,14 +544,6 @@
             <point key="canvasLocation" x="1349.5999999999999" y="109.35960591133005"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="f6g-M2-5Ha">
-            <size key="intrinsicContentSize" width="116" height="41"/>
-        </designable>
-        <designable name="xCd-Zq-Uds">
-            <size key="intrinsicContentSize" width="116" height="41"/>
-        </designable>
-    </designables>
     <resources>
         <image name="flip_camera_ios" width="20" height="18"/>
         <image name="ic_call_received_white" width="24" height="24"/>

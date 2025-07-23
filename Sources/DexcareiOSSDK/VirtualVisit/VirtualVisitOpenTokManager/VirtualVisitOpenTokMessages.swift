@@ -101,6 +101,7 @@ struct ConnectionData: Codable {
 enum ConnectionRole: String, Codable {
     case patient
     case provider
+    case participant
 }
 
 struct StatusChangedMessage: Codable {

@@ -61,7 +61,11 @@ class VirtualVisitOpenTokManager: NSObject {
 
     lazy var waitingRoomSession: SessionType? = OTSession(apiKey: apiKey, sessionId: waitingRoomSessionId, delegate: self)
     lazy var videoConferenceSession: SessionType? = OTSession(apiKey: apiKey, sessionId: videoSessionId, delegate: self)
-    var videoSubscriber: SubscriberType?
+    var videoSubscribers: [SubscriberType] = []
+    // Map SubscriberViews to Labels for video off
+    var remoteVideoLabels: [UIView: UILabel] = [:]
+    // Map streamId to OTConnection
+    var connections: [String: OTConnection] = [:]
     // This property is to address the issue where the video publisher was created when we where trying to clean it up.
     // This was a problem because creating the OTPublisher() take multiple seconds and was preventing the VirtualVisit
     // screen from being dismissed.
@@ -104,6 +108,7 @@ class VirtualVisitOpenTokManager: NSObject {
     var sessionWaitingRoomFailedCount = 0
     var sessionVideoFailedCount = 0
     var statsRefreshTime: TimeInterval = 10.0
+    var surveyRequest: URLRequest?
 
     var visitState: VisitSessionState {
         guard
@@ -198,6 +203,7 @@ class VirtualVisitOpenTokManager: NSObject {
         navigator: VirtualVisitNavigatorType,
         customization: CustomizationOptions?,
         tytoCare: TytoCareResponse,
+        surveyRequest: URLRequest?,
         logger: DexcareSDKLogger?,
         serverLogger: LoggingService?,
         completion: @escaping VisitCompletion
@@ -214,6 +220,7 @@ class VirtualVisitOpenTokManager: NSObject {
         self.videoToken = videoToken
         self.initialState = initialState
         self.minimumWaitTimeForWaitOffline = minimumWaitTimeForWaitOffline
+        self.surveyRequest = surveyRequest
         self.navigator = navigator
         self.completion = completion
         self.logger = logger
@@ -277,12 +284,23 @@ class VirtualVisitOpenTokManager: NSObject {
         self.virtualService?.currentVirtualEndTime = Date()
 
         defer {
-            if dismissView {
-                dismissVisitView(reason: reason)
+            let dismissAndCleanup = { [weak self] in
+                guard let self = self else { return }
+                if dismissView {
+                    self.dismissVisitView(reason: reason)
+                }
+                self.isReconnecting = false
+                self.stopStatsCollection()
+                NotificationCenter.default.removeObserver(self)
             }
-            isReconnecting = false
-            stopStatsCollection()
-            NotificationCenter.default.removeObserver(self)
+
+            if let surveyRequest = surveyRequest, reason == .completed {
+                Task { @MainActor in
+                    let surveyViewController = navigator.showSurvey(request: surveyRequest, onSurveyCompletion: dismissAndCleanup, completion: nil)
+                }
+            } else {
+                dismissAndCleanup()
+            }
         }
 
         guard
@@ -477,7 +495,12 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         case .visit:
 
             do {
-                try videoConferenceSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
+                videoChatMessages.append(instantMessage.asChatMessage)
+                videoChatMessages.sort { $0.sentDate < $1.sentDate }
+                try connections.values.forEach {
+                    try videoConferenceSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: $0)
+                }
+                openChat()
             } catch {
                 self.processError(error: error, isFatal: false, message: "Unable to send visit instant message")
             }
@@ -488,7 +511,16 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         case .waitingRoom:
 
             do {
-                try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
+                if connections.isEmpty {
+                    try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
+                } else {
+                    waitingRoomChatMessages.append(instantMessage.asChatMessage)
+                    waitingRoomChatMessages.sort { $0.sentDate < $1.sentDate }
+                    try connections.values.forEach {
+                        try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: $0)
+                    }
+                    openChat()
+                }
             } catch {
                 self.processError(error: error, isFatal: false, message: "Unable to send waiting room instant message")
             }
@@ -690,14 +722,14 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
 
 extension VirtualVisitOpenTokManager {
     func openVideoVisit() {
-        guard let subscriber = videoSubscriber else {
-            assertionFailure("We are opening video visit without a video subscriber")
+        guard !videoSubscribers.isEmpty else {
+            assertionFailure("We are opening video visit without any video subscribers")
             return
         }
 
         waitingRoomCleanup()
         navigateToVisitView()
-        setupLocalAndRemoteView(subscriber: subscriber)
+        setupLocalAndRemoteViews(subscribers: videoSubscribers)
 
         startStatsCollection()
     }
@@ -709,7 +741,7 @@ extension VirtualVisitOpenTokManager {
         cancelWaitTimeWorkItem()
     }
 
-    private func setupLocalAndRemoteView(subscriber: SubscriberType) {
+    private func setupLocalAndRemoteViews(subscribers: [SubscriberType]) {
         if !isPublishing {
             do {
                 try videoConferenceSession?.publish(publisher: videoPublisher)
@@ -717,8 +749,19 @@ extension VirtualVisitOpenTokManager {
                 self.processError(error: error, isFatal: true, message: "Unable to publish video stream to visit session")
             }
         }
+        
+        var remoteViews:[UIView: CGSize] = [:]
 
-        guard let remoteView = subscriber.subscriberView, let localView = videoPublisher.publishView else {
+        for subscriber in subscribers {
+            if let remoteView = subscriber.subscriberView {
+                remoteViews[remoteView] = subscriber.preferredResolution
+            } else {
+                assertionFailure("Opening video visit and unable to get local and remote UIViews")
+                return
+            }
+        }
+        
+        guard let localView = videoPublisher.publishView else {
             assertionFailure("Opening video visit and unable to get local and remote UIViews")
             return
         }
@@ -726,8 +769,11 @@ extension VirtualVisitOpenTokManager {
         visitView?.removeLocalView()
         visitView?.addLocalView(localView, resolutionSize: videoPublisher.stream?.videoDimensions ?? CGSize(width: 0, height: 0))
         visitView?.removeRemoteView()
-        visitView?.addRemoteView(remoteView, resolutionSize: subscriber.preferredResolution)
-
+        for (remoteView, size) in remoteViews {
+            let label = UILabel()
+            remoteVideoLabels[remoteView] = label
+            visitView?.addRemoteView(remoteView, label, resolutionSize: size)
+        }
         logger?.log("openVideoVisit adding local and remote views", level: .verbose)
     }
 
@@ -761,17 +807,18 @@ extension VirtualVisitOpenTokManager {
 extension VirtualVisitOpenTokManager {
     func cleanupSubscriber() throws {
         visitView?.removeRemoteView()
-        guard
-            let subscriber = videoSubscriber,
-            let videoConferenceSession = videoConferenceSession
-        else { return }
+
+        guard let videoConferenceSession = videoConferenceSession else { return }
 
         defer {
-            self.videoSubscriber = nil
-            self.logger?.log("cleanupSubscriber: clear videoSubscriber", level: .verbose)
+            self.videoSubscribers.removeAll()
+            self.remoteVideoLabels.removeAll()
+            self.connections.removeAll()
         }
 
-        return try videoConferenceSession.unsubscribe(subscriber: subscriber)
+        for subscriber in videoSubscribers {
+            try videoConferenceSession.unsubscribe(subscriber: subscriber)
+        }
     }
 }
 

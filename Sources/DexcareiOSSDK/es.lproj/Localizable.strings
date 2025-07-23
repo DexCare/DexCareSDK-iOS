@@ -17,6 +17,8 @@
 "visit_chatView_title_navigation"="Chatear con el proveedor";
 "waitingRoom_chatView_title_navigation"="Chat";
 "chatView_button_send"="Enviar";
+"chatView_header_text"="El chat con los representantes de registro de pacientes es compartido entre el personal para la búsqueda y el registro de pacientes. El chat con un proveedor es estrictamente confidencial y no se comparte ni se registra en ningún lugar. Es posible que el chat no esté disponible en esta región y que no recibas una respuesta. Un profesional de la salud estará contigo pronto.";
+"dialog_waitingRoomCancelConfirm_title_cancelCall"="Cancel Call";
 "dialog_waitingRoomCancelConfirm_title_cancelCall"="Cancelar llamada";
 "dialog_waitingRoomCancelConfirm_title_leaveCall"="Dejar llamada";
 "dialog_waitingRoomCancelConfirm_message_cancelCallConfirmation"="¿Está seguro de que desea cancelar esta visita virtual?";
