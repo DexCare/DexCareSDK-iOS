@@ -19,6 +19,7 @@
 "visit_chatView_title_navigation"="Chat With Provider";
 "waitingRoom_chatView_title_navigation"="Chat";
 "chatView_button_send"="Send";
+"chatView_header_text"="Chat with patient registration representatives is shared between staff for patient lookup and registration purposes. Chat with a provider is strictly confidential and not shared or logged anywhere. Chat may not be supported in this region and you may not receive a response. A clinician will be with you soon.";
 "dialog_waitingRoomCancelConfirm_title_cancelCall"="Cancel Call";
 "dialog_waitingRoomCancelConfirm_title_leaveCall"="Leave Call";
 "dialog_waitingRoomCancelConfirm_message_cancelCallConfirmation"="Are you sure you want to cancel this virtual visit?";

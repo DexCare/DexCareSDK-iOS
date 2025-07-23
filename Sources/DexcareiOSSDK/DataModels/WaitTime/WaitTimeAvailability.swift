@@ -21,6 +21,8 @@ public struct WaitTimeAvailability: Decodable, Equatable {
     public let assignmentQualifiers: [VirtualVisitAssignmentQualifier]
     /// The home market for a patient
     public let homeMarket: String?
+    /// Message for busy region
+    public let busyMessage: String?
 
     /// Describes the reasons for a Region not being available
     public enum Reason: String, Codable {
@@ -51,6 +53,7 @@ public struct WaitTimeAvailability: Decodable, Equatable {
         case visitTypeName
         case assignmentQualifiers
         case homeMarket
+        case busyMessage
     }
 
     /// An internal decoder to handle dates.
@@ -70,6 +73,7 @@ public struct WaitTimeAvailability: Decodable, Equatable {
         let assignmentQualifierString = try values.decode([String].self, forKey: CodingKeys.assignmentQualifiers)
         self.assignmentQualifiers = assignmentQualifierString.map { VirtualVisitAssignmentQualifier(rawValue: $0) }
         self.homeMarket = try? values.decodeIfPresent(String.self, forKey: CodingKeys.homeMarket)
+        self.busyMessage = try? values.decodeIfPresent(String.self, forKey: CodingKeys.busyMessage)
 
         let generatedAtString = try values.decode(String.self, forKey: CodingKeys.generatedAt)
         if let generatedAt = DateFormatter.iso8601Full.date(from: generatedAtString) {

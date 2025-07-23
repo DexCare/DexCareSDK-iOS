@@ -75,7 +75,8 @@ class ChatViewController: MessagesViewController, ChatView {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        configureHeaderView()
         configureMessageCollectionView()
         configureMessageInputBar()
     }
@@ -85,6 +86,44 @@ class ChatViewController: MessagesViewController, ChatView {
 
         // Removing this as HM has found a bug that puts the chat behind the nav bar, not showing a chat bubble when the keyboard shows.
         // messageInputBar.inputTextView.becomeFirstResponder()
+    }
+    
+    private func configureHeaderView() {
+        let headerView = UIView()
+        headerView.tag = 100
+        headerView.backgroundColor = .systemBlue
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+
+        let headerLabel = UILabel()
+        headerLabel.text = localizeString("chatView_header_text")
+        headerLabel.textColor = .white
+        headerLabel.textAlignment = .center
+        headerLabel.translatesAutoresizingMaskIntoConstraints = false
+        headerLabel.numberOfLines = 0
+        headerLabel.lineBreakMode = .byWordWrapping
+
+        headerView.addSubview(headerLabel)
+        view.addSubview(headerView)
+        
+        messagesCollectionView.removeFromSuperview()
+        messagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(messagesCollectionView)
+
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
+            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
+            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
+            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8),
+            
+            messagesCollectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+            messagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            messagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            messagesCollectionView.bottomAnchor.constraint(equalTo: messageInputBar.topAnchor)
+        ])
     }
 
     func configureMessageCollectionView() {
@@ -98,7 +137,7 @@ class ChatViewController: MessagesViewController, ChatView {
         messagesCollectionView.messagesDisplayDelegate = self
 
         scrollsToLastItemOnKeyboardBeginsEditing = true
-        maintainPositionOnKeyboardFrameChanged = true
+        maintainPositionOnInputBarHeightChanged = true
 
         guard let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout else {
             assertionFailure("collectionViewLayout is NOT MessagesCollectionViewFlowLayout. Something has gone wrong.")
@@ -240,8 +279,8 @@ struct ChatSender: SenderType {
 }
 
 extension ChatViewController: MessagesDataSource {
-    func currentSender() -> SenderType {
-        return userSender
+    var currentSender: any MessageKit.SenderType {
+        userSender
     }
 
     func messageForItem(at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> MessageType {

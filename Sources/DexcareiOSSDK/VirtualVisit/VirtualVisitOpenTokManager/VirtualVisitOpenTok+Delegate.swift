@@ -80,7 +80,6 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         case videoSessionId:
             logger?.log(LogMessages.visitVideoConnectionDestroyed.connectionId(connection.connectionId))
             virtualService?.virtualEventDelegate?.onVirtualVisitDisconnected()
-
         default: break
         }
     }
@@ -90,55 +89,68 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
             logger?.log("Receiving stream from non video session: \(session.sessionId)", level: .warning)
             return
         }
-
-        guard stream.connection.connectionData?.role == .provider else {
+        
+        guard stream.connection.connectionData?.role == .provider || stream.connection.connectionData?.role == .participant else {
             logger?.log("Unable to create subscriber from streamId: \(stream.streamId), Receiving our own iOS patient stream", level: .warning)
             return
         }
 
-        // in case there was already a subscriber
-        defer {
-            addNewSubscriber()
+        guard let subscriber = subscriberFactory.subscriber(stream: stream, delegate: self) else {
+            logger?.log("Failed to create subscriber for streamId: \(stream.streamId)", level: .error)
+            return
         }
+        
+        guard let subscriberStreamId = subscriber.streamId else {
+            logger?.log("StreamId not found for subscriber.", level: .error)
+            return
+        }
+
+        videoSubscribers.append(subscriber)
+        connections[subscriberStreamId] = stream.connection
+        logger?.log("streamCreated: appending videoSubscriber", level: .verbose)
 
         do {
-            try cleanupSubscriber()
+            try videoConferenceSession?.subscribe(subscriber: subscriber)
         } catch {
-            self.logger?.log("Unable to cleanupSubscriber: \(String(describing: error))", level: .error)
+            processError(error: error, isFatal: true, message: "Unable to subscribe to incoming video stream.")
+            return
         }
+        
+        logger?.log(LogMessages.visitVideoStreamCreated.streamId(stream.streamId))
 
-        func addNewSubscriber() {
-            guard let subscriber = subscriberFactory.subscriber(stream: stream, delegate: self) else {
-                self.logger?.log("Unable to create subscriber from streamId: \(stream.streamId), please notify OpenTok", level: .error)
-                return
-            }
-
-            logger?.log("streamCreated: adding videoSubscriber", level: .verbose)
-
-            videoSubscriber = subscriber
-
-            do {
-                try videoConferenceSession?.subscribe(subscriber: subscriber)
-
-                logger?.log(LogMessages.visitVideoStreamCreated.streamId(stream.streamId))
-            } catch {
-                self.processError(error: error, isFatal: true, message: "Unable to subscribe to incoming video stream.")
-            }
+        if let subView = subscriber.subscriberView {
+            let label = UILabel()
+            remoteVideoLabels[subView] = label
+            visitView?.addRemoteView(subView, label, resolutionSize: subscriber.preferredResolution)
         }
     }
 
     func session(_ session: SessionType, streamDestroyed stream: OTStream) {
-        guard
-            videoSubscriber != nil,
-            videoSubscriber?.streamId == stream.streamId
-        else {
-            self.logger?.log("stream destroyed but not the video subscriber: \(stream.streamId)", level: .warning)
+        guard let index = videoSubscribers.firstIndex(where: { $0.streamId == stream.streamId }) else {
+            logger?.log("No matching subscriber for streamDestroyed \(stream.streamId)", level: .warning)
             return
         }
 
-        try? cleanupSubscriber()
+        let subscriber = videoSubscribers[index]
+        
+        guard subscriber.streamId == stream.streamId else {
+            return
+        }
+        
+        connections.removeValue(forKey: subscriber.streamId ?? stream.streamId)
 
-        reconnecting()
+        do {
+            try videoConferenceSession?.unsubscribe(subscriber: subscriber)
+        } catch {
+            logger?.log("Error unsubscribing subscriber \(stream.streamId): \(error)", level: .error)
+        }
+
+        if let view = subscriber.subscriberView {
+            visitView?.removeSpecificRemoteView(view)
+            remoteVideoLabels.removeValue(forKey: view)
+        }
+
+        videoSubscribers.remove(at: index)
 
         logger?.log(LogMessages.visitVideoStreamDestroyed.streamId(stream.streamId))
     }
@@ -353,8 +365,12 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         guard
             waitingRoomSession?.connection?.connectionId != connection?.connectionId,
             videoConferenceSession?.connection?.connectionId != connection?.connectionId,
-            let jsonData = string?.data(using: .utf8)
+            var rawString = string
         else { return }
+        
+        rawString = rawString.replacingOccurrences(of: "\"fromParticipant\"", with: "\"displayName\"")
+
+        guard let jsonData = rawString.data(using: .utf8) else { return }
 
         do {
             let typingMessage = try RemoteTypingStateMessage(jsonData: jsonData)
@@ -414,6 +430,8 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
             } else if statusMessage.status == "caregiverassigned" {
                 waitingRoomView?.hideWaitOffline()
                 forceWaitOfflineHidden = true
+            } else if statusMessage.status == "done" {
+                endConference(reason: .completed)
             } else {
                 logger?.log("unknown status change message: \(statusMessage.status)")
             }
@@ -482,11 +500,17 @@ extension VirtualVisitOpenTokManager: SubscriberTypeDelegate {
     }
 
     func subscriberVideoEnabled(_ subscriber: SubscriberType, reason: OTSubscriberVideoEventReason) {
-        visitView?.enabledRemoteCamera = true
+        if let view = subscriber.subscriberView,
+           let label = remoteVideoLabels[view] {
+            label.isHidden = true
+        }
     }
 
     func subscriberVideoDisabled(_ subscriber: SubscriberType, reason: OTSubscriberVideoEventReason) {
-        visitView?.enabledRemoteCamera = false
+        if let view = subscriber.subscriberView,
+           let label = remoteVideoLabels[view] {
+            label.isHidden = false
+        }
     }
 
     func subscriber(_ subscriber: SubscriberType, didFailWithError error: OTError) {

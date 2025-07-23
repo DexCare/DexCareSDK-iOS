@@ -16,14 +16,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/matej/MBProgressHUD", exact: "1.2.0"),
-        .package(url: "https://github.com/MessageKit/MessageKit", exact: "3.8.0"),
+        .package(url: "https://github.com/nathantannar4/InputBarAccessoryView", exact: "6.5.1"),
+        .package(url: "https://github.com/MessageKit/MessageKit", exact: "4.3.0"),
         .package(url: "https://github.com/gordontucker/FittedSheets", exact: "2.6.1"),
-        .package(url: "https://github.com/opentok/vonage-client-sdk-video", exact: "2.27.4")
+        .package(url: "https://github.com/opentok/vonage-client-sdk-video", exact: "2.28.2")
     ],
     targets: [
         .target(name: moduleName,
                 dependencies: [
                     "MBProgressHUD",
+                    "InputBarAccessoryView",
                     "MessageKit",
                     "FittedSheets",
                     .product(name: "VonageClientSDKVideo", package: "vonage-client-sdk-video")

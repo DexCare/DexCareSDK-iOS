@@ -82,9 +82,10 @@ public protocol RetailService {
     /// Returns a list of clinics that are associated with retail visits for the given brand
     /// - Parameters:
     ///    - departmentName: `RetailDepartment.departmentName` value
+    ///    - includeProvider: Flag to get providers associated with a department
     ///    - success: A closure called with `RetailDepartment` object
     ///    - failure: A closure called if the request is unsuccessful with a FailedReason describing the error
-    func getRetailDepartment(departmentName: String, success: @escaping (RetailDepartment) -> Void, failure: @escaping (FailedReason) -> Void)
+    func getRetailDepartment(departmentName: String, includeProvider: Bool, success: @escaping (RetailDepartment) -> Void, failure: @escaping (FailedReason) -> Void)
 
     /// Returns a `ClinicTimeSlot` object that have information about a particular date range with `TimeSlot`
     /// - Parameters:
@@ -163,9 +164,10 @@ public protocol RetailService {
     /// Returns a list of clinics that are associated with retail visits for the given brand
     /// - Parameters:
     ///    - departmentName: `RetailDepartment.departmentName` value
+    ///    - includeProvider: Flag to get providers associated with a department
     /// - Throws: `FailedReason`
     /// - Returns: The `RetailDepartment` object found
-    func getRetailDepartment(departmentName: String) async throws -> RetailDepartment
+    func getRetailDepartment(departmentName: String, includeProvider: Bool) async throws -> RetailDepartment
 }
 
 protocol InternalRetailService {
@@ -206,11 +208,11 @@ class RetailServiceSDK: RetailService, InternalRetailService {
         // MARK: - Mapping
 
         func clinics() -> URLRequest {
-            return dexcareRoute.fhirBuilder.get("/v1/departments")
+            return dexcareRoute.fhirBuilder.get("/v4/departments")
         }
 
-        func clinic(departmentName: String) -> URLRequest {
-            return dexcareRoute.fhirBuilder.get("/v1/departments/\(departmentName)")
+        func clinic(departmentIdentifier: String) -> URLRequest {
+            return dexcareRoute.fhirBuilder.get("/v4/departments/\(departmentIdentifier)/departmentInfo")
         }
 
         func timeSlots(clinicURLName: String) -> URLRequest {
@@ -368,10 +370,10 @@ class RetailServiceSDK: RetailService, InternalRetailService {
         }
     }
 
-    func getRetailDepartment(departmentName: String, success: @escaping (RetailDepartment) -> Void, failure: @escaping (FailedReason) -> Void) {
+    func getRetailDepartment(departmentName: String, includeProvider: Bool = false, success: @escaping (RetailDepartment) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
-                let clinic = try await getRetailDepartment(departmentName: departmentName)
+                let clinic = try await getRetailDepartment(departmentName: departmentName, includeProvider: includeProvider)
                 success(clinic)
             } catch let error as FailedReason {
                 failure(error)
@@ -379,13 +381,15 @@ class RetailServiceSDK: RetailService, InternalRetailService {
         }
     }
 
-    func getRetailDepartment(departmentName: String) async throws -> RetailDepartment {
+    func getRetailDepartment(departmentName: String, includeProvider: Bool = false) async throws -> RetailDepartment {
         if departmentName.isEmpty {
             dexcareConfiguration.serverLogger?.postErrorIfNeeded(error: FailedReason.missingInformation(message: "departmentName must not be empty"))
             throw FailedReason.missingInformation(message: "departmentName must not be empty")
         }
 
-        let urlRequest = routes.clinic(departmentName: departmentName)
+        let urlRequest = routes.clinic(departmentIdentifier: departmentName).queryItems([
+            "withProviders": includeProvider ? "true" : "false"
+        ])
 
         let requestTask = Task { () -> RetailDepartment in
             return try await asyncNetworkService.requestObject(urlRequest)

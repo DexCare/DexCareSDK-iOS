@@ -15,7 +15,7 @@ public struct CancelReason: Equatable, Hashable {
     /// The internal code that is passed through for the reason for cancelling
     public var code: String
 
-    public init(
+    init(
         displayText: String,
         code: String
     ) {

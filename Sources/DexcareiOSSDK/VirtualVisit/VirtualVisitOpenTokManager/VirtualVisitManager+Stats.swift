@@ -3,9 +3,11 @@ import Foundation
 extension VirtualVisitOpenTokManager {
     func startStatsCollection() {
         videoPublisher.networkStatsPublisherDelegate = self
-        videoSubscriber?.networkStatsSubscriberDelegate = self
+        for var videoSubscriber in videoSubscribers {
+            videoSubscriber.networkStatsSubscriberDelegate = self
 
-        videoSubscriber?.rtcStatsSubscriberDelegate = self
+            videoSubscriber.rtcStatsSubscriberDelegate = self
+        }
         videoPublisher.rtcStatsPublisherDelegate = self
 
         // RTC Stats are asynchronous and can't be queried after the session is completed, so we're going to set a timer and query them every so often, saving the info.
@@ -35,7 +37,9 @@ extension VirtualVisitOpenTokManager {
     }
 
     private func updateStats() {
-        videoSubscriber?.getSubscriberRTCStats()
+        for videoSubscriber in videoSubscribers {
+            videoSubscriber.getSubscriberRTCStats()
+        }
         videoPublisher.getPublisherRTCStats()
 
         addStatsWorkItem()
