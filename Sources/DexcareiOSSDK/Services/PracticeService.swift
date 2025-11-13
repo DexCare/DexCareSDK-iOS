@@ -31,9 +31,10 @@ public protocol PracticeService {
     ///   - visitTypeNames: An optional array of `VirtualVisitType` representing VisitTypeNames to filter the results on
     ///   - practiceId: A `VirtualPractice.practiceId` to filter the results on
     ///   - homeMarket: A string to filter the results for a homeMarket
+    ///   - includeSpecialties: A flag to filter results by specialty. Specialties can be passed via the `assignmentQualifiers` parameter.
     /// - Throws: `FailedReason`
     /// - Returns: `WaitTimeAvailability
-    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void)
+    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void)
     
     /// Fetches the WaitTimes and Availabilities of a region
     ///
@@ -44,9 +45,10 @@ public protocol PracticeService {
     ///   - visitTypeNames: An optional array of `VirtualVisitType` representing VisitTypeNames to filter the results on
     ///   - practiceId: A `VirtualPractice.practiceId` to filter the results on
     ///   - homeMarket: A string to filter the results for a homeMarket
+    ///   - includeSpecialties: A flag to filter results by specialty. Specialties can be passed via the `assignmentQualifiers` parameter.
     /// - Throws: `FailedReason`
     /// - Returns: `WaitTimeAvailability` array
-    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability]
+    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?) async throws -> [WaitTimeAvailability]
 
 }
 
@@ -125,10 +127,10 @@ class PracticeServiceSDK: PracticeService {
         }
     }
     
-    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]? = nil, visitTypeNames: [VirtualVisitTypeName]? = nil, practiceId: String? = nil, homeMarket: String? = nil, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void) {
+    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]? = nil, visitTypeNames: [VirtualVisitTypeName]? = nil, practiceId: String? = nil, homeMarket: String? = nil, includeSpecialties: Bool? = nil, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
-                let waitTimeAvailabilityRegion = try await getRegionWaitTimeAvailability(regionId: regionId, assignmentQualifiers: assignmentQualifiers, visitTypeNames: visitTypeNames, practiceId: practiceId, homeMarket: homeMarket)
+                let waitTimeAvailabilityRegion = try await getRegionWaitTimeAvailability(regionId: regionId, assignmentQualifiers: assignmentQualifiers, visitTypeNames: visitTypeNames, practiceId: practiceId, homeMarket: homeMarket, includeSpecialties: includeSpecialties)
                 success(waitTimeAvailabilityRegion)
             } catch let error as FailedReason {
                 failure(error)
@@ -136,7 +138,7 @@ class PracticeServiceSDK: PracticeService {
         }
     }
     
-    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability] {
+    func getRegionWaitTimeAvailability(regionId: String, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?) async throws -> [WaitTimeAvailability] {
         var options: [URLQueryItem] = []
 
         assignmentQualifiers?.forEach { assignmentQualifier in
@@ -153,6 +155,10 @@ class PracticeServiceSDK: PracticeService {
 
         if let homeMarket = homeMarket {
             options.append(URLQueryItem(name: "homeMarket", value: homeMarket))
+        }
+        
+        if let includeSpecialties = includeSpecialties {
+            options.append(URLQueryItem(name: "includeSpecialties", value: "\(includeSpecialties)"))
         }
 
         let urlRequest = routes.getRegionWaitTimeAvailability(regionId: regionId).queryItems(options)

@@ -104,9 +104,10 @@ public protocol VirtualService {
     ///   - visitTypeNames: An optional array of `VirtualVisitType` representing VisitTypeNames to filter the results on
     ///   - practiceId: A `VirtualPractice.practiceId` to filter the results on
     ///   - homeMarket: A string to filter the results for a homeMarket
+    ///   - includeSpecialties: A flag to filter results by specialty. Specialties can be passed via the `assignmentQualifiers` parameter.
     ///   - success: A closure called with a `WaitTimeAvailability` array return value
     ///   - failure: A closure called if any `FailedReason` errors are returned
-    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void)
+    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void)
 
     /// Fetches the supported `VirtualVisitAssignmentQualifier` objects that can be used to schedule a virtual visit and filter `WaitTimeAvailability`.
     ///
@@ -266,9 +267,10 @@ public protocol VirtualService {
     ///   - visitTypeNames: An optional array of `VirtualVisitType` representing VisitTypeNames to filter the results on
     ///   - practiceId: A `VirtualPractice.practiceId` to filter the results on
     ///   - homeMarket: A string to filter the results for a homeMarket
+    ///   - includeSpecialties: A flag to filter results by specialty. Specialties can be passed via the `assignmentQualifiers` parameter.
     /// - Throws: `FailedReason`
     /// - Returns: `WaitTimeAvailability` array
-    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability]
+    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?) async throws -> [WaitTimeAvailability]
     
 }
 
@@ -989,10 +991,10 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         }
     }
 
-    func getWaitTimeAvailability(regionCodes: [String]? = nil, assignmentQualifiers: [VirtualVisitAssignmentQualifier]? = nil, visitTypeNames: [VirtualVisitTypeName]? = nil, practiceId: String? = nil, homeMarket: String? = nil, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void) {
+    func getWaitTimeAvailability(regionCodes: [String]? = nil, assignmentQualifiers: [VirtualVisitAssignmentQualifier]? = nil, visitTypeNames: [VirtualVisitTypeName]? = nil, practiceId: String? = nil, homeMarket: String? = nil, includeSpecialties: Bool? = nil, success: @escaping ([WaitTimeAvailability]) -> Void, failure: @escaping (FailedReason) -> Void) {
         Task { @MainActor in
             do {
-                let waitTimeAvailability = try await getWaitTimeAvailability(regionCodes: regionCodes, assignmentQualifiers: assignmentQualifiers, visitTypeNames: visitTypeNames, practiceId: practiceId, homeMarket: homeMarket)
+                let waitTimeAvailability = try await getWaitTimeAvailability(regionCodes: regionCodes, assignmentQualifiers: assignmentQualifiers, visitTypeNames: visitTypeNames, practiceId: practiceId, homeMarket: homeMarket, includeSpecialties: includeSpecialties)
                 success(waitTimeAvailability)
             } catch let error as FailedReason {
                 failure(error)
@@ -1000,7 +1002,7 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
         }
     }
 
-    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?) async throws -> [WaitTimeAvailability] {
+    func getWaitTimeAvailability(regionCodes: [String]?, assignmentQualifiers: [VirtualVisitAssignmentQualifier]?, visitTypeNames: [VirtualVisitTypeName]?, practiceId: String?, homeMarket: String?, includeSpecialties: Bool?) async throws -> [WaitTimeAvailability] {
         var options: [URLQueryItem] = []
 
         regionCodes?.forEach { regionCode in
@@ -1021,6 +1023,10 @@ class VirtualServiceSDK: VirtualService, InternalVirtualService {
 
         if let homeMarket = homeMarket {
             options.append(URLQueryItem(name: "homeMarket", value: homeMarket))
+        }
+        
+        if let includeSpecialties = includeSpecialties {
+            options.append(URLQueryItem(name: "includeSpecialties", value: "\(includeSpecialties)"))
         }
 
         let urlRequest = routes.getWaitTimeAvailability().queryItems(options)

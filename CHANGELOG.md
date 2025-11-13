@@ -1,5 +1,13 @@
 # Release Notes
 
+### 9.6.0
+### New
+
+#### Specialty Queue Feature
+
+- Added `includeSpecialties` parameter to `PracticeService.getRegionWaitTimeAvailability()` and `VirtualService.getWaitTimeAvailability()`. When enabled, results can be filtered by specialty via the `assignmentQualifiers` parameter.
+- `VirtualService.createVirtualVisitWithPatientActor()` now supports passing a specialty through `assignmentQualifiers` in the `VirtualVisitDetails` struct.
+
 ## 9.5.0
 ### New
 
