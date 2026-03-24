@@ -404,6 +404,12 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
     }
 
     func openChat() {
+        // If the ChatViewController was popped from the nav stack, its navigationController
+        // becomes nil. Clear the stale reference so we create a fresh one.
+        if let chatVC = chatView as? UIViewController, chatVC.navigationController == nil {
+            chatView = nil
+        }
+
         switch visitState {
         case .visit:
             if chatView == nil {

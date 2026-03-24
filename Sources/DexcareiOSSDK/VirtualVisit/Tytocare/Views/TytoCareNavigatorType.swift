@@ -1,6 +1,7 @@
 import FittedSheets
 import Foundation
 import MBProgressHUD
+import SwiftUI
 import UIKit
 
 protocol TytoCareNavigatorType {
@@ -117,7 +118,19 @@ class TytoCareNavigator: TytoCareNavigatorType {
     }
 
     func displayAlert(title: String, message: String, actions: [VirtualVisitAlertAction]) {
-        let controller = VirtualVisitAlertViewController(title: title, message: message, actions: actions)
+        let alertView = VirtualVisitAlertSwiftUIView(
+            titleString: title,
+            message: message,
+            actions: actions,
+            footer: nil,
+            dismiss: { [weak self] in
+                self?.navigationController?.presentedViewController?.dismiss(animated: true)
+            }
+        )
+        let controller = UIHostingController(rootView: alertView)
+        controller.modalTransitionStyle = .crossDissolve
+        controller.modalPresentationStyle = .overFullScreen
+        controller.view.backgroundColor = .clear
         navigationController?.present(controller, animated: true, completion: nil)
     }
 
