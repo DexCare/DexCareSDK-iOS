@@ -1,5 +1,10 @@
 # Release Notes
 
+### 9.7.0
+### Internal
+
+- Migrate storyboards and ViewControllers to SwiftUI.
+
 ### 9.6.0
 ### New
 

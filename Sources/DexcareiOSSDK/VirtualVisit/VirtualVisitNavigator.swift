@@ -24,12 +24,12 @@ protocol VirtualVisitNavigatorType {
     func hideHud()
 }
 
-class VirtualVisitNavigator: VirtualVisitNavigatorType {
+class VirtualVisitNavigator: @preconcurrency VirtualVisitNavigatorType {
     var presentingViewController: UIViewController
     let customizationOptions: CustomizationOptions?
 
-    let storyboard = UIStoryboard(name: "DexcareVirtualVisit", bundle: .dexcareSDK)
     var navigationController: UINavigationController?
+    private var reconnectionHudController: UIViewController?
 
     init(presentingViewController: UIViewController, customizationOptions: CustomizationOptions?) {
         self.presentingViewController = presentingViewController
@@ -44,9 +44,6 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
 
             let appearance = UINavigationBarAppearance()
             appearance.configureWithOpaqueBackground()
-
-            // Set background color of nav bar:
-            // appearance.backgroundColor = UIColor.green
 
             newNavigationController.navigationBar.scrollEdgeAppearance = appearance
             newNavigationController.navigationBar.compactAppearance = appearance
@@ -63,30 +60,43 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         }
     }
 
+    @MainActor
     func closeVisit() {
         DispatchQueue.main.async {
             self.presentingViewController.dismiss(animated: true, completion: nil)
         }
     }
 
+    @MainActor
     func reconnecting(didCancel: @escaping () -> Void) {
         let existingNavigationController = presentedNavigationController()
 
-        if existingNavigationController.isViewControllerInStack(type: VisitViewController.self) {
-            existingNavigationController.pop(to: VisitViewController.self, animated: false)
-        } else if existingNavigationController.isViewControllerInStack(type: WaitingRoomViewController.self) {
-            existingNavigationController.pop(to: WaitingRoomViewController.self, animated: false)
+        if existingNavigationController.isViewControllerInStack(type: VisitHostingController.self) {
+            existingNavigationController.pop(to: VisitHostingController.self, animated: false)
+        } else if existingNavigationController.isViewControllerInStack(type: WaitingRoomHostingController.self) {
+            existingNavigationController.pop(to: WaitingRoomHostingController.self, animated: false)
         }
 
-        existingNavigationController.topViewController?.updateHUD(desiredVisibility: .shouldBeVisible, didCancel: didCancel)
-    }
-
-    func reconnected() {
-        presentedNavigationController().topViewController?.updateHUD(desiredVisibility: .shouldNotBeVisible, didCancel: {
-            // Nothing to do if cancelled
+        let reconnectionView = ReconnectionHudSwiftUIView(didCancel: { [weak self] in
+            self?.reconnectionHudController?.dismiss(animated: true)
+            self?.reconnectionHudController = nil
+            didCancel()
         })
+        let hostingController = UIHostingController(rootView: reconnectionView)
+        hostingController.modalPresentationStyle = .overFullScreen
+        hostingController.modalTransitionStyle = .crossDissolve
+        hostingController.view.backgroundColor = .clear
+        reconnectionHudController = hostingController
+        existingNavigationController.present(hostingController, animated: true)
     }
 
+    @MainActor
+    func reconnected() {
+        reconnectionHudController?.dismiss(animated: true)
+        reconnectionHudController = nil
+    }
+
+    @MainActor
     func showConvertToPhoneSuccessCTA(onClose: @escaping () -> Void, completion: PresentingCompletion?) {
         let existingNavigationController = presentedNavigationController(completion: completion)
         let waitOfflineLandingViewController = FullscreenCTAViewController(
@@ -99,6 +109,7 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         existingNavigationController.setViewControllers([waitOfflineLandingViewController], animated: true)
     }
 
+    @MainActor
     func showSurvey(request: URLRequest, onSurveyCompletion: PresentingCompletion?, completion: PresentingCompletion?) -> UIHostingController<SurveyWebView>? {
         let existingNavigationController = presentedNavigationController()
 
@@ -120,45 +131,48 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         return surveyVC
     }
 
+    @MainActor
     func showVisit(completion: PresentingCompletion?) -> VisitView? {
         let existingNavigationController = presentedNavigationController(completion: completion)
 
-        // Check to see if we have shown the waiting room already
-        guard !existingNavigationController.isViewControllerInStack(type: VisitViewController.self) else {
-            existingNavigationController.pop(to: VisitViewController.self, animated: true)
-            return existingNavigationController.viewControllers.last as? VisitViewController
+        // Check to see if we have shown the visit already
+        guard !existingNavigationController.isViewControllerInStack(type: VisitHostingController.self) else {
+            existingNavigationController.pop(to: VisitHostingController.self, animated: true)
+            if let hostingController = existingNavigationController.viewControllers.last as? VisitHostingController {
+                return hostingController.rootView.viewModel
+            }
+            return nil
         }
 
-        // Get the view controller from the storyboard
-        guard let visitViewController = storyboard.instantiateViewController(withIdentifier: "VisitViewController") as? VisitViewController else {
-            fatalError("Unable to instantiate VisitViewController from Virtual Visit storyboard in DexcareSDK.")
-        }
-
-        // Because we are setting the stream right away, we need to make sure the view is loaded
-        visitViewController.loadViewIfNeeded()
-        existingNavigationController.pushViewController(visitViewController, animated: true)
-        return visitViewController
+        let viewModel = VisitViewModel()
+        let visitView = VisitSwiftUIView(viewModel: viewModel)
+        let hostingController = VisitHostingController(rootView: visitView)
+        existingNavigationController.pushViewController(hostingController, animated: true)
+        return viewModel
     }
 
+    @MainActor
     func showWaitingRoom(completion: PresentingCompletion?) -> WaitingRoomView? {
         let existingNavigationController = presentedNavigationController(completion: completion)
 
         // Check to see if we have shown the waiting room already
-        guard !existingNavigationController.isViewControllerInStack(type: WaitingRoomViewController.self) else {
-            existingNavigationController.pop(to: WaitingRoomViewController.self, animated: true)
-            return existingNavigationController.viewControllers.last as? WaitingRoomViewController
+        guard !existingNavigationController.isViewControllerInStack(type: WaitingRoomHostingController.self) else {
+            existingNavigationController.pop(to: WaitingRoomHostingController.self, animated: true)
+            if let hostingController = existingNavigationController.viewControllers.last as? WaitingRoomHostingController {
+                return hostingController.rootView.viewModel
+            }
+            return nil
         }
 
-        // Get the view controller from the storyboard
-        guard let waitingRoomViewController = storyboard.instantiateViewController(withIdentifier: "WaitingRoomViewController") as? WaitingRoomViewController else {
-            fatalError("Unable to instantiate WaitingRoomViewController from Virtual Visit storyboard in DexcareSDK.")
-        }
-        waitingRoomViewController.customizationOptions = customizationOptions
-
-        existingNavigationController.setViewControllers([waitingRoomViewController], animated: true)
-        return waitingRoomViewController
+        let viewModel = WaitingRoomViewModel()
+        viewModel.customizationOptions = customizationOptions
+        let waitingRoomView = WaitingRoomSwiftUIView(viewModel: viewModel)
+        let hostingController = WaitingRoomHostingController(rootView: waitingRoomView)
+        existingNavigationController.setViewControllers([hostingController], animated: true)
+        return viewModel
     }
 
+    @MainActor
     func showChat(
         manager: VirtualVisitManagerType,
         serverLogger: LoggingService?
@@ -176,6 +190,7 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         return chatViewController
     }
 
+    @MainActor
     func showWaitOfflineLanding(
         onCancel: @escaping () -> Void,
         onClose: @escaping () -> Void,
@@ -192,15 +207,30 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         existingNavigationController.setViewControllers([waitOfflineLandingViewController], animated: true)
     }
 
+    @MainActor
     func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction]) {
         displayAlert(title: title, message: message, actions: actions, footer: nil)
     }
 
+    @MainActor
     func displayAlert(title: String, message: String?, actions: [VirtualVisitAlertAction], footer: VirtualVisitAlertFooter?) {
-        let controller = VirtualVisitAlertViewController(title: title, message: message, actions: actions, footer: footer)
+        let alertView = VirtualVisitAlertSwiftUIView(
+            titleString: title,
+            message: message,
+            actions: actions,
+            footer: footer,
+            dismiss: { [weak self] in
+                self?.navigationController?.presentedViewController?.dismiss(animated: true)
+            }
+        )
+        let controller = UIHostingController(rootView: alertView)
+        controller.modalTransitionStyle = .crossDissolve
+        controller.modalPresentationStyle = .overFullScreen
+        controller.view.backgroundColor = .clear
         navigationController?.present(controller, animated: true, completion: nil)
     }
 
+    @MainActor
     func displayCancelVisitAlert(title: String, message: String?, reasons: [CancelReason], didSelectReason: ((CancelReason) -> Void)?) {
         let controller = CancelVisitAlertViewController(reasons: reasons) { reason in
             didSelectReason?(reason)
@@ -209,11 +239,13 @@ class VirtualVisitNavigator: VirtualVisitNavigatorType {
         navigationController?.present(controller, animated: true, completion: nil)
     }
 
+    @MainActor
     func showHud() {
         guard let view = navigationController?.topViewController?.view else { return }
         MBProgressHUD.showAdded(to: view, animated: true)
     }
 
+    @MainActor
     func hideHud() {
         guard let view = navigationController?.topViewController?.view else { return }
         MBProgressHUD.hide(for: view, animated: true)
