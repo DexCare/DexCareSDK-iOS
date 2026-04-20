@@ -21,6 +21,25 @@ enum SignalMessageType: String {
          modalityConversion
 }
 
+struct BotOption: Codable {
+    var label: String
+    var value: String
+    var primary: Bool
+
+    init(label: String, value: String, primary: Bool = false) {
+        self.label = label
+        self.value = value
+        self.primary = primary
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        label = try container.decode(String.self, forKey: .label)
+        value = try container.decode(String.self, forKey: .value)
+        primary = try container.decodeIfPresent(Bool.self, forKey: .primary) ?? false
+    }
+}
+
 struct SignalInstantMessage: Codable {
     var fromParticipant: String
     var senderId: String?
@@ -28,6 +47,9 @@ struct SignalInstantMessage: Codable {
     var uniqueId: String
     var message: String
     var isStaff: Bool?
+    var isBot: Bool
+    var botOptions: [BotOption]?
+    var selectedBotOption: String?
 
     enum CodingKeys: String, CodingKey {
         case fromParticipant
@@ -36,6 +58,9 @@ struct SignalInstantMessage: Codable {
         case uniqueId
         case message
         case isStaff
+        case isBot
+        case botOptions
+        case selectedBotOption
     }
 
     init(from decoder: Decoder) throws {
@@ -46,6 +71,9 @@ struct SignalInstantMessage: Codable {
         uniqueId = try container.decode(String.self, forKey: .uniqueId)
         message = try container.decode(String.self, forKey: .message)
         isStaff = try container.decodeIfPresent(Bool.self, forKey: .isStaff)
+        isBot = try container.decodeIfPresent(Bool.self, forKey: .isBot) ?? false
+        botOptions = try container.decodeIfPresent([BotOption].self, forKey: .botOptions)
+        selectedBotOption = try container.decodeIfPresent(String.self, forKey: .selectedBotOption)
 
         let creationTimeText = try container.decode(String.self, forKey: .creationTime)
 
@@ -63,6 +91,12 @@ struct SignalInstantMessage: Codable {
         try container.encodeIfPresent(senderId, forKey: .senderId)
         try container.encodeIfPresent(isStaff, forKey: .isStaff)
 
+        if isBot {
+            try container.encode(isBot, forKey: .isBot)
+        }
+        try container.encodeIfPresent(botOptions, forKey: .botOptions)
+        try container.encodeIfPresent(selectedBotOption, forKey: .selectedBotOption)
+
         // Web uses epoch milliseconds so we need to convert it
         try container.encode("\(Int(creationTime.timeIntervalSince1970 * 1000))", forKey: .creationTime)
     }
@@ -73,7 +107,10 @@ struct SignalInstantMessage: Codable {
         creationTime: Date,
         uniqueId: String,
         message: String,
-        isStaff: Bool?
+        isStaff: Bool?,
+        isBot: Bool = false,
+        botOptions: [BotOption]? = nil,
+        selectedBotOption: String? = nil
     ) {
         self.fromParticipant = fromParticipant
         self.senderId = senderId
@@ -81,6 +118,9 @@ struct SignalInstantMessage: Codable {
         self.uniqueId = uniqueId
         self.message = message
         self.isStaff = isStaff
+        self.isBot = isBot
+        self.botOptions = botOptions
+        self.selectedBotOption = selectedBotOption
     }
 }
 

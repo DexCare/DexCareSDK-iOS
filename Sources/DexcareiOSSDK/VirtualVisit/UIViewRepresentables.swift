@@ -4,6 +4,11 @@ import AVKit
 import SwiftUI
 import UIKit
 
+extension Notification.Name {
+    static let embeddedVideoShouldPause = Notification.Name("embeddedVideoShouldPause")
+    static let embeddedVideoShouldResume = Notification.Name("embeddedVideoShouldResume")
+}
+
 struct OpenTokVideoRepresentable: UIViewRepresentable {
     let videoView: UIView
 
@@ -60,6 +65,15 @@ final class EmbeddedVideoCoordinator: NSObject {
     @objc func applicationDidEnterBackground(_ notification: Notification) {
         playerViewController?.player?.pause()
     }
+
+    @objc func shouldPauseVideo(_ notification: Notification) {
+        playerViewController?.player?.pause()
+    }
+
+    @objc func shouldResumeVideo(_ notification: Notification) {
+        guard !isVideoDone else { return }
+        playerViewController?.player?.play()
+    }
 }
 
 struct EmbeddedVideoRepresentable: UIViewControllerRepresentable {
@@ -93,6 +107,18 @@ struct EmbeddedVideoRepresentable: UIViewControllerRepresentable {
             context.coordinator,
             selector: #selector(EmbeddedVideoCoordinator.applicationDidEnterBackground(_:)),
             name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            context.coordinator,
+            selector: #selector(EmbeddedVideoCoordinator.shouldPauseVideo(_:)),
+            name: .embeddedVideoShouldPause,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            context.coordinator,
+            selector: #selector(EmbeddedVideoCoordinator.shouldResumeVideo(_:)),
+            name: .embeddedVideoShouldResume,
             object: nil
         )
 

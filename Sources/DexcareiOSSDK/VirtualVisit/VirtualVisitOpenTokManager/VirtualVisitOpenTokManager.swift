@@ -35,7 +35,8 @@ protocol VirtualVisitManagerType: AnyObject {
     func toggleCamera()
     func toggleMic()
     func setUserIsTyping(_ isTyping: Bool)
-    func sendChatMessage(_ message: String)
+    func sendChatMessage(_ message: String, selectedBotOption: String?, botPrompt: String?)
+    func sendBotOptionResponse(messageId: String, option: BotOptionUi)
     func hangup()
     func cancel()
     func cancelFromWaitOffline()
@@ -43,6 +44,12 @@ protocol VirtualVisitManagerType: AnyObject {
     func loadWaitTime()
     func showWaitOfflineAlert()
     func toggleCameraPosition()
+}
+
+extension VirtualVisitManagerType {
+    func sendChatMessage(_ message: String) {
+        sendChatMessage(message, selectedBotOption: nil, botPrompt: nil)
+    }
 }
 
 class VirtualVisitOpenTokManager: NSObject {
@@ -479,7 +486,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
         lastTypingState = isTyping
     }
 
-    func sendChatMessage(_ message: String) {
+    func sendChatMessage(_ message: String, selectedBotOption: String? = nil, botPrompt: String? = nil) {
         let instantMessage = SignalInstantMessage(
             fromParticipant: displayName,
             senderId: userId,
@@ -497,12 +504,19 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             return
         }
 
+        // The message saved to the schedule service uses the bot prompt as the
+        // message when this is a bot option reply, and carries the selected option.
+        var saveMessage = instantMessage
+        if let botPrompt {
+            saveMessage.message = botPrompt
+        }
+        saveMessage.selectedBotOption = selectedBotOption
+
         switch visitState {
         case .visit:
 
             do {
                 videoChatMessages.append(instantMessage.asChatMessage)
-                videoChatMessages.sort { $0.sentDate < $1.sentDate }
                 try connections.values.forEach {
                     try videoConferenceSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: $0)
                 }
@@ -511,7 +525,7 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
                 self.processError(error: error, isFatal: false, message: "Unable to send visit instant message")
             }
 
-            postChatMessage(sessionId: videoSessionId, instantMessage: instantMessage)
+            postChatMessage(sessionId: videoSessionId, instantMessage: saveMessage)
             logger?.log(.visitVideoInstantMessageSent)
 
         case .waitingRoom:
@@ -521,7 +535,6 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
                     try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: nil)
                 } else {
                     waitingRoomChatMessages.append(instantMessage.asChatMessage)
-                    waitingRoomChatMessages.sort { $0.sentDate < $1.sentDate }
                     try connections.values.forEach {
                         try waitingRoomSession?.signal(type: SignalMessageType.instantMessage.rawValue, string: json, connection: $0)
                     }
@@ -532,10 +545,46 @@ extension VirtualVisitOpenTokManager: VirtualVisitManagerType {
             }
 
             logger?.log(.visitWaitingRoomInstantMessageSent)
-            postChatMessage(sessionId: waitingRoomSessionId, instantMessage: instantMessage)
+            postChatMessage(sessionId: waitingRoomSessionId, instantMessage: saveMessage)
 
         default: break
         }
+    }
+
+    func sendBotOptionResponse(messageId: String, option: BotOptionUi) {
+        let botMessage: ChatMessage?
+        switch visitState {
+        case .visit:
+            botMessage = videoChatMessages.first { $0.messageId == messageId }
+        case .waitingRoom:
+            botMessage = waitingRoomChatMessages.first { $0.messageId == messageId }
+        default:
+            botMessage = nil
+        }
+
+        guard let botMessage else { return }
+
+        let botPromptText: String?
+        if case .text(let text) = botMessage.kind {
+            botPromptText = text
+        } else {
+            botPromptText = nil
+        }
+
+        setUserIsTyping(false)
+        sendChatMessage(option.label, selectedBotOption: option.label, botPrompt: botPromptText)
+        markBotOptionSelected(messageId: messageId)
+    }
+
+    private func markBotOptionSelected(messageId: String) {
+        if let index = videoChatMessages.firstIndex(where: { $0.messageId == messageId }) {
+            videoChatMessages[index].botOptionSelected = true
+        }
+        if let index = waitingRoomChatMessages.firstIndex(where: { $0.messageId == messageId }) {
+            waitingRoomChatMessages[index].botOptionSelected = true
+        }
+        // Refresh the chat view to reflect the disabled state
+        chatView?.refresh(chatMessages: chatMessages)
     }
 
     private func postChatMessage(sessionId: String, instantMessage: SignalInstantMessage) {

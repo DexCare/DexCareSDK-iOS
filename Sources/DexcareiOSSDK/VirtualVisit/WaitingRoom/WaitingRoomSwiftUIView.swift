@@ -10,8 +10,7 @@ struct WaitingRoomSwiftUIView: View {
             // Embedded video
             if !viewModel.isEmbeddedVideoHidden {
                 EmbeddedVideoRepresentable(
-                    videoURL: viewModel.waitingRoomVideoURL,
-
+                    videoURL: viewModel.waitingRoomVideoURL
                 )
                 .aspectRatio(320.0 / 180.0, contentMode: .fit)
             }
@@ -34,9 +33,11 @@ struct WaitingRoomSwiftUIView: View {
         .onAppear {
             viewModel.captureSessionHandler.startCaptureSession()
             viewModel.configure()
+            NotificationCenter.default.post(name: .embeddedVideoShouldResume, object: nil)
         }
         .onDisappear {
             viewModel.captureSessionHandler.stopCaptureSession()
+            NotificationCenter.default.post(name: .embeddedVideoShouldPause, object: nil)
         }
     }
 
