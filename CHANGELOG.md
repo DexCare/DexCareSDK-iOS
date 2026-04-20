@@ -1,5 +1,10 @@
 # Release Notes
 
+### 9.8.0
+### New
+
+- Virtual Visit chat now supports and handles conversations with the Smart Bot.
+
 ### 9.7.0
 ### Internal
 
