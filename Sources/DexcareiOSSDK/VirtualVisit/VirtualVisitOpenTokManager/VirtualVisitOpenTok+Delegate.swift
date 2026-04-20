@@ -339,17 +339,13 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
             let chatMessage = instantMessage.asChatMessage
             switch sessionId {
             case videoSessionId:
-                guard !videoChatMessages.contains(where: { $0.messageId == chatMessage.messageId }) else { return }
-                videoChatMessages.append(chatMessage)
-                videoChatMessages.sort { $0.sentDate < $1.sentDate }
+                insertOrUpdateMessage(chatMessage, in: &videoChatMessages)
                 if visitState == .visit {
                     openChat()
                 }
                 logger?.log(.visitVideoInstantMessageReceived)
             case waitingRoomSessionId:
-                guard !waitingRoomChatMessages.contains(where: { $0.messageId == chatMessage.messageId }) else { return }
-                waitingRoomChatMessages.append(chatMessage)
-                waitingRoomChatMessages.sort { $0.sentDate < $1.sentDate }
+                insertOrUpdateMessage(chatMessage, in: &waitingRoomChatMessages)
                 if visitState == .waitingRoom && initialState != .inVisit {
                     openChat()
                 }
@@ -359,6 +355,17 @@ extension VirtualVisitOpenTokManager: SessionTypeDelegate {
         } catch {
             processError(error: error, isFatal: false, message: "Unable to parse incoming instant message")
         }
+    }
+
+    private func insertOrUpdateMessage(_ message: ChatMessage, in messages: inout [ChatMessage]) {
+        if let existingIndex = messages.firstIndex(where: { $0.messageId == message.messageId }) {
+            var updated = message
+            updated.botOptionSelected = messages[existingIndex].botOptionSelected
+            messages[existingIndex] = updated
+        } else {
+            messages.append(message)
+        }
+        messages.sort { $0.sentDate < $1.sentDate }
     }
 
     private func processTypingStateMessage(sessionId: String, from connection: OTConnection?, with string: String?) {

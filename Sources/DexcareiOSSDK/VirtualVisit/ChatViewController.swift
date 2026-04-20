@@ -42,7 +42,16 @@ class ChatViewController: MessagesViewController, ChatView {
 
     private let userSender: ChatSender
     var messages: [ChatMessage] = []
+    private var previousMessageCount: Int = 0
     let semaphore = DispatchSemaphore(value: 1)
+
+    private var isBannerDismissed = false
+    private var headerView: UIView?
+    private var headerHeightConstraint: NSLayoutConstraint?
+    private var messagesTopToHeaderConstraint: NSLayoutConstraint?
+    private var messagesTopToSafeAreaConstraint: NSLayoutConstraint?
+
+    private static let botOptionsViewTag = 9001
 
     private var backBarButtonItem: UIBarButtonItem {
         // We create a custom back button to accomodate the fact that some implementation will
@@ -89,41 +98,74 @@ class ChatViewController: MessagesViewController, ChatView {
     }
     
     private func configureHeaderView() {
-        let headerView = UIView()
-        headerView.tag = 100
-        headerView.backgroundColor = .systemBlue
-        headerView.translatesAutoresizingMaskIntoConstraints = false
+        let banner = UIView()
+        banner.tag = 100
+        banner.backgroundColor = .systemBlue
+        banner.translatesAutoresizingMaskIntoConstraints = false
+        banner.clipsToBounds = true
 
         let headerLabel = UILabel()
         headerLabel.text = localizeString("chatView_header_text")
         headerLabel.textColor = .white
-        headerLabel.textAlignment = .center
+        headerLabel.textAlignment = .justified
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.numberOfLines = 0
         headerLabel.lineBreakMode = .byWordWrapping
 
-        headerView.addSubview(headerLabel)
-        view.addSubview(headerView)
-        
+        let dismissButton = UIButton(type: .system)
+        dismissButton.setTitle(localizeString("chatView_banner_dismiss"), for: .normal)
+        dismissButton.setTitleColor(.white, for: .normal)
+        dismissButton.titleLabel?.font = .preferredFont(forTextStyle: .body)
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        dismissButton.addTarget(self, action: #selector(dismissBannerTapped), for: .touchUpInside)
+
+        banner.addSubview(headerLabel)
+        banner.addSubview(dismissButton)
+        view.addSubview(banner)
+        self.headerView = banner
+
         messagesCollectionView.removeFromSuperview()
         messagesCollectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(messagesCollectionView)
 
-        NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        let topToHeader = messagesCollectionView.topAnchor.constraint(equalTo: banner.bottomAnchor)
+        let topToSafeArea = messagesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        topToSafeArea.isActive = false
+        self.messagesTopToHeaderConstraint = topToHeader
+        self.messagesTopToSafeAreaConstraint = topToSafeArea
 
-            headerLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 8),
-            headerLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            headerLabel.trailingAnchor.constraint(equalTo: headerView.trailingAnchor, constant: -16),
-            headerLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -8),
-            
-            messagesCollectionView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+        NSLayoutConstraint.activate([
+            banner.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            banner.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            banner.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+
+            headerLabel.topAnchor.constraint(equalTo: banner.topAnchor, constant: 8),
+            headerLabel.leadingAnchor.constraint(equalTo: banner.leadingAnchor, constant: 16),
+            headerLabel.trailingAnchor.constraint(equalTo: banner.trailingAnchor, constant: -16),
+
+            dismissButton.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 4),
+            dismissButton.trailingAnchor.constraint(equalTo: banner.trailingAnchor, constant: -16),
+            dismissButton.bottomAnchor.constraint(equalTo: banner.bottomAnchor, constant: -8),
+
+            topToHeader,
             messagesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             messagesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             messagesCollectionView.bottomAnchor.constraint(equalTo: messageInputBar.topAnchor)
         ])
+    }
+
+    @objc private func dismissBannerTapped() {
+        guard !isBannerDismissed else { return }
+        isBannerDismissed = true
+
+        messagesTopToSafeAreaConstraint?.isActive = true
+        messagesTopToHeaderConstraint?.isActive = false
+
+        UIView.animate(withDuration: 0.3) {
+            self.headerView?.alpha = 0
+            self.headerView?.isHidden = true
+            self.view.layoutIfNeeded()
+        }
     }
 
     func configureMessageCollectionView() {
@@ -144,10 +186,12 @@ class ChatViewController: MessagesViewController, ChatView {
             return
         }
 
-        layout.setMessageIncomingAvatarSize(.zero)
+        let avatarSize = CGSize(width: 32, height: 32)
+        layout.setMessageIncomingAvatarSize(avatarSize)
         layout.setMessageOutgoingAvatarSize(.zero)
         layout.textMessageSizeCalculator.outgoingAvatarSize = .zero
-        layout.textMessageSizeCalculator.incomingAvatarSize = .zero
+        layout.textMessageSizeCalculator.incomingAvatarSize = avatarSize
+        layout.textMessageSizeCalculator.incomingAvatarPosition = .init(vertical: .messageTop)
 
         let incomingEdge = layout.textMessageSizeCalculator.incomingMessagePadding
         let outgoingEdge = layout.textMessageSizeCalculator.outgoingMessagePadding
@@ -156,6 +200,8 @@ class ChatViewController: MessagesViewController, ChatView {
         layout.textMessageSizeCalculator.outgoingMessageTopLabelAlignment.textInsets = outgoingEdge
         layout.textMessageSizeCalculator.incomingMessageBottomLabelAlignment.textInsets = incomingEdge
         layout.textMessageSizeCalculator.outgoingMessageBottomLabelAlignment.textInsets = outgoingEdge
+        layout.textMessageSizeCalculator.incomingCellBottomLabelAlignment = LabelAlignment(textAlignment: .left, textInsets: incomingEdge)
+        layout.textMessageSizeCalculator.outgoingCellBottomLabelAlignment = LabelAlignment(textAlignment: .right, textInsets: outgoingEdge)
     }
 
     func configureMessageInputBar() {
@@ -197,14 +243,18 @@ class ChatViewController: MessagesViewController, ChatView {
 
             self.semaphore.wait()
 
-            let shouldScrollToBottom = self.shouldScrollToBottom()
+            let messageCountChanged = chatMessages.count != self.previousMessageCount
+            let shouldScrollToBottom = messageCountChanged || self.shouldScrollToBottom()
 
             self.setTypingIndicatorViewHidden(true, animated: false)
+            self.previousMessageCount = chatMessages.count
             self.messages = chatMessages
 
             if shouldScrollToBottom {
                 self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToLastItem()
+                if !chatMessages.isEmpty {
+                    self.messagesCollectionView.scrollToLastItem(animated: messageCountChanged)
+                }
             } else {
                 self.messagesCollectionView.reloadDataAndKeepOffset()
             }
@@ -244,6 +294,83 @@ class ChatViewController: MessagesViewController, ChatView {
         }
         typingIndicatorWorkItem = workItem
         DispatchQueue.main.asyncAfter(wallDeadline: .now() + workItemDelay, execute: workItem)
+    }
+
+    // MARK: - Bot Options
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = super.collectionView(collectionView, cellForItemAt: indexPath)
+
+        cell.contentView.viewWithTag(Self.botOptionsViewTag)?.removeFromSuperview()
+
+        guard let chatMessage = messages[safe: indexPath.section],
+              chatMessage.isBot,
+              let options = chatMessage.botOptions,
+              !options.isEmpty else {
+            return cell
+        }
+
+        let optionsView = createBotOptionsView(
+            options: options,
+            isAnswered: chatMessage.botOptionSelected,
+            messageId: chatMessage.messageId
+        )
+        optionsView.tag = Self.botOptionsViewTag
+        optionsView.translatesAutoresizingMaskIntoConstraints = false
+        cell.contentView.addSubview(optionsView)
+
+        if let messageCell = cell as? TextMessageCell {
+            NSLayoutConstraint.activate([
+                optionsView.topAnchor.constraint(equalTo: messageCell.messageContainerView.bottomAnchor, constant: 6),
+                optionsView.leadingAnchor.constraint(equalTo: messageCell.messageContainerView.leadingAnchor),
+                optionsView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -16),
+                optionsView.heightAnchor.constraint(equalToConstant: 36)
+            ])
+        }
+
+        return cell
+    }
+
+    private func createBotOptionsView(options: [BotOptionUi], isAnswered: Bool, messageId: String) -> UIView {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.distribution = .fillEqually
+        stack.spacing = 8
+
+        for option in options {
+            let button = UIButton(type: .system)
+            button.setTitle(option.label, for: .normal)
+            button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
+            button.layer.cornerRadius = 8
+            button.clipsToBounds = true
+            button.isEnabled = !isAnswered
+
+            if option.primary {
+                button.backgroundColor = .buttonColor
+                button.setTitleColor(.white, for: .normal)
+                button.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .disabled)
+                if isAnswered {
+                    button.backgroundColor = UIColor.buttonColor.withAlphaComponent(0.5)
+                }
+            } else {
+                button.backgroundColor = .clear
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.buttonColor.cgColor
+                button.setTitleColor(.buttonColor, for: .normal)
+                button.setTitleColor(UIColor.buttonColor.withAlphaComponent(0.5), for: .disabled)
+                if isAnswered {
+                    button.layer.borderColor = UIColor.buttonColor.withAlphaComponent(0.5).cgColor
+                }
+            }
+
+            button.addAction(UIAction { [weak self] _ in
+                self?.manager?.sendBotOptionResponse(messageId: messageId, option: option)
+            }, for: .touchUpInside)
+
+            stack.addArrangedSubview(button)
+        }
+
+        return stack
     }
 }
 
@@ -315,7 +442,7 @@ extension ChatViewController: MessagesDataSource {
         return NSAttributedString(string: name, attributes: [NSAttributedString.Key.font: UIFont.caption1])
     }
 
-    func messageBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+    func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         guard showingBottomLabel(indexPath: indexPath) else { return nil }
         let dateString = message.sentDate.relativeTime(from: Date())
         return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.caption2])
@@ -324,7 +451,13 @@ extension ChatViewController: MessagesDataSource {
 
 extension ChatViewController: MessageCellDelegate {
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
-        avatarView.isHidden = true
+        if let chatMessage = messages[safe: indexPath.section], chatMessage.isBot {
+            avatarView.isHidden = false
+            avatarView.image = UIImage(named: "ic_bot_avatar", in: .dexcareSDK, compatibleWith: nil)
+        } else {
+            avatarView.isHidden = true
+            avatarView.image = nil
+        }
     }
 
     func didSelectAddress(_ addressComponents: [String: String]) {
@@ -358,15 +491,24 @@ extension ChatViewController: MessagesLayoutDelegate {
     }
 
     func messageBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
-        guard showingBottomLabel(indexPath: indexPath) else { return 0 }
-        return UIFont.caption2.lineHeight + 7
+        guard let chatMessage = messages[safe: indexPath.section],
+              chatMessage.isBot,
+              let options = chatMessage.botOptions,
+              !options.isEmpty else {
+            return 0
+        }
+        return 48
+    }
+
+    func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        return showingBottomLabel(indexPath: indexPath) ? UIFont.caption2.lineHeight + 7 : 0
     }
 }
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         manager?.setUserIsTyping(false)
-        manager?.sendChatMessage(text)
+        manager?.sendChatMessage(text, selectedBotOption: nil, botPrompt: nil)
         messageInputBar.inputTextView.text = ""
     }
 
@@ -398,6 +540,18 @@ extension ChatViewController: MessagesDisplayDelegate {
     }
 }
 
+struct BotOptionUi {
+    var label: String
+    var value: String
+    var primary: Bool
+
+    init(label: String, value: String, primary: Bool = false) {
+        self.label = label
+        self.value = value
+        self.primary = primary
+    }
+}
+
 struct ChatMessage: MessageType {
     static var empty: Self = ChatMessage(sender: ChatSender(id: "", displayName: ""), messageId: "", sentDate: Date(), kind: .text(""))
 
@@ -405,6 +559,9 @@ struct ChatMessage: MessageType {
     var messageId: String
     var sentDate: Date
     var kind: MessageKind
+    var isBot: Bool = false
+    var botOptions: [BotOptionUi]?
+    var botOptionSelected: Bool = false
 }
 
 extension SignalInstantMessage {
@@ -413,7 +570,9 @@ extension SignalInstantMessage {
             sender: ChatSender(id: senderId ?? fromParticipant, displayName: fromParticipant),
             messageId: uniqueId,
             sentDate: creationTime,
-            kind: .text(message)
+            kind: .text(message),
+            isBot: isBot,
+            botOptions: botOptions?.map { BotOptionUi(label: $0.label, value: $0.value, primary: $0.primary) }
         )
     }
 }
